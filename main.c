@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "mthlib.c"
+#include "mthlib.h"
 
 int main(int argc, char* argv[]){
 	printf("Result: %i", add(4, 5));
