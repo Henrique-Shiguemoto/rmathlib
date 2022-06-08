@@ -1,11 +1,15 @@
+CC=gcc
+BIN=main
+FLAGS=-Wall -Wextra -g
+
 main: main.o mthlib.o
-	gcc -o main main.c mthlib.c
+	$(CC) $(FLAGS) -o $(BIN) main.c mthlib.c
 
 main.o: main.c
-	gcc -c main.c
+	$(CC) -c main.c
 
 mthlib.o: mthlib.c mthlib.h
-	gcc -c mthlib.c
+	$(CC) -c mthlib.c
 
 clean:
-	rm *.o main
+	del *.o main.exe

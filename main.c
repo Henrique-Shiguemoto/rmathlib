@@ -1,7 +1,13 @@
+/*
+
+	THIS IS A FILE FOR TESTING THE LIBRARY ONLY.
+	BY: RICK SHIGUEMOTO FELIZARDO.
+
+*/
+
 #include <stdio.h>
 #include "mthlib.h"
 
-int main(int argc, char* argv[]){
-	printf("Result: %i", add(4, 6));
+int main(void){
 	return 0;
 }
