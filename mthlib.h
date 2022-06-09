@@ -1,7 +1,12 @@
 #ifndef MTHLIB_H
 #define MTHLIB_H
 
-//#defines (NAN, INFINITY)
+#define INFINITY 		((float)(1e+300)*(1e+300))
+#define NAN 	 		((float)(INFINITY)*(0.0f))
+#define PI 				3.141592653589793
+#define DEGREE_IN_RAD 	(PI/180)
+#define SQRT_2			1.414213562373095
+#define SQRT_3			1.732050807568877
 
 typedef char 				i8;
 typedef short 				i16;
@@ -44,26 +49,44 @@ vector3 	CrossVector3(vector3 v1, vector3 v2);
 f32 		NormVector3(vector3 v1);
 vector3 	UnitVector3(vector3 v1);
 
-//Simple trig functions declarations (we could make new declarations accepting angles in degrees)
+f32 		Sin32(f32 angleInRadians);
+f32 		Cos32(f32 angleInRadians);
+f32 		Tg32(f32 angleInRadians);
+f32 		Cossec32(f32 angleInRadians);
+f32 		Sec32(f32 angleInRadians);
+f32 		Cotg32(f32 angleInRadians);
 
-f32 		sin32(f32 angleInRadians);
-f32 		cos32(f32 angleInRadians);
-f32 		tg32(f32 angleInRadians);
-f32 		cossec32(f32 angleInRadians);
-f32 		sec32(f32 angleInRadians);
-f32 		cotg32(f32 angleInRadians);
+f64 		Sin64(f64 angleInRadians);
+f64 		Cos64(f64 angleInRadians);
+f64 		Tg64(f64 angleInRadians);
+f64 		Cossec64(f64 angleInRadians);
+f64 		Sec64(f64 angleInRadians);
+f64 		Cotg64(f64 angleInRadians);
 
-f64 		sin64(f64 angleInRadians);
-f64 		cos64(f64 angleInRadians);
-f64 		tg64(f64 angleInRadians);
-f64 		cossec64(f64 angleInRadians);
-f64 		sec64(f64 angleInRadians);
-f64 		cotg64(f64 angleInRadians);
+//Other convenient functions
 
-f32 		sqrt32(f32 x);
-f64			sqrt64(f64 x);
+f32         AngleToRadians32(f32 degrees);
+f64         AngleToRadians64(f64 degrees);
 
-f32			abs32(f32 x);
-f64			abs64(f64 x);
+f32 		Sqrt32(f32 x);
+f64			Sqrt64(f64 x);
+
+f32			Abs32(f32 x);
+f64			Abs64(f64 x);
+
+f32 		Clamp32(f32 min, f32 max, f32 value);
+f64 		Clamp64(f64 min, f64 max, f64 value);
+
+f32			Max32(f32 a, f32 b);
+f64			Max64(f64 a, f64 b);
+
+f32			Min32(f32 a, f32 b);
+f64			Min64(f64 a, f64 b);
+
+i32 		Ceil32(f32 x);
+i64 		Ceil64(f64 x);
+
+i32 		Floor32(f32 x);
+i64 		Floor64(f64 x);
 
 #endif
