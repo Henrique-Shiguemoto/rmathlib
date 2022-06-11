@@ -89,4 +89,7 @@ i64 		Ceil64(f64 x);
 i32 		Floor32(f32 x);
 i64 		Floor64(f64 x);
 
+i32 		Round32(f32 x);
+i64 		Round64(f64 x);
+
 #endif

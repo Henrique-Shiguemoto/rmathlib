@@ -9,5 +9,8 @@
 #include "mthlib.h"
 
 int main(void){
+	
+	printf("result = %.15f\n", Sqrt32(0));
+
 	return 0;
 }
