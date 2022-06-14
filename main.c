@@ -6,11 +6,10 @@
 */
 
 #include <stdio.h>
+#include <math.h>
 #include "mthlib.h"
 
-int main(void){
-	
-	printf("result = %.15f\n", Sqrt32(0));
+int main(void){	
 
 	return 0;
 }

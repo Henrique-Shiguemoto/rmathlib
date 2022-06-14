@@ -4,6 +4,7 @@ FLAGS=-Wall -Wextra -g
 
 main: main.o mthlib.o
 	$(CC) $(FLAGS) -o $(BIN) main.c mthlib.c
+	cls
 
 main.o: main.c
 	$(CC) -c main.c
@@ -12,4 +13,5 @@ mthlib.o: mthlib.c mthlib.h
 	$(CC) -c mthlib.c
 
 clean:
-	del *.o main.exe
+	del *.o *.exe
+	cls

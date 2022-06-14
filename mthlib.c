@@ -1,4 +1,6 @@
 #include "mthlib.h"
+#include <math.h>
+#include <stdio.h>
 
 //VECTOR2 IMPLEMENTATIONS
 
@@ -46,18 +48,132 @@ f64 AngleToRadians64(f64 degrees){
 	return degrees*DEGREE_IN_RAD;
 }
 
+//These next 2 functions are a little bit dificult to understand
+//They use knowledge of IEEE754 floating point storage system and Newton-Raphson's Algorithm 
+static f32 static_Sqrt32(unionF32 x){
+	//The number we want to know the square root of
+	f32 arg = x.n;
+
+	//We are extracting the exponent part of the floating point number (We are also getting rid of the BIAS)
+	i32 e = x.bits.exponent - BIAS32;
+	
+	//This is going to be the number (1 + f) which is the mantissa plus 1. 
+	//This is useful to get a great initial guess for the Newton-Raphson algorithm. 
+	f32 f = 0;
+
+    f32 rest = 1;
+    
+    if(e > 0){
+        f = arg / (2 << (e - 1));
+        
+        //if exponent is even
+        if((e & 1) == 0){
+            rest = 1 << (e/2);
+        }else{
+            rest = SQRT_2*(1 << ((e-1)/2));
+        }
+    }
+    else if(e < 0){
+        f = arg * (2 << (-e - 1));
+        
+        //if exponent is even
+        if((e & 1) == 0){
+            rest = 1 / (1 << (-e/2));
+        }else{
+            rest = (SQRT_2 / 2)*(1.0 / (1 << -((e+1)/2)));
+        }
+    }
+    //This is for the case where the input argument is already in the correct scientific notation
+    //For example, 1.5 (base 10) = 1.1 (base 2) = 1.1 * 2^(0) (e = 0) . No need to change the number at all.
+    else{
+        f = arg;
+    }
+
+    //Newton Raphson Algorithm
+    f32 xk = ((f - 1) / 2) + 1;
+    f32 xk1 = (xk + (f/xk))/2;
+    f32 error = Abs32(xk1 - xk);
+
+    while (error > PRECISION)
+    {
+        xk = xk1;
+        xk1 = (xk + (f/xk))/2;
+        error = Abs32(xk1 - xk);
+    }
+
+	return xk1*rest;
+}
+
+static f64 static_Sqrt64(unionF64 x){
+	//The number we want to know the square root of
+	f64 arg = x.n;
+
+	//We are extracting the exponent part of the floating point number (We are also getting rid of the BIAS)
+	i64 e = x.bits.exponent - BIAS64;
+	
+	//This is going to be the number (1 + f) which is the mantissa plus 1. 
+	//This is useful to get a great initial guess for the Newton-Raphson algorithm. 
+	f64 f = 0;
+
+    f64 rest = 1;
+    
+    if(e > 0){
+        f = arg / (2 << (e - 1));
+        
+        //if exponent is even
+        if((e & 1) == 0){
+            rest = 1 << (e/2);
+        }else{
+            rest = SQRT_2*(1 << ((e-1)/2));
+        }
+    }
+    else if(e < 0){
+        f = arg * (2 << (-e - 1));
+        
+        //if exponent is even
+        if((e & 1) == 0){
+            rest = 1 / (1 << (-e/2));
+        }else{
+            rest = (SQRT_2 / 2)*(1.0 / (1 << -((e+1)/2)));
+        }
+    }
+    //This is for the case where the input argument is already in the correct scientific notation
+    //For example, 1.5 (base 10) = 1.1 (base 2) = 1.1 * 2^(0) (e = 0) . No need to change the number at all.
+    else{
+        f = arg;
+    }
+
+    //Newton Raphson Algorithm
+    f64 xk = ((f - 1) / 2) + 1;
+    f64 xk1 = (xk + (f/xk))/2;
+    f64 error = Abs64(xk1 - xk);
+
+    while (error > PRECISION)
+    {
+        xk = xk1;
+        xk1 = (xk + (f/xk))/2;
+        error = Abs64(xk1 - xk);
+    }
+
+	return xk1*rest;
+}
+
 f32 Sqrt32(f32 x){
 	if(x == 0.0f || x == 1.0f) return x;
-	if(x < 0) return NAN;
+	if(x < 0.0f) return NAN;
 
-	return -1;
+	unionF32 x_union = {.n = x};
+
+	return static_Sqrt32(x_union);
 }
 
 f64	Sqrt64(f64 x){
 	if(x == 0.0f || x == 1.0f) return x;
-	if(x < 0) return NAN;
+	if(x < 0.0f) return NAN;
 
-	return -1;
+	unionF64 x_union = {.n = x};
+
+	return static_Sqrt64(x_union);
 }
 
 f32	Abs32(f32 x){

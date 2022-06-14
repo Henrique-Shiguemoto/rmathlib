@@ -1,12 +1,15 @@
 #ifndef MTHLIB_H
 #define MTHLIB_H
 
-#define INFINITY 		((float)(1e+300)*(1e+300))
-#define NAN 	 		((float)(INFINITY)*(0.0f))
+//#define INFINITY 		((float)(1e+300)*(1e+300))
+// #define NAN 	 		((float)(INFINITY)*(0.0f))
 #define PI 				3.141592653589793
 #define DEGREE_IN_RAD 	(PI/180)
 #define SQRT_2			1.414213562373095
 #define SQRT_3			1.732050807568877
+#define PRECISION		0.0000000001
+#define BIAS32			127
+#define BIAS64			1023
 
 typedef char 				i8;
 typedef short 				i16;
@@ -18,7 +21,7 @@ typedef double 				f64;
 typedef unsigned char 		u8;
 typedef unsigned short 		u16;
 typedef unsigned int 		u32;
-typedef unsigned long int 	u64;
+typedef unsigned long long 	u64;
 
 typedef struct vector2
 {
@@ -32,6 +35,26 @@ typedef struct vector3
 	float y;
 	float z;
 } vector3;
+
+//This is for the implementation of Sqrt32
+typedef union unionF32{
+	f32 n;
+	struct{
+		u32 mantissa : 23;
+		u32 exponent : 8;
+		u32 sign     : 1;
+	}bits;
+} unionF32;
+
+//This is for the implementation of Sqrt64
+typedef union unionF64{
+	f64 n;
+	struct{
+		u64 mantissa : 52;
+		u64 exponent : 11;
+		u64 sign     : 1;
+	}bits;
+} unionF64;
 
 vector2 	AddVector2(vector2 v1, vector2 v2);
 vector2 	SubtractVector2(vector2 v1, vector2 v2);
