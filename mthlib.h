@@ -79,47 +79,39 @@ vector3 	UnitVector3(vector3 v1);
 f32 		Sin32(f32 angleInRadians);
 f32 		Cos32(f32 angleInRadians);
 f32 		Tg32(f32 angleInRadians);
-f32 		Cossec32(f32 angleInRadians);
+f32 		Cosec32(f32 angleInRadians);
 f32 		Sec32(f32 angleInRadians);
 f32 		Cotg32(f32 angleInRadians);
 
 f64 		Sin64(f64 angleInRadians);
 f64 		Cos64(f64 angleInRadians);
 f64 		Tg64(f64 angleInRadians);
-f64 		Cossec64(f64 angleInRadians);
+f64 		Cosec64(f64 angleInRadians);
 f64 		Sec64(f64 angleInRadians);
 f64 		Cotg64(f64 angleInRadians);
 
 //Other convenient functions
 
 f32         AngleToRadians32(f32 degrees);
-f64         AngleToRadians64(f64 degrees);
-
 f32 		Sqrt32(f32 x);
-f64			Sqrt64(f64 x);
-
 f32			Abs32(f32 x);
-f64			Abs64(f64 x);
-
 f32 		Clamp32(f32 min, f32 max, f32 value);
-f64 		Clamp64(f64 min, f64 max, f64 value);
-
 f32			Max32(f32 a, f32 b);
-f64			Max64(f64 a, f64 b);
-
 f32			Min32(f32 a, f32 b);
-f64			Min64(f64 a, f64 b);
-
-i32 		Ceil32(f32 x);
-i64 		Ceil64(f64 x);
-
-i32 		Floor32(f32 x);
-i64 		Floor64(f64 x);
-
-i32 		Round32(f32 x);
-i64 		Round64(f64 x);
-
 f32 		Mod32(f32 f1, f64 f2, u8 positiveResult);
+i32 		Ceil32(f32 x);
+i32 		Floor32(f32 x);
+i32 		Round32(f32 x);
+
+f64         AngleToRadians64(f64 degrees);
+f64			Sqrt64(f64 x);
+f64			Abs64(f64 x);
+f64 		Clamp64(f64 min, f64 max, f64 value);
+f64			Max64(f64 a, f64 b);
+f64			Min64(f64 a, f64 b);
 f64 		Mod64(f64 f1, f64 f2, u8 positiveResult);
+i64 		Ceil64(f64 x);
+i64 		Floor64(f64 x);
+i64 		Round64(f64 x);
 
 #endif

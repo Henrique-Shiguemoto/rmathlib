@@ -10,7 +10,6 @@
 #include "mthlib.h"
 
 int main(void){
-
-	printf("Done!\n");
+	printf("Tests done!\n");
 	return 0;
 }
