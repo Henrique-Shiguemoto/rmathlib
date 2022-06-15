@@ -10,14 +10,15 @@
 #include "mthlib.h"
 
 int main(void){
-	//Debug Sin
-	f64 i = 999.020000;
-	f64 result = sin(i);
-	f64 myResult = Sin64(i);
-	f64 error = Abs64(result - myResult);
-	printf("result   = %.15lf\n", result);
-	printf("myResult = %.15lf\n", myResult);
-	printf("error    = %.15lf\n", error);
+	for (f32 i = -1000; i < 1000; i += 0.01)
+	{
+		f32 result = sin(i);
+		f32 myResult = Sin32(i);
+		f32 error = Abs32(result - myResult);
+		if(error > PRECISION){
+			printf("%lf - Error = %.15lf\n", i, error);
+		}
+	}
 
 	printf("Done!\n");
 	return 0;

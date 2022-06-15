@@ -38,8 +38,21 @@ f32 DotVector3(vector3 v1, vector3 v2){
 }
 
 //TRIG FUNCTIONS IMPLEMENTATIONS
-f64 Sin64(f64 angleInRadians){
-	f64 angle = Mod64(angleInRadians, 2*PI);
+static f32 static_Sin32(f32 angle){
+	//McLaurin's Series with Horner's Scheme
+    f32 y = angle*angle;
+
+    f32 if3 = -1.0/6.0;
+    f32 if5 = 1.0/120.0;
+    f32 if7 = -1.0/5040.0;
+    f32 if9 = 1.0/362880.0;
+    f32 if11 = -1.0/39916800.0;
+
+    return (angle + angle*y*(if3 + y*(if5 + y*(if7 + y*(if9 + y*if11)))));
+}
+
+static f64 static_Sin64(f64 angle){
+    //McLaurin's Series with Horner's Scheme
     f64 y = angle*angle;
 
     f64 if3 = -1.0/6.0;
@@ -51,8 +64,22 @@ f64 Sin64(f64 angleInRadians){
     return (angle + angle*y*(if3 + y*(if5 + y*(if7 + y*(if9 + y*if11)))));
 }
 
-f64	Cos64(f64 angleInRadians){
-	f64 angle = Mod64(angleInRadians, 2*PI);
+static f32 static_Cos32(f32 angle){
+	//McLaurin's Series with Horner's Scheme
+    f32 y = angle*angle;
+
+    f32 if2 = -0.5;
+    f32 if4 = 1.0/24.0;
+    f32 if6 = -1.0/720.0;
+    f32 if8 = 1.0/40320.0;
+    f32 if10 = -1.0/3628800.0;
+    f32 if12 = 1.0/479001600.0;
+
+    return (1 + y*(if2 + y*(if4 + y*(if6 + y*(if8 + y*(if10 + y*if12))))));
+}
+
+static f64 static_Cos64(f64 angle){
+	//McLaurin's Series with Horner's Scheme
     f64 y = angle*angle;
 
     f64 if2 = -0.5;
@@ -65,31 +92,79 @@ f64	Cos64(f64 angleInRadians){
     return (1 + y*(if2 + y*(if4 + y*(if6 + y*(if8 + y*(if10 + y*if12))))));
 }
 
-f64 Tg64(f64 angleInRadians){
-	f64 s = Sin64(angleInRadians);
-	f64 c = Cos64(angleInRadians);
-	if(c == 0.0) return NAN;
-	return s / c;
+f32 Sin32(f32 angleInRadians){
+	f32 angle = Mod32(angleInRadians, 2*PI, TRUE);
+	
+	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
+
+	if((-PI/4 <= angle) && (angle <= PI/4)){
+		return static_Sin32(angle);
+	}else if((PI/4 < angle) && (angle <= 3*PI/4)){
+		return static_Cos32(angle - PI/2);
+	}else if((3*PI/4 < angle) && (angle <= PI)){
+		return static_Sin32(angle - PI)*(-1);
+	}else if((-3*PI/4 < angle) && (angle < -PI/4)){
+		return static_Cos32(PI/2 + angle)*(-1);
+	}
+
+	return static_Sin32(PI + angle)*(-1);
 }
 
-f64	Cossec64(f64 angleInRadians){
-	f64 s = Sin64(angleInRadians);
-	if(s == 0.0) return NAN;
-	return 1 / s;
+f64 Sin64(f64 angleInRadians){
+	f64 angle = Mod64(angleInRadians, 2*PI, TRUE);
+	
+	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
+
+	if((-PI/4 <= angle) && (angle <= PI/4)){
+		return static_Sin64(angle);
+	}else if((PI/4 < angle) && (angle <= 3*PI/4)){
+		return static_Cos64(angle - PI/2);
+	}else if((3*PI/4 < angle) && (angle <= PI)){
+		return static_Sin64(angle - PI)*(-1);
+	}else if((-3*PI/4 < angle) && (angle < -PI/4)){
+		return static_Cos64(PI/2 + angle)*(-1);
+	}
+
+	return static_Sin64(PI + angle)*(-1);
 }
 
-f64	Sec64(f64 angleInRadians){
-	f64 c = Cos64(angleInRadians);
-	if(c == 0.0) return NAN;
-	return 1 / c;
-}
+// f32 Cos32(f32 angleInRadians){
+// 	f32 angle = Mod32(angleInRadians, 2*PI, TRUE);
+//	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
+// 	return static_Cos32(angle);
+// }
 
-f64	Cotg64(f64 angleInRadians){
-	f64 c = Cos64(angleInRadians);
-	f64 s = Sin64(angleInRadians);
-	if(s == 0.0) return NAN;
-	return c / s;
-}
+// f64	Cos64(f64 angleInRadians){
+// 	f64 angle = Mod64(angleInRadians, 2*PI, TRUE);
+//	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
+// 	return static_Cos64(angle);
+// }
+
+// f64 Tg64(f64 angleInRadians){
+// 	f64 s = Sin64(angleInRadians);
+// 	f64 c = Cos64(angleInRadians);
+// 	if(c == 0.0) return NAN;
+// 	return s / c;
+// }
+
+// f64	Cossec64(f64 angleInRadians){
+// 	f64 s = Sin64(angleInRadians);
+// 	if(s == 0.0) return NAN;
+// 	return 1 / s;
+// }
+
+// f64	Sec64(f64 angleInRadians){
+// 	f64 c = Cos64(angleInRadians);
+// 	if(c == 0.0) return NAN;
+// 	return 1 / c;
+// }
+
+// f64	Cotg64(f64 angleInRadians){
+// 	f64 c = Cos64(angleInRadians);
+// 	f64 s = Sin64(angleInRadians);
+// 	if(s == 0.0) return NAN;
+// 	return c / s;
+// }
 
 //CONVENIENT FUNCTIONS IMPLEMENTATIONS
 
@@ -311,10 +386,14 @@ i64 Round64(f64 x){
 	return (i64) (x + 0.5f);
 }
 
-f32 Mod32(f32 f1, f64 f2){
-	return f1 - (i32)(f1 / f2) * f2;
+f32 Mod32(f32 f1, f64 f2, u8 positiveResult){
+	f32 result = f1 - (i32)(f1 / f2) * f2;
+	if(positiveResult && result < 0) return (f2 + result);
+	return result;
 }
 
-f64 Mod64(f64 f1, f64 f2) {
-	return f1 - (i64)(f1 / f2) * f2;
+f64 Mod64(f64 f1, f64 f2, u8 positiveResult) {
+	f64 result = f1 - (i64)(f1 / f2) * f2;
+	if(positiveResult && result < 0) return (f2 + result);
+	return result;
 }

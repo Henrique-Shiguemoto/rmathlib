@@ -10,6 +10,8 @@
 #define PRECISION		0.0000000001
 #define BIAS32			127
 #define BIAS64			1023
+#define TRUE			1
+#define FALSE			0
 
 typedef char 				i8;
 typedef short 				i16;
@@ -117,7 +119,7 @@ i64 		Floor64(f64 x);
 i32 		Round32(f32 x);
 i64 		Round64(f64 x);
 
-f32 		Mod32(f32 f1, f64 f2);
-f64 		Mod64(f64 f1, f64 f2);
+f32 		Mod32(f32 f1, f64 f2, u8 positiveResult);
+f64 		Mod64(f64 f1, f64 f2, u8 positiveResult);
 
 #endif
