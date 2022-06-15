@@ -1,6 +1,5 @@
-#include "mthlib.h"
 #include <math.h>
-#include <stdio.h>
+#include "mthlib.h"
 
 //VECTOR2 IMPLEMENTATIONS
 
@@ -36,6 +35,60 @@ vector3 ScaleVector3(vector3 v1, f32 scalar){
 
 f32 DotVector3(vector3 v1, vector3 v2){
 	return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+}
+
+//TRIG FUNCTIONS IMPLEMENTATIONS
+f64 Sin64(f64 angleInRadians){
+	f64 angle = Mod64(angleInRadians, 2*PI);
+    f64 y = angle*angle;
+
+    f64 if3 = -1.0/6.0;
+    f64 if5 = 1.0/120.0;
+    f64 if7 = -1.0/5040.0;
+    f64 if9 = 1.0/362880.0;
+    f64 if11 = -1.0/39916800.0;
+
+    return (angle + angle*y*(if3 + y*(if5 + y*(if7 + y*(if9 + y*if11)))));
+}
+
+f64	Cos64(f64 angleInRadians){
+	f64 angle = Mod64(angleInRadians, 2*PI);
+    f64 y = angle*angle;
+
+    f64 if2 = -0.5;
+    f64 if4 = 1.0/24.0;
+    f64 if6 = -1.0/720.0;
+    f64 if8 = 1.0/40320.0;
+    f64 if10 = -1.0/3628800.0;
+    f64 if12 = 1.0/479001600.0;
+
+    return (1 + y*(if2 + y*(if4 + y*(if6 + y*(if8 + y*(if10 + y*if12))))));
+}
+
+f64 Tg64(f64 angleInRadians){
+	f64 s = Sin64(angleInRadians);
+	f64 c = Cos64(angleInRadians);
+	if(c == 0.0) return NAN;
+	return s / c;
+}
+
+f64	Cossec64(f64 angleInRadians){
+	f64 s = Sin64(angleInRadians);
+	if(s == 0.0) return NAN;
+	return 1 / s;
+}
+
+f64	Sec64(f64 angleInRadians){
+	f64 c = Cos64(angleInRadians);
+	if(c == 0.0) return NAN;
+	return 1 / c;
+}
+
+f64	Cotg64(f64 angleInRadians){
+	f64 c = Cos64(angleInRadians);
+	f64 s = Sin64(angleInRadians);
+	if(s == 0.0) return NAN;
+	return c / s;
 }
 
 //CONVENIENT FUNCTIONS IMPLEMENTATIONS
@@ -256,4 +309,12 @@ i32 Round32(f32 x){
 i64 Round64(f64 x){
 	if(x < 0) return (i64) (x - 0.5f);
 	return (i64) (x + 0.5f);
+}
+
+f32 Mod32(f32 f1, f64 f2){
+	return f1 - (i32)(f1 / f2) * f2;
+}
+
+f64 Mod64(f64 f1, f64 f2) {
+	return f1 - (i64)(f1 / f2) * f2;
 }

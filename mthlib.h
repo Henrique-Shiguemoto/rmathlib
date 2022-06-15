@@ -2,7 +2,7 @@
 #define MTHLIB_H
 
 //#define INFINITY 		((float)(1e+300)*(1e+300))
-// #define NAN 	 		((float)(INFINITY)*(0.0f))
+//#define NAN 	 		((float)(INFINITY)*(0.0f))
 #define PI 				3.141592653589793
 #define DEGREE_IN_RAD 	(PI/180)
 #define SQRT_2			1.414213562373095
@@ -72,6 +72,8 @@ vector3 	CrossVector3(vector3 v1, vector3 v2);
 f32 		NormVector3(vector3 v1);
 vector3 	UnitVector3(vector3 v1);
 
+//Trig functions (we're not going to implement hyperbolics, hell no)
+
 f32 		Sin32(f32 angleInRadians);
 f32 		Cos32(f32 angleInRadians);
 f32 		Tg32(f32 angleInRadians);
@@ -114,5 +116,8 @@ i64 		Floor64(f64 x);
 
 i32 		Round32(f32 x);
 i64 		Round64(f64 x);
+
+f32 		Mod32(f32 f1, f64 f2);
+f64 		Mod64(f64 f1, f64 f2);
 
 #endif

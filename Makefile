@@ -4,7 +4,6 @@ FLAGS=-Wall -Wextra -g
 
 main: main.o mthlib.o
 	$(CC) $(FLAGS) -o $(BIN) main.c mthlib.c
-	cls
 
 main.o: main.c
 	$(CC) -c main.c
