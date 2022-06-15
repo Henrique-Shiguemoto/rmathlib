@@ -93,6 +93,9 @@ static f64 static_Cos64(f64 angle){
 }
 
 f32 Sin32(f32 angleInRadians){
+	//For precision purposes I want to make sure that angleInRadians is in a good interval
+	//This interval for us is going to be [-PI/4, PI/4]
+	//(the bigger angleInRadians, the less precise our calculations are)
 	f32 angle = Mod32(angleInRadians, 2*PI, TRUE);
 	
 	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
@@ -111,6 +114,9 @@ f32 Sin32(f32 angleInRadians){
 }
 
 f64 Sin64(f64 angleInRadians){
+	//For precision purposes I want to make sure that angleInRadians is in a good interval
+	//This interval for us is going to be [-PI/4, PI/4]
+	//(the bigger angleInRadians, the less precise our calculations are)
 	f64 angle = Mod64(angleInRadians, 2*PI, TRUE);
 	
 	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
@@ -128,17 +134,43 @@ f64 Sin64(f64 angleInRadians){
 	return static_Sin64(PI + angle)*(-1);
 }
 
-// f32 Cos32(f32 angleInRadians){
-// 	f32 angle = Mod32(angleInRadians, 2*PI, TRUE);
-//	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
-// 	return static_Cos32(angle);
-// }
+f32 Cos32(f32 angleInRadians){
+	//For precision purposes I want to make sure that angleInRadians is in a good interval
+	//This interval for us is going to be [-PI/4, PI/4]
+	//(the bigger angleInRadians, the less precise our calculations are)
+	f32 angle = Mod32(angleInRadians, 2*PI, TRUE);
+	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
 
-// f64	Cos64(f64 angleInRadians){
-// 	f64 angle = Mod64(angleInRadians, 2*PI, TRUE);
-//	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
-// 	return static_Cos64(angle);
-// }
+	if((-PI/4 <= angle) && (angle <= PI/4)){
+		return static_Cos32(angle);
+	}else if((PI/4 < angle) && (angle <= 3*PI/4)){
+		return static_Sin32(angle - PI/2)*(-1);
+	}else if((-PI/4 > angle) && (angle >= -3*PI/4)){
+		return static_Sin32(angle + PI/2);
+	}else if((3*PI/4 < angle) && (angle <= PI)){
+		return static_Cos32(angle - PI)*(-1);
+	}
+	return static_Cos32(angle + PI)*(-1);
+}
+
+f64	Cos64(f64 angleInRadians){
+	//For precision purposes I want to make sure that angleInRadians is in a good interval
+	//This interval for us is going to be [-PI/4, PI/4]
+	//(the bigger angleInRadians, the less precise our calculations are)
+	f64 angle = Mod64(angleInRadians, 2*PI, TRUE);
+	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
+
+	if((-PI/4 <= angle) && (angle <= PI/4)){
+		return static_Cos64(angle);
+	}else if((PI/4 < angle) && (angle <= 3*PI/4)){
+		return static_Sin64(angle - PI/2)*(-1);
+	}else if((-PI/4 > angle) && (angle >= -3*PI/4)){
+		return static_Sin64(angle + PI/2);
+	}else if((3*PI/4 < angle) && (angle <= PI)){
+		return static_Cos64(angle - PI)*(-1);
+	}
+	return static_Cos64(angle + PI)*(-1);
+}
 
 // f64 Tg64(f64 angleInRadians){
 // 	f64 s = Sin64(angleInRadians);
