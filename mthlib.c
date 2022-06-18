@@ -1,40 +1,30 @@
-#include <math.h>
 #include "mthlib.h"
 
-//VECTOR2 IMPLEMENTATIONS
+//V2 IMPLEMENTATIONS
 
-vector2	AddVector2(vector2 v1, vector2 v2){
-	return (vector2){v1.x + v2.x, v1.y + v2.y};
+v2 AddV2(v2 u, v2 v)				{ return (v2){u.x + v.x, u.y + v.y}; }
+v2 SubtractV2(v2 u, v2 v)			{ return (v2){u.x - v.x, u.y - v.y}; }
+v2 ScaleV2(v2 u, f32 scalar)		{ return (v2){scalar*u.x, scalar*u.y}; }
+f64 DotV2(v2 u, v2 v)				{ return (u.x * v.x) + (u.y * v.y); }
+f64 NormV2(v2 u)					{ return Sqrt64((u.x*u.x) + (u.y*u.y)); }
+v2 UnitV2(v2 u){ 
+	f64 vectorNorm = NormV2(u);
+	if(vectorNorm == 0.0f) return INVALID_V2;
+	return (v2){ u.x / vectorNorm, u.y / vectorNorm};
 }
 
-vector2 SubtractVector2(vector2 v1, vector2 v2){
-	return (vector2){v1.x - v2.x, v1.y - v2.y};
-}
+//V3 IMPLEMENTATIONS
 
-vector2	ScaleVector2(vector2 v1, f32 scalar){
-	return (vector2){scalar*v1.x, scalar*v1.y};
-}
-
-f32 DotVector2(vector2 v1, vector2 v2){
-	return (v1.x * v2.x) + (v1.y * v2.y);
-}
-
-//VECTOR3 IMPLEMENTATIONS
-
-vector3 AddVector3(vector3 v1, vector3 v2){
-	return (vector3){v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
-}
-
-vector3 SubtractVector3(vector3 v1, vector3 v2){
-	return (vector3){v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
-}
-
-vector3 ScaleVector3(vector3 v1, f32 scalar){
-	return (vector3){scalar*v1.x, scalar*v1.y, scalar*v1.z};
-}
-
-f32 DotVector3(vector3 v1, vector3 v2){
-	return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+v3 AddV3(v3 u, v3 v)				{ return (v3){u.x + v.x, u.y + v.y, u.z + v.z}; }
+v3 SubtractV3(v3 u, v3 v)			{ return (v3){u.x - v.x, u.y - v.y, u.z - v.z}; }
+v3 ScaleV3(v3 u, f32 scalar)		{ return (v3){scalar*u.x, scalar*u.y, scalar*u.z}; }
+f64 DotV3(v3 u, v3 v)				{ return (u.x * v.x) + (u.y * v.y) + (u.z * v.z); }
+v3 CrossV3(v3 u, v3 v)				{ return (v3){ (u.y*v.z - u.z*v.y), -(u.x*v.z - u.z*v.x), (u.x*v.y - v.x*u.y)}; }
+f64 NormV3(v3 u)					{ return Sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z)); }
+v3 UnitV3(v3 u){
+	f64 vectorNorm = NormV3(u);
+	if(vectorNorm == 0.0f) return INVALID_V3;
+	return (v3){ u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm};
 }
 
 //TRIG FUNCTIONS IMPLEMENTATIONS
@@ -98,6 +88,7 @@ f64	Cos64(f64 angleInRadians){
 	//This interval for us is going to be [-PI/4, PI/4]
 	//(the bigger angleInRadians, the less precise our calculations are)
 	f64 angle = Mod64(angleInRadians, 2*PI, TRUE);
+	
 	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
 
 	if((-PI/4 <= angle) && (angle <= PI/4)){
@@ -143,6 +134,16 @@ f64	Cotg64(f64 angleInRadians){
 }
 
 //CONVENIENT FUNCTIONS IMPLEMENTATIONS
+
+//This is for the implementation of static_Sqrt64
+typedef union unionF64{
+	f64 n;
+	struct{
+		u64 mantissa : 52;
+		u64 exponent : 11;
+		u64 sign     : 1;
+	}bits;
+} unionF64;
 
 static f64 static_Sqrt64(unionF64 x){
 	//The number we want to know the square root of
@@ -198,7 +199,7 @@ static f64 static_Sqrt64(unionF64 x){
 	return xk1*rest;
 }
 
-f32 AngleToRadians32(f32 degrees)				{ return (f32)AngleToRadians64(degrees); }
+f32 DegreesToRadians32(f32 degrees)				{ return (f32)DegreesToRadians64(degrees); }
 f32 Sqrt32(f32 x)								{ return (f32)Sqrt64(x); }
 f32	Abs32(f32 x)								{ return (f32)Abs64(x); }
 f32 Clamp32(f32 min, f32 max, f32 value)		{ return (f32)Clamp64(min, max, value); }
@@ -209,7 +210,7 @@ i32 Ceil32(f32 x)								{ return (f32)Ceil64(x); }
 i32 Floor32(f32 x)								{ return (i32)Floor64(x); }
 i32 Round32(f32 x)								{ return (i32)Round64(x); }
 
-f64 AngleToRadians64(f64 degrees){ 
+f64 DegreesToRadians64(f64 degrees){ 
 	return degrees*DEGREE_IN_RAD;
 }
 
