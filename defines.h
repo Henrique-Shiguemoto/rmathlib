@@ -12,7 +12,7 @@
  * 
  * */
 
-#define INFINITY			((float)(1e+300)*(1e+300))
+#define INFINITY ((float)(1e+300)*(1e+300))
 
 /**
  * 
@@ -20,7 +20,7 @@
  * 
  * */
 
-#define NAN 	 			(((float)(1e+300)*(1e+300))*(0.0f))
+#define NAN (((float)(1e+300)*(1e+300))*(0.0f))
 
 /**
  * 
@@ -28,7 +28,7 @@
  * 
  * */
 
-#define PI 					3.141592653589793
+#define PI 3.141592653589793
 
 /**
  * 
@@ -36,7 +36,7 @@
  * 
  * */
 
-#define DEGREE_IN_RAD 		(PI/180)
+#define DEGREE_IN_RAD (PI/180)
 
 /**
  * 
@@ -44,7 +44,7 @@
  * 
  * */
 
-#define SQRT_2				1.414213562373095
+#define SQRT_2 1.414213562373095
 
 /**
  * 
@@ -52,7 +52,7 @@
  * 
  * */
 
-#define SQRT_3				1.732050807568877
+#define SQRT_3 1.732050807568877
 
 /**
  * 
@@ -61,7 +61,7 @@
  * 
  * */
 
-#define PRECISION			0.0000000001
+#define PRECISION 0.0000000001
 
 /**
  * 
@@ -70,7 +70,7 @@
  * 
  * */
 
-#define BIAS32				127
+#define BIAS32 127
 
 /**
  * 
@@ -79,7 +79,7 @@
  * 
  * */
 
-#define BIAS64				1023
+#define BIAS64 1023
 
 /**
  * 
@@ -87,7 +87,7 @@
  * 
  * */
 
-#define TRUE				1
+#define TRUE 1
 
 /**
  * 
@@ -95,7 +95,7 @@
  * 
  * */
 
-#define FALSE				0
+#define FALSE 0
 
 /**
  * 
@@ -104,7 +104,7 @@
  * 
  * */
 
-#define INVALID_V2			(v2) {NAN, NAN}
+#define INVALID_V2 (v2) {NAN, NAN}
 
 /**
  * 
@@ -113,7 +113,7 @@
  * 
  * */
 
-#define INVALID_V3			(v3) {NAN, NAN, NAN}
+#define INVALID_V3 (v3) {NAN, NAN, NAN}
 
 /**
  * 
@@ -121,14 +121,14 @@
  * 
  * */
 
-typedef char 				i8;
-typedef short 				i16;
-typedef int 				i32;
-typedef long int 			i64;
-typedef float 				f32;
-typedef double 				f64;
+typedef char i8;
+typedef short i16;
+typedef int i32;
+typedef long int i64;
+typedef float f32;
+typedef double f64;
 
-typedef unsigned char 		u8;
-typedef unsigned short 		u16;
-typedef unsigned int 		u32;
-typedef unsigned long long 	u64;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
