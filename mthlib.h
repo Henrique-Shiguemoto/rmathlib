@@ -15,6 +15,33 @@ typedef struct v3
 	f32 z;
 } v3;
 
+typedef struct v4
+{
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 w;
+} v4;
+
+typedef struct mat2x2
+{
+    f32 elem[2][2];
+} mat2x2;
+
+typedef struct mat3x3
+{
+    f32 elem[3][3];
+} mat3x3;
+
+typedef struct mat4x4
+{
+    f32 elem[4][4];
+} mat4x4;
+
+typedef v2 point2D;
+typedef v3 point3D;
+typedef v4 quaternion;
+
 /**
  * 
  * 2D VECTOR ADDITION
@@ -118,6 +145,203 @@ f64 NormV3(v3 v1);
  * */
 
 v3 UnitV3(v3 v1);
+
+//Matrix Operations
+
+/**
+ * 
+ * 2x2 Matrix Addition
+ * 
+ * */
+
+mat2x2 AddMatrix2x2(mat2x2 m1, mat2x2 m2);
+
+/**
+ * 
+ * 2x2 Matrix Subtraction
+ * 
+ * */
+
+mat2x2 SubMatrix2x2(mat2x2 m1, mat2x2 m2);
+
+/**
+ * 
+ * 2x2 Matrix Multiplication with Scalar
+ * 
+ * */
+
+mat2x2 ScalarMultMatrix2x2(f64 scalar, mat2x2 m1);
+
+/**
+ * 
+ * 2x2 Matrix with 2x2 Matrix Multiplication
+ * 
+ * */
+
+mat2x2 MultMatrix2x2(mat2x2 m1, mat2x2 m2);
+
+/**
+ * 
+ * 2x2 Matrix Determinant
+ * 
+ * */
+
+f64 DetMatrix2x2(mat2x2 m1);
+
+/**
+ * 
+ * 2x2 Matrix Transpose
+ * 
+ * */
+
+mat2x2 TransposeMatrix2x2(mat2x2 m1);
+
+/**
+ * 
+ * 2x2 Matrix Inverse
+ * 
+ * */
+
+mat2x2 InverseMatrix2x2(mat2x2 m1);
+
+/**
+ * 
+ * 2D Vector Multiplication with 2x2 Matrix
+ *      Don't really like this function name
+ * 
+ * */
+
+v2 MultV2ByMatrix2x2(v2 u, mat2x2 m1);
+
+/**
+ * 
+ * 3x3 Matrix Addition
+ * 
+ * */
+
+mat3x3 AddMatrix3x3(mat3x3 m1, mat3x3 m2);
+
+/**
+ * 
+ * 3x3 Matrix Subtraction
+ * 
+ * */
+
+mat3x3 SubMatrix3x3(mat3x3 m1, mat3x3 m2);
+
+/**
+ * 
+ * 2x2 Matrix Multiplication with Scalar
+ * 
+ * */
+
+mat3x3 ScalarMultMatrix3x3(f64 scalar, mat3x3 m1);
+
+/**
+ * 
+ * 3x3 Matrix Multiplication
+ * 
+ * */
+
+mat3x3 MultMatrix3x3(mat3x3 m1, mat3x3 m2);
+
+/**
+ * 
+ * 3x3 Matrix Determinant
+ * 
+ * */
+
+f64 DetMatrix3x3(mat3x3 m1);
+
+/**
+ * 
+ * 3x3 Matrix Transpose
+ * 
+ * */
+
+mat3x3 TransposeMatrix3x3(mat3x3 m1);
+
+/**
+ * 
+ * 3x3 Matrix Inverse
+ * 
+ * */
+
+mat3x3 InverseMatrix3x3(mat3x3 m1);
+
+/**
+ * 
+ * 3D Vector Multiplication with 3x3 Matrix
+ *      Don't really like this function name
+ * 
+ * */
+
+v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1);
+
+/**
+ * 
+ * 4x4 Matrix Addition
+ * 
+ * */
+
+mat4x4 AddMatrix4x4(mat4x4 m1, mat4x4 m2);
+
+/**
+ * 
+ * 4x4 Matrix Subtraction
+ * 
+ * */
+
+mat4x4 SubMatrix4x4(mat4x4 m1, mat4x4 m2);
+
+/**
+ * 
+ * 4x4 Matrix Multiplication with Scalar
+ * 
+ * */
+
+mat4x4 ScalarMultMatrix4x4(f64 scalar, mat4x4 m2);
+
+/**
+ * 
+ * 4x4 Matrix Multiplication
+ * 
+ * */
+
+mat4x4 MultMatrix4x4(mat4x4 m1, mat4x4 m2);
+
+/**
+ * 
+ * 4x4 Matrix Determinant
+ * 
+ * */
+
+f64 DetMatrix4x4(mat4x4 m1);
+
+/**
+ * 
+ * 4x4 Matrix Transpose
+ * 
+ * */
+
+mat4x4 TransposeMatrix4x4(mat4x4 m1);
+
+/**
+ * 
+ * 4x4 Matrix Inverse
+ * 
+ * */
+
+mat4x4 InverseMatrix4x4(mat4x4 m1);
+
+/**
+ * 
+ * 4D Vector Multiplication with 4x4 Matrix
+ *      Don't really like this function name
+ * 
+ * */
+
+v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1);
 
 //Trig functions (we're not going to implement hyperbolics, hell no)
 
