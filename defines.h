@@ -18,6 +18,7 @@ typedef int i32;
 typedef long int i64;
 typedef float f32;
 typedef double f64;
+typedef _Bool b8;
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -180,6 +181,15 @@ typedef v4 quaternion;
  * */
 
 #define INVALID_V3 (v3) {NAN, NAN, NAN}
+
+/**
+ * 
+ * FOR EDGE CASES WHERE A VECTOR RETURN IS NOT DEFINED
+ *      USEFUL IN CASES LIKE CALCULATING A UNIT VECTOR OF A ZERO VECTOR
+ * 
+ * */
+
+#define INVALID_V4 (v4) {NAN, NAN, NAN, NAN}
 
 /**
  * 

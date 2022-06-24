@@ -2,13 +2,15 @@
 
 #include "defines.h"
 
+f64 GetPlatformTime(); //for now it works on linux and windows
+
 /**
  * 
  * 2D VECTOR ADDITION
  * 
  * */
 
-v2 AddV2(v2 v1, v2 v2);
+v2 AddV2(v2 u, v2 v);
 
 /**
  * 
@@ -16,7 +18,7 @@ v2 AddV2(v2 v1, v2 v2);
  * 
  * */
 
-v2 SubtractV2(v2 v1, v2 v2);
+v2 SubtractV2(v2 u, v2 v);
 
 /**
  * 
@@ -24,7 +26,7 @@ v2 SubtractV2(v2 v1, v2 v2);
  * 
  * */
 
-v2 ScaleV2(v2 v1, f32 scalar);
+v2 ScaleV2(v2 u, f32 scalar);
 
 /**
  * 
@@ -32,7 +34,7 @@ v2 ScaleV2(v2 v1, f32 scalar);
  * 
  * */
 
-f64 DotV2(v2 v1, v2 v2);
+f64 DotV2(v2 u, v2 v);
 
 /**
  * 
@@ -40,7 +42,7 @@ f64 DotV2(v2 v1, v2 v2);
  * 
  * */
 
-f64 NormV2(v2 v1);
+f64 NormV2(v2 u);
 
 /**
  * 
@@ -48,7 +50,15 @@ f64 NormV2(v2 v1);
  * 
  * */
 
-v2 UnitV2(v2 v1);
+v2 UnitV2(v2 u);
+
+/**
+ * 
+ * COMPARES EACH CORRESPONDING COMPONENT OF TWO 2D VECTORS BASED ON AN ERROR MARGIN
+ * 
+ * */
+
+b8 CompareV2(v2 u, v2 v, f32 errorMargin);
 
 /**
  * 
@@ -56,7 +66,7 @@ v2 UnitV2(v2 v1);
  * 
  * */
 
-v3 AddV3(v3 v1, v3 v2);
+v3 AddV3(v3 u, v3 v);
 
 /**
  * 
@@ -64,7 +74,7 @@ v3 AddV3(v3 v1, v3 v2);
  * 
  * */
 
-v3 SubtractV3(v3 v1, v3 v2);
+v3 SubtractV3(v3 u, v3 v);
 
 /**
  * 
@@ -72,7 +82,7 @@ v3 SubtractV3(v3 v1, v3 v2);
  * 
  * */
 
-v3 ScaleV3(v3 v1, f32 scalar);
+v3 ScaleV3(v3 u, f32 scalar);
 
 /**
  * 
@@ -80,7 +90,7 @@ v3 ScaleV3(v3 v1, f32 scalar);
  * 
  * */
 
-f64 DotV3(v3 v1, v3 v2);
+f64 DotV3(v3 u, v3 v);
 
 /**
  * 
@@ -88,7 +98,7 @@ f64 DotV3(v3 v1, v3 v2);
  * 
  * */
 
-v3 CrossV3(v3 v1, v3 v2);
+v3 CrossV3(v3 u, v3 v);
 
 /**
  * 
@@ -96,7 +106,7 @@ v3 CrossV3(v3 v1, v3 v2);
  * 
  * */
 
-f64 NormV3(v3 v1);
+f64 NormV3(v3 u);
 
 /**
  * 
@@ -104,7 +114,87 @@ f64 NormV3(v3 v1);
  * 
  * */
 
-v3 UnitV3(v3 v1);
+v3 UnitV3(v3 u);
+
+/**
+ * 
+ * COMPARES EACH CORRESPONDING COMPONENT OF TWO 2D VECTORS BASED ON AN ERROR MARGIN
+ * 
+ * */
+
+b8 CompareV3(v3 u, v3 v, f32 errorMargin);
+
+/**
+ * 
+ * CONVERSION FROM V3 TO V2
+ * 
+ * */
+
+v2 ConvertV3ToV2(v3 u);
+
+/**
+ * 
+ * 4D VECTOR ADDITION
+ * 
+ * */
+
+v4 AddV4(v4 u, v4 v);
+
+/**
+ * 
+ * 4D VECTOR SUBTRACTION
+ * 
+ * */
+
+v4 SubtractV4(v4 u, v4 v);
+
+/**
+ * 
+ * SCALAR MULTIPLICATION WITH 4D VECTOR
+ * 
+ * */
+
+v4 ScaleV4(v4 u, f32 scalar);
+
+/**
+ * 
+ * 4D VECTOR DOT PRODUCT
+ * 
+ * */
+
+f64 DotV4(v4 u, v4 v);
+
+/**
+ * 
+ * NORM OF A 4D VECTOR
+ * 
+ * */
+
+f64 NormV4(v4 u);
+
+/**
+ * 
+ * 4D UNIT VECTOR WITH THE SAME DIRECTION AS THE INPUT 4D VECTOR
+ * 
+ * */
+
+v4 UnitV4(v4 u);
+
+/**
+ * 
+ * COMPARES EACH CORRESPONDING COMPONENT OF TWO 3D VECTORS BASED ON AN ERROR MARGIN
+ * 
+ * */
+
+b8 CompareV4(v4 u, v4 v, f32 errorMargin);
+
+/**
+ * 
+ * CONVERSION FROM V4 TO V3
+ * 
+ * */
+
+v3 ConvertV4ToV3(v4 u);
 
 //Matrix Operations
 
@@ -575,3 +665,33 @@ i64 Round64(f64 x);
  * */
 
 i8 Sign(f64 x);
+
+//RANDOM FUNCTIONS
+
+/**
+ * 
+ * RETURNS A RANDOM 32 BIT UNSIGNED INTEGER
+ * 
+ * */
+u32 RandomU32();
+
+/**
+ * 
+ * RETURNS A RANDOM 32 BIT UNSIGNED INTEGER IN AN INTERVAL
+ * 
+ * */
+u32 RandomU32InInterval(u32 min, u32 max);
+
+/**
+ * 
+ * RETURNS A RANDOM BOOLEAN VALUE
+ * 
+ * */
+b8 RandomBool();
+
+/**
+ * 
+ * RETURNS A RANDOM SIGN (-1 OR 1)
+ * 
+ * */
+i8 RandomSign();

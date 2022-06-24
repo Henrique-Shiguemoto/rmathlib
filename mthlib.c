@@ -1,5 +1,42 @@
 #include "mthlib.h"
 
+//GLOBALS
+static b8 seeded = FALSE;
+static u32 random_seed = 0;
+static b8 systemFrequencySet = FALSE;
+static f64 systemFrequency = 0;
+
+//Checking which OS we're running on for absolute time query
+//prob add another check for linux
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
+
+#include <windows.h>
+
+f64 GetPlatformTime(){
+    if(systemFrequencySet == FALSE){
+    	LARGE_INTEGER t1;
+	    QueryPerformanceFrequency(&t1);   
+	    systemFrequency = 1.0 / t1.QuadPart;
+    }
+
+    LARGE_INTEGER t2;
+    QueryPerformanceCounter(&t2);
+    
+    return (f64)t2.QuadPart * systemFrequency;
+}
+
+#elif defined(__linux__) || defined(__gnu_linux__)
+
+#include <sys/time.h>
+
+f64 GetPlatformTime(){
+    struct timespec t;
+	clock_gettime(CLOCK_MONOTONIC, &t);
+	return t.tv_sec + (t.tv_nsec * 0.000000001);
+}
+
+#endif
+
 //V2 IMPLEMENTATIONS
 
 v2 AddV2(v2 u, v2 v)				{ return (v2){u.x + v.x, u.y + v.y}; }
@@ -11,6 +48,10 @@ v2 UnitV2(v2 u){
 	f64 vectorNorm = NormV2(u);
 	if(vectorNorm == 0.0f) return INVALID_V2;
 	return (v2){ u.x / vectorNorm, u.y / vectorNorm};
+}
+b8 CompareV2(v2 u, v2 v, f32 errorMargin){
+	if(Abs32(u.x - v.x) > errorMargin || Abs32(u.y - v.y) > errorMargin) return FALSE;
+	return TRUE;
 }
 
 //V3 IMPLEMENTATIONS
@@ -26,6 +67,34 @@ v3 UnitV3(v3 u){
 	if(vectorNorm == 0.0f) return INVALID_V3;
 	return (v3){ u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm};
 }
+b8 CompareV3(v3 u, v3 v, f32 errorMargin){
+	if(Abs32(u.x - v.x) > errorMargin ||
+	   Abs32(u.y - v.y) > errorMargin ||
+	   Abs32(u.z - v.z) > errorMargin) return FALSE;
+	return TRUE;
+}
+v2 ConvertV3ToV2(v3 u) 				{ return (v2){ u.x, u.y }; }
+
+//V4 IMPLEMENTATIONS
+
+v4 AddV4(v4 u, v4 v) 				{ return (v4){u.x + v.x, u.y + v.y, u.z + v.z, u.w + v.w}; }
+v4 SubtractV4(v4 u, v4 v) 			{ return (v4){u.x - v.x, u.y - v.y, u.z - v.z, u.w - v.w}; }
+v4 ScaleV4(v4 u, f32 scalar) 		{ return (v4){scalar*u.x, scalar*u.y, scalar*u.z, scalar*u.w}; }
+f64 DotV4(v4 u, v4 v) 				{ return u.x*v.x + u.y*v.y + u.z*v.z + u.w*v.w; }
+f64 NormV4(v4 u) 					{ return Sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z) + (u.w*u.w)); }
+v4 UnitV4(v4 u) {
+	f64 vectorNorm = NormV4(u);
+	if(vectorNorm == 0) return INVALID_V4;
+	return (v4){u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm, u.w / vectorNorm};
+}
+b8 CompareV4(v4 u, v4 v, f32 errorMargin){
+	if(Abs32(u.x - v.x) > errorMargin ||
+	   Abs32(u.y - v.y) > errorMargin ||
+	   Abs32(u.z - v.z) > errorMargin ||
+	   Abs32(u.w - v.w) > errorMargin) return FALSE;
+	return TRUE;
+}
+v3 ConvertV4ToV3(v4 u) 				{ return (v3){ u.x, u.y, u.z };}
 
 //2x2 MATRIX SUPPORT
 mat2x2 AddMatrix2x2(mat2x2 m1, mat2x2 m2){
@@ -591,4 +660,38 @@ i64 Round64(f64 x){
 i8 Sign(f64 x){
 	if(x < 0) return -1;
 	return 1;
+}
+
+//RANDOM IMPLEMENTATIONS
+
+static void static_SetSeed(){
+	random_seed = (u32)GetPlatformTime();
+	seeded = TRUE;
+}
+
+static u32 static_XORShift(){
+	u32 temp = random_seed;
+	temp ^= temp << 13;
+	temp ^= temp >> 17;
+	temp ^= temp << 5;
+	random_seed = temp;
+	return random_seed;
+}
+
+u32 RandomU32(){
+	if(seeded == FALSE) static_SetSeed();
+	return static_XORShift();
+}
+
+u32 RandomU32InInterval(u32 min, u32 max){
+	return (RandomU32() % (max - min + 1)) + min;
+}
+
+b8 RandomBool(){
+	return (RandomU32() & 1) == 0;
+}
+
+i8 RandomSign(){
+	if(RandomBool() == FALSE) return 1;
+	return -1;
 }
