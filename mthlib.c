@@ -27,6 +27,324 @@ v3 UnitV3(v3 u){
 	return (v3){ u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm};
 }
 
+//2x2 MATRIX SUPPORT
+mat2x2 AddMatrix2x2(mat2x2 m1, mat2x2 m2){
+	mat2x2 output = { 0 };
+	for(u8 i = 0; i < 4; i++)
+		output.elem[i] = m1.elem[i] + m2.elem[i];
+	return output;
+}
+
+mat2x2 SubMatrix2x2(mat2x2 m1, mat2x2 m2){
+	mat2x2 output = { 0 };
+	for(u8 i = 0; i < 4; i++)
+		output.elem[i] = m1.elem[i] - m2.elem[i];
+	return output;
+}
+
+mat2x2 ScalarMultMatrix2x2(f64 scalar, mat2x2 m1){
+	mat2x2 output = {0};
+	for(u8 i = 0; i < 4; i++)
+		output.elem[i] = scalar*m1.elem[i];
+	return output;
+}
+
+mat2x2 MultMatrix2x2(mat2x2 m1, mat2x2 m2){
+	mat2x2 output = { 0 };
+	output.elem[0] = m1.elem[0]*m2.elem[0] + m1.elem[1]*m2.elem[2];
+	output.elem[1] = m1.elem[0]*m2.elem[1] + m1.elem[1]*m2.elem[3];
+	output.elem[2] = m1.elem[2]*m2.elem[0] + m1.elem[3]*m2.elem[2];
+	output.elem[3] = m1.elem[2]*m2.elem[1] + m1.elem[3]*m2.elem[3];
+	return output;
+}
+
+f32 DetMatrix2x2(mat2x2 m1){
+	return m1.elem[0]*m1.elem[3] - 
+		   m1.elem[1]*m1.elem[2];
+}
+
+mat2x2 TransposeMatrix2x2(mat2x2 m1){
+	mat2x2 output = { 0 };
+	output.elem[0] = m1.elem[0];
+	output.elem[1] = m1.elem[2];
+	output.elem[2] = m1.elem[1];
+	output.elem[3] = m1.elem[3];
+	return output;
+}
+
+mat2x2 InverseMatrix2x2(mat2x2 m1){
+	f64 det = DetMatrix2x2(m1);
+	if(det == 0) return INVALID_2X2MATRIX;
+
+	mat2x2 adjugate = { 0 };
+	adjugate.elem[0] = m1.elem[3];
+	adjugate.elem[1] = -m1.elem[1];
+	adjugate.elem[2] = -m1.elem[2];
+	adjugate.elem[3] = m1.elem[0];
+
+	return ScalarMultMatrix2x2(1/det, adjugate);
+}
+
+v2 MultV2ByMatrix2x2(v2 u, mat2x2 m1){
+	return (v2){u.x * m1.elem[0] + u.y * m1.elem[2], 
+				u.x * m1.elem[1] + u.y * m1.elem[3]};
+}
+
+//3x3 MATRIX SUPPORT
+mat3x3 AddMatrix3x3(mat3x3 m1, mat3x3 m2){
+	mat3x3 output = {0};
+	for(u8 i = 0; i < 9; i++)
+		output.elem[i] = m1.elem[i] + m2.elem[i];
+	return output;
+}
+
+mat3x3 SubMatrix3x3(mat3x3 m1, mat3x3 m2){
+	mat3x3 output = {0};
+	for(u8 i = 0; i < 9; i++)
+		output.elem[i] = m1.elem[i] - m2.elem[i];
+	return output;
+}
+
+mat3x3 ScalarMultMatrix3x3(f64 scalar, mat3x3 m1){
+	mat3x3 output = {0};
+	for(u8 i = 0; i < 9; i++)
+		output.elem[i] = scalar*m1.elem[i];
+	return output;
+}
+
+mat3x3 MultMatrix3x3(mat3x3 m1, mat3x3 m2){
+	mat3x3 output = { 0 };
+
+	output.elem[0] = m1.elem[0]*m2.elem[0] + m1.elem[1]*m2.elem[3] + m1.elem[2]*m2.elem[6];
+	output.elem[1] = m1.elem[0]*m2.elem[1] + m1.elem[1]*m2.elem[4] + m1.elem[2]*m2.elem[7];
+	output.elem[2] = m1.elem[0]*m2.elem[2] + m1.elem[1]*m2.elem[5] + m1.elem[2]*m2.elem[8];
+	output.elem[3] = m1.elem[3]*m2.elem[0] + m1.elem[4]*m2.elem[3] + m1.elem[5]*m2.elem[6];
+	output.elem[4] = m1.elem[3]*m2.elem[1] + m1.elem[4]*m2.elem[4] + m1.elem[5]*m2.elem[7];
+	output.elem[5] = m1.elem[3]*m2.elem[2] + m1.elem[4]*m2.elem[5] + m1.elem[5]*m2.elem[8];
+	output.elem[6] = m1.elem[6]*m2.elem[0] + m1.elem[7]*m2.elem[3] + m1.elem[8]*m2.elem[6];
+	output.elem[7] = m1.elem[6]*m2.elem[1] + m1.elem[7]*m2.elem[4] + m1.elem[8]*m2.elem[7];
+	output.elem[8] = m1.elem[6]*m2.elem[2] + m1.elem[7]*m2.elem[5] + m1.elem[8]*m2.elem[8];
+
+	return output;
+}
+
+f32 DetMatrix3x3(mat3x3 m1){
+	return m1.elem[0]*m1.elem[4]*m1.elem[8] + 
+		   m1.elem[1]*m1.elem[5]*m1.elem[6] + 
+		   m1.elem[2]*m1.elem[3]*m1.elem[7] -
+		   m1.elem[6]*m1.elem[4]*m1.elem[2] -
+		   m1.elem[7]*m1.elem[5]*m1.elem[0] -
+		   m1.elem[8]*m1.elem[3]*m1.elem[1];
+}
+
+mat3x3 TransposeMatrix3x3(mat3x3 m1){
+	mat3x3 output = { 0 };
+	output.elem[0] = m1.elem[0];
+	output.elem[1] = m1.elem[3];
+	output.elem[2] = m1.elem[6];
+	output.elem[3] = m1.elem[1];
+	output.elem[4] = m1.elem[4];
+	output.elem[5] = m1.elem[7];
+	output.elem[6] = m1.elem[2];
+	output.elem[7] = m1.elem[5];
+	output.elem[8] = m1.elem[8];
+	return output;
+}
+
+mat3x3 InverseMatrix3x3(mat3x3 m1){
+	f64 det = DetMatrix3x3(m1);
+	if(det == 0) return INVALID_3X3MATRIX;
+
+	mat3x3 t = TransposeMatrix3x3(m1);
+
+	f64 det00 = DetMatrix2x2((mat2x2){.elem = {t.elem[4], t.elem[5], t.elem[7], t.elem[8]}});
+	f64 det01 = -DetMatrix2x2((mat2x2){.elem = {t.elem[3], t.elem[5], t.elem[6], t.elem[8]}});
+	f64 det02 = DetMatrix2x2((mat2x2){.elem = {t.elem[3], t.elem[4], t.elem[6], t.elem[7]}});
+	f64 det10 = -DetMatrix2x2((mat2x2){.elem = {t.elem[1], t.elem[2], t.elem[7], t.elem[8]}});
+	f64 det11 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[2], t.elem[6], t.elem[8]}});
+	f64 det12 = -DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[1], t.elem[6], t.elem[7]}});
+	f64 det20 = DetMatrix2x2((mat2x2){.elem = {t.elem[1], t.elem[2], t.elem[4], t.elem[5]}});
+	f64 det21 = -DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[2], t.elem[3], t.elem[5]}});
+	f64 det22 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[1], t.elem[3], t.elem[4]}});
+
+	mat3x3 adjugate = {.elem = {det00, -det01, det02, 
+								-det10, det11, -det12, 
+								det20, -det21, det22}};
+
+	return ScalarMultMatrix3x3(1/det, adjugate);
+}
+
+v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1){
+	return (v3){ u.x * m1.elem[0] + u.y * m1.elem[3] + u.z * m1.elem[6],
+				 u.x * m1.elem[1] + u.y * m1.elem[4] + u.z * m1.elem[7],
+				 u.x * m1.elem[2] + u.y * m1.elem[5] + u.z * m1.elem[8]};
+}
+
+//4x4 MATRIX SUPPORT
+mat4x4 AddMatrix4x4(mat4x4 m1, mat4x4 m2){
+	mat4x4 output = {0};
+	for(u8 i = 0; i < 16; i++)
+		output.elem[i] = m1.elem[i] + m2.elem[i];
+	return output;
+}
+
+mat4x4 SubMatrix4x4(mat4x4 m1, mat4x4 m2){
+	mat4x4 output = {0};
+	for(u8 i = 0; i < 16; i++)
+		output.elem[i] = m1.elem[i] - m2.elem[i];
+	return output;
+}
+
+mat4x4 ScalarMultMatrix4x4(f64 scalar, mat4x4 m1){
+	mat4x4 output = {0};
+	for(u8 i = 0; i < 16; i++)
+		output.elem[i] = scalar*m1.elem[i];
+	return output;
+}
+
+mat4x4 MultMatrix4x4(mat4x4 m1, mat4x4 m2){
+	mat4x4 output = { 0 };
+
+	output.elem[0] = m1.elem[0]*m2.elem[0] + m1.elem[1]*m2.elem[4] + m1.elem[2]*m2.elem[8] + m1.elem[3]*m2.elem[12];
+	output.elem[1] = m1.elem[0]*m2.elem[1] + m1.elem[1]*m2.elem[5] + m1.elem[2]*m2.elem[9] + m1.elem[3]*m2.elem[13];
+	output.elem[2] = m1.elem[0]*m2.elem[2] + m1.elem[1]*m2.elem[6] + m1.elem[2]*m2.elem[10] + m1.elem[3]*m2.elem[14];
+	output.elem[3] = m1.elem[0]*m2.elem[3] + m1.elem[1]*m2.elem[7] + m1.elem[2]*m2.elem[11] + m1.elem[3]*m2.elem[15];
+	output.elem[4] = m1.elem[4]*m2.elem[0] + m1.elem[5]*m2.elem[4] + m1.elem[6]*m2.elem[8] + m1.elem[7]*m2.elem[12];
+	output.elem[5] = m1.elem[4]*m2.elem[1] + m1.elem[5]*m2.elem[5] + m1.elem[6]*m2.elem[9] + m1.elem[7]*m2.elem[13];
+	output.elem[6] = m1.elem[4]*m2.elem[2] + m1.elem[5]*m2.elem[6] + m1.elem[6]*m2.elem[10] + m1.elem[7]*m2.elem[14];
+	output.elem[7] = m1.elem[4]*m2.elem[3] + m1.elem[5]*m2.elem[7] + m1.elem[6]*m2.elem[11] + m1.elem[7]*m2.elem[15];
+	output.elem[8] = m1.elem[8]*m2.elem[0] + m1.elem[9]*m2.elem[4] + m1.elem[10]*m2.elem[8] + m1.elem[11]*m2.elem[12];
+	output.elem[9] = m1.elem[8]*m2.elem[1] + m1.elem[9]*m2.elem[5] + m1.elem[10]*m2.elem[9] + m1.elem[11]*m2.elem[13];
+	output.elem[10] = m1.elem[8]*m2.elem[2] + m1.elem[9]*m2.elem[6] + m1.elem[10]*m2.elem[10] + m1.elem[11]*m2.elem[14];
+	output.elem[11] = m1.elem[8]*m2.elem[3] + m1.elem[9]*m2.elem[7] + m1.elem[10]*m2.elem[11] + m1.elem[11]*m2.elem[15];
+	output.elem[12] = m1.elem[12]*m2.elem[0] + m1.elem[13]*m2.elem[4] + m1.elem[14]*m2.elem[8] + m1.elem[15]*m2.elem[12];
+	output.elem[13] = m1.elem[12]*m2.elem[1] + m1.elem[13]*m2.elem[5] + m1.elem[14]*m2.elem[9] + m1.elem[15]*m2.elem[13];
+	output.elem[14] = m1.elem[12]*m2.elem[2] + m1.elem[13]*m2.elem[6] + m1.elem[14]*m2.elem[10] + m1.elem[15]*m2.elem[14];
+	output.elem[15] = m1.elem[12]*m2.elem[3] + m1.elem[13]*m2.elem[7] + m1.elem[14]*m2.elem[11] + m1.elem[15]*m2.elem[15];
+
+	return output;
+}
+
+f32 DetMatrix4x4(mat4x4 m1){
+	return m1.elem[0]*m1.elem[5]*m1.elem[10]*m1.elem[15] + 
+		   m1.elem[0]*m1.elem[9]*m1.elem[14]*m1.elem[7] + 
+		   m1.elem[0]*m1.elem[13]*m1.elem[6]*m1.elem[11] - 
+		   m1.elem[0]*m1.elem[13]*m1.elem[10]*m1.elem[7] - 
+		   m1.elem[0]*m1.elem[9]*m1.elem[6]*m1.elem[15] - 
+		   m1.elem[0]*m1.elem[5]*m1.elem[14]*m1.elem[11] - 
+		   m1.elem[4]*m1.elem[1]*m1.elem[10]*m1.elem[15] - 
+		   m1.elem[8]*m1.elem[1]*m1.elem[14]*m1.elem[7] - 
+		   m1.elem[12]*m1.elem[1]*m1.elem[6]*m1.elem[11] + 
+		   m1.elem[12]*m1.elem[1]*m1.elem[10]*m1.elem[7] + 
+		   m1.elem[8]*m1.elem[1]*m1.elem[6]*m1.elem[15] + 
+		   m1.elem[4]*m1.elem[1]*m1.elem[14]*m1.elem[11] + 
+		   m1.elem[4]*m1.elem[9]*m1.elem[2]*m1.elem[15] + 
+		   m1.elem[8]*m1.elem[13]*m1.elem[2]*m1.elem[7] + 
+		   m1.elem[12]*m1.elem[5]*m1.elem[2]*m1.elem[11] - 
+		   m1.elem[12]*m1.elem[9]*m1.elem[2]*m1.elem[7] - 
+		   m1.elem[8]*m1.elem[5]*m1.elem[2]*m1.elem[15] - 
+		   m1.elem[4]*m1.elem[13]*m1.elem[2]*m1.elem[11] - 
+		   m1.elem[4]*m1.elem[9]*m1.elem[14]*m1.elem[3] - 
+		   m1.elem[8]*m1.elem[13]*m1.elem[6]*m1.elem[3] - 
+		   m1.elem[12]*m1.elem[5]*m1.elem[10]*m1.elem[3] + 
+		   m1.elem[12]*m1.elem[9]*m1.elem[6]*m1.elem[3] + 
+		   m1.elem[8]*m1.elem[5]*m1.elem[14]*m1.elem[3] + 
+		   m1.elem[4]*m1.elem[13]*m1.elem[10]*m1.elem[3];
+}
+
+mat4x4 TransposeMatrix4x4(mat4x4 m1){
+	mat4x4 output = { 0 };
+
+	output.elem[0] = m1.elem[0];
+	output.elem[1] = m1.elem[4];
+	output.elem[2] = m1.elem[8];
+	output.elem[3] = m1.elem[12];
+	output.elem[4] = m1.elem[1];
+	output.elem[5] = m1.elem[5];
+	output.elem[6] = m1.elem[9];
+	output.elem[7] = m1.elem[13];
+	output.elem[8] = m1.elem[2];
+	output.elem[9] = m1.elem[6];
+	output.elem[10] = m1.elem[10];
+	output.elem[11] = m1.elem[14];
+	output.elem[12] = m1.elem[3];
+	output.elem[13] = m1.elem[7];
+	output.elem[14] = m1.elem[11];
+	output.elem[15] = m1.elem[15];
+
+	return output;
+}
+
+mat4x4 InverseMatrix4x4(mat4x4 m1){
+	f32 det = DetMatrix4x4(m1);
+	if(det == 0) return INVALID_4X4MATRIX;
+
+	mat4x4 t = TransposeMatrix4x4(m1);
+
+	f32 det00 = DetMatrix3x3((mat3x3){.elem = {t.elem[5], t.elem[6], t.elem[7],
+											   t.elem[9], t.elem[10], t.elem[11],
+											   t.elem[13], t.elem[14], t.elem[15]}});
+	f32 det01 = -DetMatrix3x3((mat3x3){.elem = {t.elem[4], t.elem[6], t.elem[7],
+											   t.elem[8], t.elem[10], t.elem[11],
+											   t.elem[12], t.elem[14], t.elem[15]}});
+	f32 det02 = DetMatrix3x3((mat3x3){.elem = {t.elem[4], t.elem[5], t.elem[7],
+											   t.elem[8], t.elem[9], t.elem[11],
+											   t.elem[12], t.elem[13], t.elem[15]}});
+	f32 det03 = -DetMatrix3x3((mat3x3){.elem = {t.elem[4], t.elem[5], t.elem[6],
+											   t.elem[8], t.elem[9], t.elem[10],
+											   t.elem[12], t.elem[13], t.elem[14]}});
+	f32 det10 = -DetMatrix3x3((mat3x3){.elem = {t.elem[1], t.elem[2], t.elem[3],
+											   t.elem[9], t.elem[10], t.elem[11],
+											   t.elem[13], t.elem[14], t.elem[15]}});
+	f32 det11 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[2], t.elem[3],
+											   t.elem[8], t.elem[10], t.elem[11],
+											   t.elem[12], t.elem[14], t.elem[15]}});
+	f32 det12 = -DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[3],
+											   t.elem[8], t.elem[9], t.elem[11],
+											   t.elem[12], t.elem[13], t.elem[15]}});
+	f32 det13 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[2],
+											   t.elem[8], t.elem[9], t.elem[10],
+											   t.elem[12], t.elem[13], t.elem[14]}});
+	f32 det20 = DetMatrix3x3((mat3x3){.elem = {t.elem[1], t.elem[2], t.elem[3],
+											   t.elem[5], t.elem[6], t.elem[7],
+											   t.elem[13], t.elem[14], t.elem[15]}});
+	f32 det21 = -DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[2], t.elem[3],
+											   t.elem[4], t.elem[6], t.elem[7],
+											   t.elem[12], t.elem[14], t.elem[15]}});
+	f32 det22 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[3],
+											   t.elem[4], t.elem[5], t.elem[7],
+											   t.elem[12], t.elem[13], t.elem[15]}});
+	f32 det23 = -DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[2],
+											   t.elem[4], t.elem[5], t.elem[6],
+											   t.elem[12], t.elem[13], t.elem[14]}});
+	f32 det30 = -DetMatrix3x3((mat3x3){.elem = {t.elem[1], t.elem[2], t.elem[3],
+											   t.elem[5], t.elem[6], t.elem[7],
+											   t.elem[9], t.elem[10], t.elem[11]}});
+	f32 det31 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[2], t.elem[3],
+											   t.elem[4], t.elem[6], t.elem[7],
+											   t.elem[8], t.elem[10], t.elem[11]}});
+	f32 det32 = -DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[3],
+											   t.elem[4], t.elem[5], t.elem[7],
+											   t.elem[8], t.elem[9], t.elem[11]}});
+	f32 det33 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[2],
+											   t.elem[4], t.elem[5], t.elem[6],
+											   t.elem[8], t.elem[9], t.elem[10]}});
+
+	mat4x4 adjugate = {.elem = { det00, det01, det02, det03, 
+								 det10, det11, det12, det13,
+								 det20, det21, det22, det23, 
+								 det30, det31, det32, det33}};
+	
+	return ScalarMultMatrix4x4(1/det, adjugate);
+}
+
+v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1){
+	return (v4) { u.x * m1.elem[0] + u.y * m1.elem[4] + u.z * m1.elem[8] + u.w * m1.elem[12],
+				  u.x * m1.elem[1] + u.y * m1.elem[5] + u.z * m1.elem[9] + u.w * m1.elem[13],
+				  u.x * m1.elem[2] + u.y * m1.elem[6] + u.z * m1.elem[10] + u.w * m1.elem[14],
+				  u.x * m1.elem[3] + u.y * m1.elem[7] + u.z * m1.elem[11] + u.w * m1.elem[15]};
+}
+
 //TRIG FUNCTIONS IMPLEMENTATIONS
 static f64 static_Sin64(f64 angle){
     //McLaurin's Series with Horner's Scheme
@@ -244,6 +562,12 @@ f64	Min64(f64 a, f64 b){
 	return b;
 }
 
+f64 Mod64(f64 f1, f64 f2, u8 positiveResult) {
+	f64 result = f1 - (i64)(f1 / f2) * f2;
+	if(positiveResult && result < 0) return (f2 + result);
+	return result;
+}
+
 i64 Ceil64(f64 x){
 	if(x < 0) return (i64)x;
 
@@ -264,8 +588,7 @@ i64 Round64(f64 x){
 	return (i64) (x + 0.5f);
 }
 
-f64 Mod64(f64 f1, f64 f2, u8 positiveResult) {
-	f64 result = f1 - (i64)(f1 / f2) * f2;
-	if(positiveResult && result < 0) return (f2 + result);
-	return result;
+i8 Sign(f64 x){
+	if(x < 0) return -1;
+	return 1;
 }

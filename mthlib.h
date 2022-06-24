@@ -2,46 +2,6 @@
 
 #include "defines.h"
 
-typedef struct v2
-{
-	f32 x;
-	f32 y;
-} v2;
-
-typedef struct v3
-{
-	f32 x;
-	f32 y;
-	f32 z;
-} v3;
-
-typedef struct v4
-{
-    f32 x;
-    f32 y;
-    f32 z;
-    f32 w;
-} v4;
-
-typedef struct mat2x2
-{
-    f32 elem[2][2];
-} mat2x2;
-
-typedef struct mat3x3
-{
-    f32 elem[3][3];
-} mat3x3;
-
-typedef struct mat4x4
-{
-    f32 elem[4][4];
-} mat4x4;
-
-typedef v2 point2D;
-typedef v3 point3D;
-typedef v4 quaternion;
-
 /**
  * 
  * 2D VECTOR ADDITION
@@ -186,7 +146,7 @@ mat2x2 MultMatrix2x2(mat2x2 m1, mat2x2 m2);
  * 
  * */
 
-f64 DetMatrix2x2(mat2x2 m1);
+f32 DetMatrix2x2(mat2x2 m1);
 
 /**
  * 
@@ -251,7 +211,7 @@ mat3x3 MultMatrix3x3(mat3x3 m1, mat3x3 m2);
  * 
  * */
 
-f64 DetMatrix3x3(mat3x3 m1);
+f32 DetMatrix3x3(mat3x3 m1);
 
 /**
  * 
@@ -300,7 +260,7 @@ mat4x4 SubMatrix4x4(mat4x4 m1, mat4x4 m2);
  * 
  * */
 
-mat4x4 ScalarMultMatrix4x4(f64 scalar, mat4x4 m2);
+mat4x4 ScalarMultMatrix4x4(f64 scalar, mat4x4 m1);
 
 /**
  * 
@@ -316,7 +276,7 @@ mat4x4 MultMatrix4x4(mat4x4 m1, mat4x4 m2);
  * 
  * */
 
-f64 DetMatrix4x4(mat4x4 m1);
+f32 DetMatrix4x4(mat4x4 m1);
 
 /**
  * 
@@ -606,3 +566,12 @@ i64 Floor64(f64 x);
  * */
 
 i64 Round64(f64 x);
+
+/**
+ * 
+ * FUNCTION THAT RETURNS THE SIGN OF A NUMBER
+ *      SINCE THE RETURN VALUE CAN ONLY BE -1 OR 1, WE'RE RETURNING A i8 here
+ *      ALSO, THE RETURN VALUE FOR 0 IS GOING TO BE 1 IN THIS CASE
+ * */
+
+i8 Sign(f64 x);
