@@ -159,6 +159,15 @@ v2 MultV2ByMatrix2x2(v2 u, mat2x2 m1){
 				u.x * m1.elem[1] + u.y * m1.elem[3]};
 }
 
+mat2x2 CreateIdentity2x2(){
+	mat2x2 output = { 0 };
+	
+	output.elem[0] = 1.0;
+	output.elem[3] = 1.0;
+
+	return output;
+}
+
 //3x3 MATRIX SUPPORT
 mat3x3 AddMatrix3x3(mat3x3 m1, mat3x3 m2){
 	mat3x3 output = {0};
@@ -247,6 +256,16 @@ v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1){
 	return (v3){ u.x * m1.elem[0] + u.y * m1.elem[3] + u.z * m1.elem[6],
 				 u.x * m1.elem[1] + u.y * m1.elem[4] + u.z * m1.elem[7],
 				 u.x * m1.elem[2] + u.y * m1.elem[5] + u.z * m1.elem[8]};
+}
+
+mat3x3 CreateIdentity3x3(){
+	mat3x3 output = { 0 };
+
+	output.elem[0] = 1.0;
+	output.elem[4] = 1.0;
+	output.elem[8] = 1.0;
+
+	return output;
 }
 
 //4x4 MATRIX SUPPORT
@@ -412,6 +431,17 @@ v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1){
 				  u.x * m1.elem[1] + u.y * m1.elem[5] + u.z * m1.elem[9] + u.w * m1.elem[13],
 				  u.x * m1.elem[2] + u.y * m1.elem[6] + u.z * m1.elem[10] + u.w * m1.elem[14],
 				  u.x * m1.elem[3] + u.y * m1.elem[7] + u.z * m1.elem[11] + u.w * m1.elem[15]};
+}
+
+mat4x4 CreateIdentity4x4(){
+	mat4x4 output = { 0 };
+
+	output.elem[0] = 1.0;
+	output.elem[5] = 1.0;
+	output.elem[10] = 1.0;
+	output.elem[15] = 1.0;
+
+	return output;
 }
 
 //TRIG FUNCTIONS IMPLEMENTATIONS
@@ -694,4 +724,50 @@ b8 RandomBool(){
 i8 RandomSign(){
 	if(RandomBool() == FALSE) return 1;
 	return -1;
+}
+
+//GRAPHICS IMPLEMENTATIONS
+
+mat3x3 CreateTranslationMatrix2D(v2 posDelta){
+	mat3x3 output = CreateIdentity3x3();
+
+	output.elem[2] = posDelta.x;
+	output.elem[5] = posDelta.y;
+
+	return output;
+}
+
+mat3x3 CreateScaleMatrixWithSetOrigin2D(v2 scale, v2 origin){
+	mat3x3 output = CreateIdentity3x3();
+
+	output.elem[0] = scale.x;
+	output.elem[2] = origin.x - origin.x*scale.x;
+	output.elem[4] = scale.y;
+	output.elem[5] = origin.y - origin.y*scale.y;
+
+	return output;
+}
+
+mat3x3 CreateScaleMatrix2D(v2 scale){
+	return CreateScaleMatrixWithSetOrigin2D(scale, (v2){ 0, 0 });
+}
+
+mat3x3 CreateRotationAroundPointMatrix2D(f32 angle, v2 pos){
+	mat3x3 output = CreateIdentity3x3();
+
+	f32 s = Sin32(angle);
+	f32 c = Cos32(angle);
+
+	output.elem[0] = c;
+	output.elem[1] = -s;
+	output.elem[2] = (pos.y * s) - (pos.x * c) + pos.x;
+	output.elem[3] = s;
+	output.elem[4] = c;
+	output.elem[5] = -(pos.x * s) - (pos.y * c) + pos.y;
+
+	return output;
+}
+
+mat3x3 CreateRotationMatrix2D(f32 angle){
+	return CreateRotationAroundPointMatrix2D(angle, (v2){ 0, 0 });
 }

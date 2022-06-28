@@ -265,6 +265,13 @@ v2 MultV2ByMatrix2x2(v2 u, mat2x2 m1);
 
 /**
  * 
+ * RETURNS THE 2x2 IDENTITY MATRIX
+ * 
+ * */
+mat2x2 CreateIdentity2x2();
+
+/**
+ * 
  * 3x3 Matrix Addition
  * 
  * */
@@ -330,6 +337,13 @@ v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1);
 
 /**
  * 
+ * RETURNS THE 3x3 IDENTITY MATRIX
+ * 
+ * */
+mat3x3 CreateIdentity3x3();
+
+/**
+ * 
  * 4x4 Matrix Addition
  * 
  * */
@@ -392,6 +406,13 @@ mat4x4 InverseMatrix4x4(mat4x4 m1);
  * */
 
 v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1);
+
+/**
+ * 
+ * RETURNS THE 4x4 IDENTITY MATRIX
+ * 
+ * */
+mat4x4 CreateIdentity4x4();
 
 //Trig functions (we're not going to implement hyperbolics, hell no)
 
@@ -695,3 +716,52 @@ b8 RandomBool();
  * 
  * */
 i8 RandomSign();
+
+//GRAPHICS FUNCTIONS
+
+/**
+ * 
+ * CREATION OF A 3x3 MATRIX WHICH CAN TRANSLATE A 2D POINT (IN HOMOGENEOUS COORDINATE FORM) posDelta UNITS
+ * 
+ * */
+mat3x3 CreateTranslationMatrix2D(v2 posDelta);
+
+/**
+ * 
+ * CREATION OF A 3x3 MATRIX WHICH CAN SCALE A 2D POINT (IN HOMOGENEOUS COORDINATE FORM) IN scale UNITS
+ *      BASED ON origin
+ * 
+ * */
+mat3x3 CreateScaleMatrixWithSetOrigin2D(v2 scale, v2 origin);
+
+/**
+ * 
+ * CREATION OF A 3x3 MATRIX WHICH CAN SCALE A 2D POINT (IN HOMOGENEOUS COORDINATE FORM) IN scale UNITS
+ *      BASED ON (0,0) AS ORIGIN
+ * 
+ * */
+mat3x3 CreateScaleMatrix2D(v2 scale);
+
+/**
+ * 
+ * CREATION OF A 3x3 MATRIX WHICH CAN ROTATE A 2D POINT (IN HOMOGENEOUS COORDINATE FORM) IN angleVec RAD
+ *      BASED ON pos
+ * 
+ * */
+mat3x3 CreateRotationAroundPointMatrix2D(f32 angleVec, v2 pos);
+
+/**
+ * 
+ * CREATION OF A 3x3 MATRIX WHICH CAN ROTATE A 2D POINT (IN HOMOGENEOUS COORDINATE FORM) IN angleVec RAD
+ *      BASED ON (0,0) AS ORIGIN
+ * 
+ * */
+mat3x3 CreateRotationMatrix2D(f32 angleVec);
+
+mat4x4 CreateTranslationMatrix3D(v3 posDelta);
+mat4x4 CreateScaleMatrix3D(v3 scale);
+mat4x4 CreateRotationInXMatrix3D(f32 angle);
+mat4x4 CreateRotationInYMatrix3D(f32 angle);
+mat4x4 CreateRotationInZMatrix3D(f32 angle);
+mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n);
+mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n);
