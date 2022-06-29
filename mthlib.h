@@ -758,10 +758,61 @@ mat3x3 CreateRotationAroundPointMatrix2D(f32 angleVec, v2 pos);
  * */
 mat3x3 CreateRotationMatrix2D(f32 angleVec);
 
+/**
+ * 
+ * CREATES A 4x4 MATRIX WHICH TRANSLATES A 3D POINT (IN HOMOGENEOUS COORDINATE FORM) IN posDelta UNITS
+ * 
+ * */
 mat4x4 CreateTranslationMatrix3D(v3 posDelta);
+
+/**
+ * 
+ * CREATES A 4x4 MATRIX WHICH SCALES A 3D POINT (IN HOMOGENEOUS COORDINATE FORM) IN scale UNITS
+ * 
+ * */
 mat4x4 CreateScaleMatrix3D(v3 scale);
-mat4x4 CreateRotationInXMatrix3D(f32 angle);
-mat4x4 CreateRotationInYMatrix3D(f32 angle);
-mat4x4 CreateRotationInZMatrix3D(f32 angle);
+
+/**
+ * 
+ * CREATES A 4x4 MATRIX WHICH ROTATES A 3D POINT (IN HOMOGENEOUS COORDINATE FORM) IN angle UNITS IN THE X AXIS
+ * 
+ * */
+mat4x4 CreateEulerRotationInXMatrix3D(f32 angle);
+
+/**
+ * 
+ * CREATES A 4x4 MATRIX WHICH ROTATES A 3D POINT (IN HOMOGENEOUS COORDINATE FORM) IN angle UNITS IN THE Y AXIS
+ * 
+ * */
+mat4x4 CreateEulerRotationInYMatrix3D(f32 angle);
+
+/**
+ * 
+ * CREATES A 4x4 MATRIX WHICH ROTATES A 3D POINT (IN HOMOGENEOUS COORDINATE FORM) IN angle UNITS IN THE Z AXIS
+ * 
+ * */
+mat4x4 CreateEulerRotationInZMatrix3D(f32 angle);
+
+/**
+ * 
+ * CREATES A 4x4 MATRIX WHICH ROTATES A 3D POINT (IN HOMOGENEOUS COORDINATE FORM) IN angle IN ALL THE AXIS
+ *      (AXIS HIERARCHY IS X => Y => Z, Z IS THE MOST SIGNIFICANT)
+ * 
+ * */
+mat4x4 CreateEulerRotationInXYZMatrix3D(v3 angles);
+
+/**
+ * 
+ * CREATES A 4x4 MATRIX WHICH PROJECTS A 3D POINT (IN HOMOGENEOUS COORDINATE FORM) ONTO THE NEAR PLANE
+ *      WITH PARALLEL PROJECTION
+ * 
+ * */
 mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n);
+
+/**
+ * 
+ * CREATES A 4x4 MATRIX WHICH PROJECTS A 3D POINT (IN HOMOGENEOUS COORDINATE FORM) ONTO THE NEAR PLANE
+ *      WITH PERSPECTIVE PROJECTION
+ * 
+ * */
 mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n);

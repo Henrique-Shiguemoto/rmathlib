@@ -771,3 +771,106 @@ mat3x3 CreateRotationAroundPointMatrix2D(f32 angle, v2 pos){
 mat3x3 CreateRotationMatrix2D(f32 angle){
 	return CreateRotationAroundPointMatrix2D(angle, (v2){ 0, 0 });
 }
+
+mat4x4 CreateTranslationMatrix3D(v3 posDelta){
+	mat4x4 output = CreateIdentity4x4();
+
+	output.elem[3] = posDelta.x;
+	output.elem[7] = posDelta.y;
+	output.elem[11] = posDelta.z;
+
+	return output;
+}
+
+mat4x4 CreateScaleMatrix3D(v3 scale){
+	mat4x4 output = CreateIdentity4x4();
+
+	output.elem[0] = scale.x;
+	output.elem[5] = scale.y;
+	output.elem[10] = scale.z;
+
+	return output;
+}
+
+mat4x4 CreateEulerRotationInXMatrix3D(f32 angle){
+	mat4x4 output = CreateIdentity4x4();
+
+	f32 s = Sin32(angle);
+	f32 c = Cos32(angle);
+
+	output.elem[5] = c;
+	output.elem[6] = -s;
+	output.elem[9] = s;
+	output.elem[10] = c;
+
+	return output;
+}
+
+mat4x4 CreateEulerRotationInYMatrix3D(f32 angle){
+	mat4x4 output = CreateIdentity4x4();
+
+	f32 s = Sin32(angle);
+	f32 c = Cos32(angle);
+
+	output.elem[0] = c;
+	output.elem[2] = s;
+	output.elem[10] = -s;
+	output.elem[12] = c;	
+
+	return output;
+}
+
+mat4x4 CreateEulerRotationInZMatrix3D(f32 angle){
+	mat4x4 output = CreateIdentity4x4();
+
+	f32 s = Sin32(angle);
+	f32 c = Cos32(angle);
+
+	output.elem[0] = c;
+	output.elem[1] = -s;
+	output.elem[4] = s;
+	output.elem[5] = c;
+
+	return output;
+}
+
+mat4x4 CreateEulerRotationInXYZMatrix3D(v3 angles){
+	mat4x4 output = { 0 };
+
+	mat4x4 rotationMatrixInX = CreateEulerRotationInXMatrix3D(angles.x);
+	mat4x4 rotationMatrixInY = CreateEulerRotationInYMatrix3D(angles.y);
+	mat4x4 rotationMatrixInZ = CreateEulerRotationInZMatrix3D(angles.z);
+
+	output = MultMatrix4x4(rotationMatrixInX, rotationMatrixInY);
+	output = MultMatrix4x4(output, rotationMatrixInZ);
+
+	return output;
+}
+
+mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n){
+	mat4x4 output = CreateIdentity4x4();
+
+	output.elem[0] = 2.0 / (r - l);
+	output.elem[5] = 2.0 / (t - b);
+	output.elem[10] = 2.0 / (f - n);
+
+	output.elem[12] = -(r + l) / (r - l);
+	output.elem[13] = -(t + b) / (t - b);
+	output.elem[14] = -(f + n) / (f - n);
+
+	return output;
+}
+
+mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n){
+	mat4x4 output = { 0 };
+
+	f32 tg = Tg32(fovY / 2);
+
+	output.elem[0] = aspectRatio * (1 / tg);
+	output.elem[5] = (1 / tg);
+	output.elem[10] = f / (f - n);
+	output.elem[11] = -(f * n) / (f - n);
+	output.elem[14] = 1.0;
+
+	return output;
+}
