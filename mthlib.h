@@ -1,6 +1,306 @@
 #pragma once
 
-#include "defines.h"
+/**
+ * 
+ * USEFUL TYPEDEFS AND DEFINES FOR EASE OF READABILITY AND ORGANIZATION
+ * 
+ * */
+
+/**
+ * 
+ * TYPE DEFINITIONS (INSPIRED BY stdint.h)
+ * 
+ * */
+
+typedef char i8;
+typedef short i16;
+typedef int i32;
+typedef long int i64;
+typedef float f32;
+typedef double f64;
+typedef _Bool b8;
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+
+typedef struct v2
+{
+    f32 x;
+    f32 y;
+} v2;
+
+typedef struct v3
+{
+    f32 x;
+    f32 y;
+    f32 z;
+} v3;
+
+typedef struct v4
+{
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 w;
+} v4;
+
+/**
+ * 
+ * To initialize a matrix, you'll need to assign the number one by one 
+ *  accessing each element by index OR you can declare a matrix and assign
+ *  the "elem" member like this: mat2x2 m = {.elem = {1,2,3,4}} (mat2x2 is just an example)
+ *  (This works for C99 or more updated versions of C)
+ * 
+ * */
+typedef struct mat2x2
+{
+    f32 elem[4];
+} mat2x2;
+
+typedef struct mat3x3
+{
+    f32 elem[9];
+} mat3x3;
+
+typedef struct mat4x4
+{
+    f32 elem[16];
+} mat4x4;
+
+typedef v2 point2D;
+typedef v3 point3D;
+typedef v4 quaternion;
+
+typedef struct lineSegment2D{
+    point2D start;
+    point2D end;
+}lineSegment2D;
+
+typedef struct lineSegment3D{
+    point3D start;
+    point3D end;
+}lineSegment3D;
+
+typedef struct line2D{
+    v2 direction;
+    point2D arbitraryPoint;
+}line2D;
+
+typedef struct line3D{
+    v3 direction;
+    point3D arbitraryPoint;
+}line3D;
+
+typedef struct triangle2D{
+    point2D a;
+    point2D b;
+    point2D c;
+}triangle2D;
+
+typedef struct triangle3D{
+    point3D a;
+    point3D b;
+    point3D c;
+}triangle3D;
+
+typedef struct quad2D{
+    point2D a;
+    point2D b;
+    point2D c;
+    point2D d;
+}quad2D;
+
+typedef struct AABB2D{
+    point2D min;
+    point2D max;
+}AABB2D;
+
+typedef struct Sphere2D{
+    point2D center;
+    f32 radius;
+}Sphere2D;
+
+typedef struct quad3D{
+    point3D a;
+    point3D b;
+    point3D c;
+    point3D d;
+}quad3D;
+
+typedef struct plane{
+    v3 normal;
+    point3D arbitraryPoint; 
+}plane;
+
+typedef struct AABB3D{
+    point3D min;
+    point3D max;
+}AABB3D;
+
+typedef struct Sphere3D{
+    point3D center;
+    f32 radius;
+}Sphere3D;
+
+/**
+ * 
+ * FOR EDGE CASES, LIKE DIVISIONS BY ZERO
+ * 
+ * */
+
+#define INFINITY ((float)(1e+300)*(1e+300))
+
+/**
+ * 
+ * FOR EDGE CASES, LIKE DIVISIONS BY ZERO OF SQUARE ROOTS OF NEGATIVE NUMBERS
+ * 
+ * */
+
+#define NAN (((float)(1e+300)*(1e+300))*(0.0f))
+
+/**
+ * 
+ * APPROXIMATION OF PI
+ * 
+ * */
+
+#define PI 3.141592653589793
+
+/**
+ * 
+ * 1 DEGREE IN RADIANS (VERY USEFUL FOR ANGLE CONVERSIONS)
+ * 
+ * */
+
+#define DEGREE_IN_RAD (PI/180)
+
+/**
+ * 
+ * APPROXIMATION OF SQUARE ROOT OF 2
+ * 
+ * */
+
+#define SQRT_2 1.414213562373095
+
+/**
+ * 
+ * APPROXIMATION OF SQUARE ROOT OF 3
+ * 
+ * */
+
+#define SQRT_3 1.732050807568877
+
+/**
+ * 
+ * THE AMOUNT OF DECIMAL PLACES NECESSARY FOR SOME OF THE CALCULATIONS IN THE CODE BASE
+ *      USED IN SQUARE ROOT CALCULATIONS
+ * 
+ * */
+
+#define PRECISION 0.0000000001
+
+/**
+ * 
+ * BIAS USED BY IEEE 754 32 BIT FLOATING POINT SYSTEM TO MAKE EXPONENTS OF FLOATS ALWAYS NON-NEGATIVE
+ *      USEFUL FOR SQUARE ROOT CALCULATIONS
+ * 
+ * */
+
+#define BIAS32 127
+
+/**
+ * 
+ * BIAS USED BY IEEE 754 64 BIT FLOATING POINT SYSTEM TO MAKE EXPONENTS OF FLOATS ALWAYS NON-NEGATIVE
+ *      USEFUL FOR SQUARE ROOT CALCULATIONS
+ * 
+ * */
+
+#define BIAS64 1023
+
+/**
+ * 
+ * NOT NECESSARY, JUST TO EASE THE READABILITY
+ * 
+ * */
+
+#define TRUE 1
+
+/**
+ * 
+ * NOT NECESSARY, JUST TO EASE THE READABILITY
+ * 
+ * */
+
+#define FALSE 0
+
+/**
+ * 
+ * FOR EDGE CASES WHERE A VECTOR RETURN IS NOT DEFINED
+ *      USEFUL IN CASES LIKE CALCULATING A UNIT VECTOR OF A ZERO VECTOR
+ * 
+ * */
+
+#define INVALID_V2 (v2) {NAN, NAN}
+
+/**
+ * 
+ * FOR EDGE CASES WHERE A VECTOR RETURN IS NOT DEFINED
+ *      USEFUL IN CASES LIKE CALCULATING A UNIT VECTOR OF A ZERO VECTOR
+ * 
+ * */
+
+#define INVALID_V3 (v3) {NAN, NAN, NAN}
+
+/**
+ * 
+ * FOR EDGE CASES WHERE A VECTOR RETURN IS NOT DEFINED
+ *      USEFUL IN CASES LIKE CALCULATING A UNIT VECTOR OF A ZERO VECTOR
+ * 
+ * */
+
+#define INVALID_V4 (v4) {NAN, NAN, NAN, NAN}
+
+/**
+ * 
+ * FOR EDGE CASES WHERE A 2x2 MATRIX RETURN IS NOT DEFINED
+ *      USEFUL IN CASES LIKE CALCULATING AN INVERSE OF MATRIX 
+ *      WHICH DOES NOT HAVE AN INVERSE
+ * 
+ * */
+#define INVALID_2X2MATRIX (mat2x2) \
+            {.elem = \
+            {NAN, NAN, \
+             NAN, NAN}}
+
+/**
+ * 
+ * FOR EDGE CASES WHERE A 3x3 MATRIX RETURN IS NOT DEFINED
+ *      USEFUL IN CASES LIKE CALCULATING AN INVERSE OF MATRIX 
+ *      WHICH DOES NOT HAVE AN INVERSE
+ * 
+ * */
+#define INVALID_3X3MATRIX (mat3x3) \
+            {.elem = \
+            {NAN, NAN, NAN, \
+             NAN, NAN, NAN, \
+             NAN, NAN, NAN}}
+
+/**
+ * 
+ * FOR EDGE CASES WHERE A 4x4 MATRIX RETURN IS NOT DEFINED
+ *      USEFUL IN CASES LIKE CALCULATING AN INVERSE OF MATRIX 
+ *      WHICH DOES NOT HAVE AN INVERSE
+ * 
+ * */
+             
+#define INVALID_4X4MATRIX (mat4x4) \
+            {.elem = \
+            {NAN, NAN, NAN, NAN, \
+             NAN, NAN, NAN, NAN, \
+             NAN, NAN, NAN, NAN, \
+             NAN, NAN, NAN, NAN}}
 
 f64 GetPlatformTime(); //for now it works on linux and windows
 
@@ -816,3 +1116,159 @@ mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n
  * 
  * */
 mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n);
+
+// GEOMETRY FUNCTIONS
+
+/**
+ * 
+ * CALCULATES THE EUCLIDEAN 32 FLOATING POINT DISTANCE BETWEEN TO 2D POINTS
+ * 
+ * */
+f32 DistanceBetweenPoints2D(point2D p, point2D q);
+
+/**
+ * 
+ * CALCULATES THE EUCLIDEAN 32 FLOATING POINT DISTANCE BETWEEN TO 3D POINTS
+ * 
+ * */
+f32 DistanceBetweenPoints3D(point3D p, point3D q);
+
+/**
+ * 
+ * CALCULATES THE DISTANCE BETWEEN POINT AND LINE IN 2D
+ * 
+ * */
+f32 DistanceBetweenPointAndLine2D(point2D p, line2D line);
+
+/**
+ * 
+ * CALCULATES THE DISTANCE BETWEEN TWO LINES IN 2D
+ * 
+ * */
+f32 DistanceBetweenLines2D(line2D line1, line2D line2);
+
+/**
+ * 
+ * CALCULATES THE DISTANCE BETWEEN POINT AND LINE IN 3D
+ * 
+ * */
+f32 DistanceBetweenPointAndLine3D(point3D p, line3D line);
+
+/**
+ * 
+ * CALCULATES THE DISTANCE BETWEEN TWO LINES IN 3D
+ * 
+ * */
+f32 DistanceBetweenLines3D(line3D line1, line3D line2);
+
+/**
+ * 
+ * CALCULATES THE DISTANCE BETWEEN A POINT AND A PLANE
+ * 
+ * */
+f32 DistanceBetweenPointAndPlane(point3D p, plane pl);
+
+/**
+ * 
+ * CALCULATES THE DISTANCE BETWEEN A LINE AND A PLANE
+ * 
+ * */
+f32 DistanceBetweenLineAndPlane(line3D line, plane pl);
+
+/**
+ * 
+ * CALCULATES THE DISTANCE BETWEEN TWO PLANES
+ * 
+ * */
+f32 DistanceBetweenPlanes(plane pl1, plane pl2);
+
+b8 ParallelLines2D(line2D l1, line2D l2);
+b8 ParallelLines3D(line3D l1, line3D l2);
+b8 IntersectingLines2D(line2D l1, line2D l2);
+b8 IntersectingLines3D(line3D l1, line3D l2);
+b8 SkewLines(line3D l1, line3D l2);
+
+/**
+ * 
+ * CHECKS FOR COLLISION BETWEEN TWO AXIS ALIGNED BOUNDING BOXES IN 2D, RETURNS TRUE IF THERE'S COLLISION
+ * 
+ * */
+b8 CollisionAABB2D(AABB2D r1, AABB2D r2);
+
+/**
+ * 
+ * CHECKS IF A CERTAIN POINT IS INSIDE AN AXIS ALIGNED BOUNDING BOX IN 2D, RETURNS TRUE IF THE POINTS IS INSIDE
+ * 
+ * */
+b8 CollisionPointAndAABB2D(point2D p, AABB2D r);
+
+/**
+ * 
+ * CHECKS IF A CERTAIN POINT IS INSIDE A CIRCLE, RETURNS TRUE IF THE POINT IS INSIDE
+ * 
+ * */
+b8 CollisionPointAndSphere2D(point2D p, Sphere2D s);
+
+/**
+ * 
+ * CHECKS IF TWO CIRCLES ARE INTERSECTING EACH OTHER, RETURNS TRUE IF SO
+ * 
+ * */
+b8 CollisionSphere2D(Sphere2D s1, Sphere2D s2);
+
+/**
+ * 
+ * CHECKS FOR COLLISION BETWEEN TWO AXIS ALIGNED BOUNDING BOXES IN 3D, RETURNS TRUE IF THERE'S COLLISION
+ * 
+ * */
+b8 CollisionAABB3D(AABB3D r1, AABB3D r2);
+
+/**
+ * 
+ * CHECKS IF A CERTAIN POINT IS INSIDE AN AXIS ALIGNED BOUNDING BOX IN 3D, RETURNS TRUE IF THE POINTS IS INSIDE
+ * 
+ * */
+b8 CollisionPointAndAABB3D(point3D p, AABB3D r);
+
+/**
+ * 
+ * CHECKS IF A CERTAIN POINT IS INSIDE A SPHERE, RETURNS TRUE IF THE POINT IS INSIDE
+ * 
+ * */
+b8 CollisionPointAndSphere3D(point3D p, Sphere3D s);
+
+/**
+ * 
+ * CHECKS IF TWO SPHERES ARE INTERSECTING EACH OTHER, RETURNS TRUE IF SO
+ * 
+ * */
+b8 CollisionSphere3D(Sphere3D s1, Sphere3D s2);
+
+/**
+ * 
+ * CALCULATES THE ANGLE BETWEEN TWO LINES IN 2D
+ * 
+ * */
+f32 AngleBetweenLines2D(line2D l1, line2D l2);
+
+/**
+ * 
+ * CALCULATES THE ANGLE BETWEEN TWO LINES IN 3D
+ * 
+ * */
+f32 AngleBetweenLines3D(line3D l1, line3D l2);
+
+/**
+ * 
+ * CALCULATES THE ANGLE BETWEEN A LINE AND A PLANE
+ * 
+ * */
+f32 AngleBetweenLineAndPlane(line3D l, plane pl);
+
+/**
+ * 
+ * CALCULATES THE ANGLE BETWEEN TWO PLANES
+ * 
+ * */
+f32 AngleBetweenPlanes(plane pl1, plane pl2);
+

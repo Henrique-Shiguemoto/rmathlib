@@ -8,6 +8,6 @@ It supports simple 2D and 3D vector operations, trigonometric operations and som
 
 # How to Use
 
-To use this library you'll have to get the following files and just copy them into your project: <code>mthlib.h</code> (for the function declarations and vector types definitions), <code>mthlib.c</code> (for the function implementations) and <code>defines.h</code> (for other #defines and typedefs used in the previous 2 files).
+To use this library you'll have to get the following files and just copy them into your project: <code>mthlib.h</code> (for the function declarations and vector types definitions) and <code>mthlib.c</code> (for the function implementations).
 
 After this you'll have access to all the resources from this library.

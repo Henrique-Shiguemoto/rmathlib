@@ -874,3 +874,171 @@ mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32
 
 	return output;
 }
+
+// GEOMETRY IMPLEMENTATIONS
+
+f32 DistanceBetweenPoints2D(point2D p, point2D q){
+	return Sqrt32((p.x - q.x)*(p.x - q.x) + (p.y - q.y)*(p.y - q.y));
+}
+
+f32 DistanceBetweenPoints3D(point3D p, point3D q){
+	return Sqrt32((p.x - q.x)*(p.x - q.x) + (p.y - q.y)*(p.y - q.y) + (p.z - q.z)*(p.z - q.z));
+}
+
+f32 DistanceBetweenPointAndLine2D(point2D p, line2D line){
+	v2 vectorAux = SubtractV2(p, line.arbitraryPoint);
+	v2 lineNormal = {line.direction.y, -line.direction.x};
+	return Abs32(DotV2(vectorAux, lineNormal) / NormV2(lineNormal));
+}
+
+f32 DistanceBetweenLines2D(line2D line1, line2D line2){
+	if(IntersectingLines2D(line1, line2)){
+		return 0;
+	}
+	return DistanceBetweenPointAndLine2D(line1.arbitraryPoint, line2);
+}
+
+f32 DistanceBetweenPointAndLine3D(point3D p, line3D line){
+	v3 aux = SubtractV3(p, line.arbitraryPoint);
+	return NormV3(CrossV3(aux, line.direction)) / NormV3(line.direction);
+}
+
+f32 DistanceBetweenLines3D(line3D line1, line3D line2){
+	if(IntersectingLines3D(line1, line2)){
+		return 0;
+	}
+	if(ParallelLines3D(line1, line2)){
+		return DistanceBetweenPointAndLine3D(line1.arbitraryPoint, line2);
+	}
+	//NEED TO IMPLEMENT THE REST (skew case)
+	return 0;
+}
+
+f32 DistanceBetweenPointAndPlane(point3D p, plane pl){
+	return 0;
+}
+
+f32 DistanceBetweenLineAndPlane(line3D line, plane pl){
+	return 0;
+}
+
+f32 DistanceBetweenPlanes(plane pl1, plane pl2){
+	return 0;
+}
+
+b8 ParallelLines2D(line2D l1, line2D l2){
+	f32 l1dx = l1.direction.x;
+	f32 l1dy = l1.direction.y;
+	f32 l2dx = l2.direction.x;
+	f32 l2dy = l2.direction.y;
+	
+	if((((l1dx == 0) && (l2dx == 0)) && 
+	    ((l1dy != 0) && (l2dy != 0))) ||
+	   (((l1dy == 0) && (l2dy == 0)) && 
+	    ((l1dx != 0) && (l2dx != 0)))){
+		return TRUE;
+	}
+	if((l2dx != 0) && (l2dy != 0) && 
+		((l1dx / l2dx) == (l1dy / l2dy))){
+		return TRUE;
+	}
+	return FALSE;
+}
+
+b8 ParallelLines3D(line3D l1, line3D l2){
+	//The arbitrary points don't matter, since we only need the direction vectors
+	if((l1.direction.x == 0) && (l2.direction.x == 0)){
+		line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.y, l1.direction.z}};
+		line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.y, l2.direction.z}};
+		return ParallelLines2D(aux1, aux2);
+	}
+	if((l1.direction.y == 0) && (l2.direction.y == 0)){
+		line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.x, l1.direction.z}};
+		line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.x, l2.direction.z}};
+		return ParallelLines2D(aux1, aux2);
+	}
+	if((l1.direction.z == 0) && (l2.direction.z == 0)){
+		line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.x, l1.direction.y}};
+		line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.x, l2.direction.y}};
+		return ParallelLines2D(aux1, aux2);
+	}
+	if(((l1.direction.x / l2.direction.x) == 0) && 
+	   ((l1.direction.y / l2.direction.y) == 0) && 
+	   ((l1.direction.z / l2.direction.z) == 0)){
+		return TRUE;
+	}
+	return FALSE;
+}
+
+b8 IntersectingLines2D(line2D l1, line2D l2){
+	return !ParallelLines2D(l1, l2);
+}
+
+b8 IntersectingLines3D(line3D l1, line3D l2){
+	v3 directionCross = CrossV3(l1.direction, l2.direction);
+	v3 directionSub = SubtractV3(l1.arbitraryPoint, l2.arbitraryPoint);
+	return !ParallelLines3D(l1, l2) && (DotV3(directionCross, directionSub) == 0);
+}
+
+b8 SkewLines(line3D l1, line3D l2){
+	return !ParallelLines3D(l1, l2) && !IntersectingLines3D(l1, l2);
+}
+
+b8 CollisionAABB2D(AABB2D r1, AABB2D r2){
+	return((r1.min.x < r2.max.x) &&
+    	   (r1.max.x > r2.min.x) &&
+   	   	   (r1.min.y < r2.min.y) &&
+    	   (r1.max.y > r2.min.y));
+}
+
+b8 CollisionPointAndAABB2D(point2D p, AABB2D r){
+	return (p.x >= r.min.x && p.x <= r.max.x) &&
+           (p.y >= r.min.y && p.y <= r.max.y);
+}
+
+b8 CollisionPointAndSphere2D(point2D p, Sphere2D s){
+	return DistanceBetweenPoints2D(p, s.center) < s.radius;	
+}
+
+b8 CollisionSphere2D(Sphere2D s1, Sphere2D s2){
+	return DistanceBetweenPoints2D(s1.center, s2.center) < (s1.radius + s2.radius);
+}
+
+b8 CollisionAABB3D(AABB3D r1, AABB3D r2){
+	return( (r1.max.x > r2.min.x) &&
+     		(r1.min.x < r2.max.x) &&
+     		(r1.max.y > r2.min.y) &&
+     		(r1.min.y < r2.max.y) &&
+		    (r1.max.z > r2.min.z) &&
+     		(r1.min.z < r2.max.z));
+}
+
+b8 CollisionPointAndAABB3D(point3D p, AABB3D r){
+	return (p.x >= r.min.x && p.x <= r.max.x) &&
+           (p.y >= r.min.y && p.y <= r.max.y) &&
+           (p.z >= r.min.z && p.z <= r.max.z);
+}
+
+b8 CollisionPointAndSphere3D(point3D p, Sphere3D s){
+	return DistanceBetweenPoints3D(p, s.center) < s.radius;
+}
+
+b8 CollisionSphere3D(Sphere3D s1, Sphere3D s2){
+	return DistanceBetweenPoints3D(s1.center, s2.center) < (s1.radius + s2.radius);
+}
+
+f32 AngleBetweenLines2D(line2D l1, line2D l2){
+	return 0;
+}
+
+f32 AngleBetweenLines3D(line3D l1, line3D l2){
+	return 0;
+}
+
+f32 AngleBetweenLineAndPlane(line3D l, plane pl){
+	return 0;
+}
+
+f32 AngleBetweenPlanes(plane pl1, plane pl2){
+	return 0;
+}
