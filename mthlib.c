@@ -75,6 +75,8 @@ b8 CompareV3(v3 u, v3 v, f32 errorMargin){
 }
 v2 ConvertV3ToV2(v3 u) 				{ return (v2){ u.x, u.y }; }
 
+f64 ScalarTripleProduct(v3 a, v3 b, v3 c) { return DotV3(CrossV3(a, b), c); }
+
 //V4 IMPLEMENTATIONS
 
 v4 AddV4(v4 u, v4 v) 				{ return (v4){u.x + v.x, u.y + v.y, u.z + v.z, u.w + v.w}; }
@@ -910,19 +912,32 @@ f32 DistanceBetweenLines3D(line3D line1, line3D line2){
 	if(ParallelLines3D(line1, line2)){
 		return DistanceBetweenPointAndLine3D(line1.arbitraryPoint, line2);
 	}
-	//NEED TO IMPLEMENT THE REST (skew case)
-	return 0;
+	
+	v3 arbitraryPointSub = SubtractV3(line1.arbitraryPoint, line2.arbitraryPoint);
+	return Abs32(ScalarTripleProduct(line1.direction, line2.direction, arbitraryPointSub)) / NormV3(CrossV3(line1.direction, line2.direction));
 }
 
 f32 DistanceBetweenPointAndPlane(point3D p, plane pl){
-	return 0;
+	v3 arbitraryPointSub = SubtractV3(p, pl.arbitraryPoint);
+	return Abs32(DotV3(arbitraryPointSub, pl.normal)) / NormV3(pl.normal);
 }
 
 f32 DistanceBetweenLineAndPlane(line3D line, plane pl){
+	//Check if the line is parallel to the plane
+	if(DotV3(line.direction, pl.normal) == 0){
+		return DistanceBetweenPointAndPlane(line.arbitraryPoint, pl);
+	}
+	//Here it means that the line is intersecting the plane in one point, since it's not parallel
 	return 0;
 }
 
 f32 DistanceBetweenPlanes(plane pl1, plane pl2){
+	line3D normalLine1 = {.direction = pl1.normal, .arbitraryPoint = {0}};
+	line3D normalLine2 = {.direction = pl2.normal, .arbitraryPoint = {0}};
+	if(ParallelLines3D(normalLine1, normalLine2) == TRUE){
+		return DistanceBetweenPointAndPlane(pl1.arbitraryPoint, pl2);
+	}
+	//Here it means that planes are intersecting, since they're not parallel
 	return 0;
 }
 
@@ -996,11 +1011,11 @@ b8 CollisionPointAndAABB2D(point2D p, AABB2D r){
            (p.y >= r.min.y && p.y <= r.max.y);
 }
 
-b8 CollisionPointAndSphere2D(point2D p, Sphere2D s){
+b8 CollisionPointAndSphere2D(point2D p, sphere2D s){
 	return DistanceBetweenPoints2D(p, s.center) < s.radius;	
 }
 
-b8 CollisionSphere2D(Sphere2D s1, Sphere2D s2){
+b8 CollisionSphere2D(sphere2D s1, sphere2D s2){
 	return DistanceBetweenPoints2D(s1.center, s2.center) < (s1.radius + s2.radius);
 }
 
@@ -1019,26 +1034,10 @@ b8 CollisionPointAndAABB3D(point3D p, AABB3D r){
            (p.z >= r.min.z && p.z <= r.max.z);
 }
 
-b8 CollisionPointAndSphere3D(point3D p, Sphere3D s){
+b8 CollisionPointAndSphere3D(point3D p, sphere3D s){
 	return DistanceBetweenPoints3D(p, s.center) < s.radius;
 }
 
-b8 CollisionSphere3D(Sphere3D s1, Sphere3D s2){
+b8 CollisionSphere3D(sphere3D s1, sphere3D s2){
 	return DistanceBetweenPoints3D(s1.center, s2.center) < (s1.radius + s2.radius);
-}
-
-f32 AngleBetweenLines2D(line2D l1, line2D l2){
-	return 0;
-}
-
-f32 AngleBetweenLines3D(line3D l1, line3D l2){
-	return 0;
-}
-
-f32 AngleBetweenLineAndPlane(line3D l, plane pl){
-	return 0;
-}
-
-f32 AngleBetweenPlanes(plane pl1, plane pl2){
-	return 0;
 }

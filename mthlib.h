@@ -78,32 +78,16 @@ typedef struct lineSegment2D{
     point2D end;
 }lineSegment2D;
 
-typedef struct lineSegment3D{
-    point3D start;
-    point3D end;
-}lineSegment3D;
-
 typedef struct line2D{
     v2 direction;
     point2D arbitraryPoint;
 }line2D;
-
-typedef struct line3D{
-    v3 direction;
-    point3D arbitraryPoint;
-}line3D;
 
 typedef struct triangle2D{
     point2D a;
     point2D b;
     point2D c;
 }triangle2D;
-
-typedef struct triangle3D{
-    point3D a;
-    point3D b;
-    point3D c;
-}triangle3D;
 
 typedef struct quad2D{
     point2D a;
@@ -117,10 +101,26 @@ typedef struct AABB2D{
     point2D max;
 }AABB2D;
 
-typedef struct Sphere2D{
+typedef struct sphere2D{
     point2D center;
     f32 radius;
-}Sphere2D;
+}sphere2D;
+
+typedef struct lineSegment3D{
+    point3D start;
+    point3D end;
+}lineSegment3D;
+
+typedef struct line3D{
+    v3 direction;
+    point3D arbitraryPoint;
+}line3D;
+
+typedef struct triangle3D{
+    point3D a;
+    point3D b;
+    point3D c;
+}triangle3D;
 
 typedef struct quad3D{
     point3D a;
@@ -139,10 +139,10 @@ typedef struct AABB3D{
     point3D max;
 }AABB3D;
 
-typedef struct Sphere3D{
+typedef struct sphere3D{
     point3D center;
     f32 radius;
-}Sphere3D;
+}sphere3D;
 
 /**
  * 
@@ -431,6 +431,13 @@ b8 CompareV3(v3 u, v3 v, f32 errorMargin);
  * */
 
 v2 ConvertV3ToV2(v3 u);
+
+/**
+ * 
+ * TRIPLE PRODUCT OF THREE 3D VECTORS
+ * 
+ * */
+f64 ScalarTripleProduct(v3 a, v3 b, v3 c);
 
 /**
  * 
@@ -1182,10 +1189,39 @@ f32 DistanceBetweenLineAndPlane(line3D line, plane pl);
  * */
 f32 DistanceBetweenPlanes(plane pl1, plane pl2);
 
+/**
+ * 
+ * CHECKS IF TWO LINES IN 2D ARE PARALLEL
+ * 
+ * */
 b8 ParallelLines2D(line2D l1, line2D l2);
+
+/**
+ * 
+ * CHECKS IF TWO LINES IN 3D ARE PARALLEL
+ * 
+ * */
 b8 ParallelLines3D(line3D l1, line3D l2);
+
+/**
+ * 
+ * CHECKS IF TWO LINES IN 2D ARE INTERSECTING
+ * 
+ * */
 b8 IntersectingLines2D(line2D l1, line2D l2);
+
+/**
+ * 
+ * CHECKS IF TWO LINES IN 3D ARE INTERSECTING
+ * 
+ * */
 b8 IntersectingLines3D(line3D l1, line3D l2);
+
+/**
+ * 
+ * CHECKS IF TWO LINES IN 3D ARE SKEW
+ * 
+ * */
 b8 SkewLines(line3D l1, line3D l2);
 
 /**
@@ -1207,14 +1243,14 @@ b8 CollisionPointAndAABB2D(point2D p, AABB2D r);
  * CHECKS IF A CERTAIN POINT IS INSIDE A CIRCLE, RETURNS TRUE IF THE POINT IS INSIDE
  * 
  * */
-b8 CollisionPointAndSphere2D(point2D p, Sphere2D s);
+b8 CollisionPointAndSphere2D(point2D p, sphere2D s);
 
 /**
  * 
  * CHECKS IF TWO CIRCLES ARE INTERSECTING EACH OTHER, RETURNS TRUE IF SO
  * 
  * */
-b8 CollisionSphere2D(Sphere2D s1, Sphere2D s2);
+b8 CollisionSphere2D(Sphere2D s1, sphere2D s2);
 
 /**
  * 
@@ -1235,40 +1271,11 @@ b8 CollisionPointAndAABB3D(point3D p, AABB3D r);
  * CHECKS IF A CERTAIN POINT IS INSIDE A SPHERE, RETURNS TRUE IF THE POINT IS INSIDE
  * 
  * */
-b8 CollisionPointAndSphere3D(point3D p, Sphere3D s);
+b8 CollisionPointAndSphere3D(point3D p, sphere3D s);
 
 /**
  * 
  * CHECKS IF TWO SPHERES ARE INTERSECTING EACH OTHER, RETURNS TRUE IF SO
  * 
  * */
-b8 CollisionSphere3D(Sphere3D s1, Sphere3D s2);
-
-/**
- * 
- * CALCULATES THE ANGLE BETWEEN TWO LINES IN 2D
- * 
- * */
-f32 AngleBetweenLines2D(line2D l1, line2D l2);
-
-/**
- * 
- * CALCULATES THE ANGLE BETWEEN TWO LINES IN 3D
- * 
- * */
-f32 AngleBetweenLines3D(line3D l1, line3D l2);
-
-/**
- * 
- * CALCULATES THE ANGLE BETWEEN A LINE AND A PLANE
- * 
- * */
-f32 AngleBetweenLineAndPlane(line3D l, plane pl);
-
-/**
- * 
- * CALCULATES THE ANGLE BETWEEN TWO PLANES
- * 
- * */
-f32 AngleBetweenPlanes(plane pl1, plane pl2);
-
+b8 CollisionSphere3D(sphere3D s1, sphere3D s2);
