@@ -11,6 +11,11 @@ main.o: main.c
 mthlib.o: mthlib.c mthlib.h
 	$(CC) -c mthlib.c
 
+test: test.o
+	g++ -o test test.o
+
+test.o: test.cpp
+	g++ -c test.cpp
+
 clean:
 	del *.o *.exe
-	cls

@@ -1250,7 +1250,7 @@ b8 CollisionPointAndSphere2D(point2D p, sphere2D s);
  * CHECKS IF TWO CIRCLES ARE INTERSECTING EACH OTHER, RETURNS TRUE IF SO
  * 
  * */
-b8 CollisionSphere2D(Sphere2D s1, sphere2D s2);
+b8 CollisionSphere2D(sphere2D s1, sphere2D s2);
 
 /**
  * 
@@ -1279,3 +1279,38 @@ b8 CollisionPointAndSphere3D(point3D p, sphere3D s);
  * 
  * */
 b8 CollisionSphere3D(sphere3D s1, sphere3D s2);
+
+f32 AreaTriangle2D(triangle2D triangle);
+f32 AreaSphere2D(sphere2D sphere);
+f32 AreaAABB2D(AABB2D aabb);
+f32 AreaQuad2D(quad2D quad);
+f32 PerimeterSphere2D(sphere2D sphere);
+f32 PerimeterAABB2D(AABB2D aabb);
+f32 PerimeterQuad2D(quad2D aabb);
+f32 PerimeterTriangle2D(triangle2D triangle);
+
+f32 AreaTriangle3D(triangle3D triangle);
+f32 AreaQuad3D(quad3D quad);
+f32 VolumeSphere3D(sphere3D sphere);
+f32 VolumeAABB3D(AABB3D aabb);
+f32 VolumeQuad3D(quad3D quad);
+f32 PerimeterTriangle3D(triangle3D triangle);
+f32 SurfaceAreaSphere3D(sphere3D sphere);
+f32 SurfaceAreaAABB3D(AABB3D aabb);
+f32 SurfaceAreaQuad3D(quad3D quad);
+
+lineSegment2D AddLineSegment2D(lineSegment2D l1, lineSegment2D l2);
+lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2);
+b8 LineSegment2DIsNull(lineSegment2D l);
+b8 LineSegments2DAreOpposite(lineSegment2D l1, lineSegment2D l2);
+b8 LineSegments2DHaveEqualLength(lineSegment2D l1, lineSegment2D l2);
+b8 LineSegments2DAreParallel(lineSegment2D l1, lineSegment2D l2);
+b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2);
+
+lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2);
+lineSegment3D SubtractLineSegment3D(lineSegment3D l1, lineSegment3D l2);
+b8 LineSegment3DIsNull(lineSegment3D l);
+b8 LineSegments3DAreOpposite(lineSegment3D l1, lineSegment3D l2);
+b8 LineSegments3DHaveEqualLength(lineSegment3D l1, lineSegment3D l2);
+b8 LineSegments3DAreParallel(lineSegment3D l1, lineSegment3D l2);
+b8 LineSegments3DHaveOppositeDirection(lineSegment3D l1, lineSegment3D l2);
