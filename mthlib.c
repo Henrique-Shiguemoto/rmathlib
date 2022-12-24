@@ -7,7 +7,6 @@ static b8 systemFrequencySet = FALSE;
 static f64 systemFrequency = 0;
 
 //Checking which OS we're running on for absolute time query
-//prob add another check for linux
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 
 #include <windows.h>
@@ -1040,4 +1039,23 @@ b8 CollisionPointAndSphere3D(point3D p, sphere3D s){
 
 b8 CollisionSphere3D(sphere3D s1, sphere3D s2){
 	return DistanceBetweenPoints3D(s1.center, s2.center) < (s1.radius + s2.radius);
+}
+
+f32 AreaTriangle2D(triangle2D triangle){
+	mat2x2 output = { 0 };
+
+	output.elem[0] = triangle.a.x - triangle.b.x;
+	output.elem[1] = triangle.a.x - triangle.c.x;
+	output.elem[2] = triangle.a.y - triangle.b.y;
+	output.elem[3] = triangle.a.y - triangle.c.y;
+
+	return 0.5f*DetMatrix2x2(output);
+}
+
+f32 AreaSphere2D(sphere2D sphere){
+	return PI*sphere.radius*sphere.radius;
+}
+
+f32 AreaAABB2D(AABB2D aabb){
+	return (aabb.max.x - aabb.min.x)*(aabb.max.y - aabb.min.y);
 }

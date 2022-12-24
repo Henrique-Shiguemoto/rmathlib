@@ -1280,9 +1280,27 @@ b8 CollisionPointAndSphere3D(point3D p, sphere3D s);
  * */
 b8 CollisionSphere3D(sphere3D s1, sphere3D s2);
 
+/**
+ * 
+ * CALCULATES THE AREA OF A TRIANGLE IN 2D BASED ON ITS VERTICES COORDINATES
+ * 
+ * */
 f32 AreaTriangle2D(triangle2D triangle);
+
+/**
+ * 
+ * CALCULATES THE AREA OF A CIRCLE IN 2D BASED ON ITS RADIUS LENGTH (we don't need the center coordinates of the struct sphere2D)
+ * 
+ * */
 f32 AreaSphere2D(sphere2D sphere);
+
+/**
+ * 
+ * CALCULATES THE AREA OF AN AABB BASED ON ITS MAXIMUM AND MINIMUM POINTS IN 2D
+ * 
+ * */
 f32 AreaAABB2D(AABB2D aabb);
+
 f32 AreaQuad2D(quad2D quad);
 f32 PerimeterSphere2D(sphere2D sphere);
 f32 PerimeterAABB2D(AABB2D aabb);
