@@ -1289,7 +1289,7 @@ f32 AreaTriangle2D(triangle2D triangle);
 
 /**
  * 
- * CALCULATES THE AREA OF A CIRCLE IN 2D BASED ON ITS RADIUS LENGTH (we don't need the center coordinates of the struct sphere2D)
+ * CALCULATES THE AREA OF A CIRCLE IN 2D BASED ON ITS RADIUS' LENGTH
  * 
  * */
 f32 AreaSphere2D(sphere2D sphere);
@@ -1301,28 +1301,137 @@ f32 AreaSphere2D(sphere2D sphere);
  * */
 f32 AreaAABB2D(AABB2D aabb);
 
+/**
+ * 
+ * CALCULATES THE AREA OF A QUAD IN 2D BASED ON ITS VERTICES' COORDINATES
+ * 
+ * */
 f32 AreaQuad2D(quad2D quad);
+
+/**
+ * 
+ * CALCULATES THE PERIMETER OF A CIRCLE BASED ON ITS RADIUS' LENGTH
+ * 
+ * */
 f32 PerimeterSphere2D(sphere2D sphere);
+
+/**
+ * 
+ * CALCULATES THE PERIMETER OF AN AABB IN 2D BASED ON ITS MAXIMUM AND MINIMUM COORDINATES
+ * 
+ * */
 f32 PerimeterAABB2D(AABB2D aabb);
-f32 PerimeterQuad2D(quad2D aabb);
+
+/**
+ * 
+ * CALCULATES THE PERIMETER OF A QUAD BASED ON ITS VERTICES' COORDINATES
+ * 
+ * */
+f32 PerimeterQuad2D(quad2D quad);
+
+/**
+ * 
+ * CALCULATES THE PERIMETER OF A TRIANGLE BASED ON ITS VERTICES' COORDINATES
+ * 
+ * */
 f32 PerimeterTriangle2D(triangle2D triangle);
 
+/**
+ * 
+ * CALCULATES THE AREA OF A TRIANGLE IN 3D BASED ON ITS VERTICES' COORDINATES
+ * 
+ * */
 f32 AreaTriangle3D(triangle3D triangle);
-f32 AreaQuad3D(quad3D quad);
-f32 VolumeSphere3D(sphere3D sphere);
-f32 VolumeAABB3D(AABB3D aabb);
-f32 VolumeQuad3D(quad3D quad);
-f32 PerimeterTriangle3D(triangle3D triangle);
-f32 SurfaceAreaSphere3D(sphere3D sphere);
-f32 SurfaceAreaAABB3D(AABB3D aabb);
-f32 SurfaceAreaQuad3D(quad3D quad);
 
+/**
+ * 
+ *  CALCULATES THE AREA OF A QUAD IN 3D BASED ON ITS VERTICES' COORDINATES
+ * 
+ * */
+f32 AreaQuad3D(quad3D quad);
+
+/**
+ * 
+ * CALCULATES THE VOLUME OF A SPHERE BASED ON ITS RADIUS' LENGTH
+ * 
+ * */
+f32 VolumeSphere3D(sphere3D sphere);
+
+/**
+ * 
+ * CALCULATES THE VOLUME OF AN AABB IN 3D BASED ON ITS MAXIMUM AND MINIMUM POINTS
+ * 
+ * */
+f32 VolumeAABB3D(AABB3D aabb);
+
+/**
+ * 
+ * CALCULATES THE PERIMETER OF A TRIANGLE IN 3D BASED ON ITS VERTICES' COORDINATES
+ * 
+ * */
+f32 PerimeterTriangle3D(triangle3D triangle);
+
+/**
+ * 
+ * CALCULATES THE SURFACE AREA OF A SPHERE IN 3D BASED ITS RADIUS' LENGTH
+ * 
+ * */
+f32 SurfaceAreaSphere3D(sphere3D sphere);
+
+/**
+ * 
+ * CALCULATES THE SURFACE AREA OF AN AABB IN 3D BASED ITS MAXIMUM AND MINIMUM POINTS
+ * 
+ * */
+f32 SurfaceAreaAABB3D(AABB3D aabb);
+
+/**
+ * 
+ * PERFORMS THE ADDITION OF TWO LINE SEGMENTS IN 2D
+ * 
+ * */
 lineSegment2D AddLineSegment2D(lineSegment2D l1, lineSegment2D l2);
+
+/**
+ * 
+ * PERFORMS THE SUBTRACTION OF TWO LINE SEGMENTS IN 2D
+ * 
+ * */
 lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2);
+
+/**
+ * 
+ * VERIFIES IF A LINE SEGMENT IS A NULL LINE SEGMENT
+ * 
+ * */
 b8 LineSegment2DIsNull(lineSegment2D l);
+
+/**
+ * 
+ * VERIFIES IF TWO LINE SEGMENTS HAVE OPPOSITE START AND END
+ * 
+ * */
 b8 LineSegments2DAreOpposite(lineSegment2D l1, lineSegment2D l2);
+
+/**
+ * 
+ * VERIFIES IF TWO LINE SEGMENTS HAVE THE SAME LENGTH
+ * 
+ * */
 b8 LineSegments2DHaveEqualLength(lineSegment2D l1, lineSegment2D l2);
+
+/**
+ * 
+ * VERIFIES IF TWO LINE SEGMENTS HAVE THE SAME DIRECTIONS
+ * 
+ * */
 b8 LineSegments2DAreParallel(lineSegment2D l1, lineSegment2D l2);
+
+/**
+ * 
+ * VERIFIES IF TWO LINE SEGMENTS HAVE OPPOSITE DIRECTIONS
+ * 
+ * */
 b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2);
 
 lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2);

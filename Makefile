@@ -11,6 +11,9 @@ main.o: main.c
 mthlib.o: mthlib.c mthlib.h
 	$(CC) -c mthlib.c
 
+run: $(BIN)
+	$(BIN)
+
 test: test.o
 	g++ -o test test.o
 

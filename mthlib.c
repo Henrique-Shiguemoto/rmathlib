@@ -1057,5 +1057,118 @@ f32 AreaSphere2D(sphere2D sphere){
 }
 
 f32 AreaAABB2D(AABB2D aabb){
-	return (aabb.max.x - aabb.min.x)*(aabb.max.y - aabb.min.y);
+	return (aabb.max.x - aabb.min.x) * (aabb.max.y - aabb.min.y);
+}
+
+f32 AreaQuad2D(quad2D quad){
+	mat2x2 output = { 0 };
+
+	output.elem[0] = quad.a.x - quad.c.x;
+	output.elem[1] = quad.a.y - quad.c.y;
+	output.elem[2] = quad.b.x - quad.d.x;
+	output.elem[3] = quad.b.y - quad.d.y;
+
+	return 0.5f*DetMatrix2x2(output);
+}
+
+f32 PerimeterSphere2D(sphere2D sphere){
+	return sphere.radius*2*PI;
+}
+
+f32 PerimeterAABB2D(AABB2D aabb){
+	return 2 * (aabb.max.x - aabb.min.x) + 2 * (aabb.max.y - aabb.min.y);
+}
+
+f32 PerimeterQuad2D(quad2D quad){
+	f32 d1 = DistanceBetweenPoints2D(quad.a, quad.b);
+	f32 d2 = DistanceBetweenPoints2D(quad.b, quad.c);
+	f32 d3 = DistanceBetweenPoints2D(quad.c, quad.d);
+	f32 d4 = DistanceBetweenPoints2D(quad.d, quad.a);
+	return d1 + d2 + d3 + d4;
+}
+
+f32 PerimeterTriangle2D(triangle2D triangle){
+	f32 d1 = DistanceBetweenPoints2D(triangle.a, triangle.b);
+	f32 d2 = DistanceBetweenPoints2D(triangle.b, triangle.c);
+	f32 d3 = DistanceBetweenPoints2D(triangle.c, triangle.a);
+	return d1 + d2 + d3;
+}
+
+f32 AreaTriangle3D(triangle3D triangle){
+	v3 u = SubtractV3(triangle.b, triangle.a);
+	v3 v = SubtractV3(triangle.c, triangle.a);
+	v3 c = CrossV3(u, v);
+	f32 n = NormV3(c);
+	return 0.5f * n;
+}
+
+f32 AreaQuad3D(quad3D quad){
+	triangle3D t1 = (triangle3D){quad.a, quad.b, quad.c};
+	triangle3D t2 = (triangle3D){quad.a, quad.d, quad.c};
+	f32 areaTriangle1 = AreaTriangle3D(t1);
+	f32 areaTriangle2 = AreaTriangle3D(t2);
+	return areaTriangle1 + areaTriangle2;
+}
+
+f32 VolumeSphere3D(sphere3D sphere){
+	f32 r = sphere.radius;
+	return (4.0f/3.0f)*PI*(r*r*r);
+}
+
+f32 VolumeAABB3D(AABB3D aabb){
+	return Abs32((aabb.max.x - aabb.min.x) * (aabb.max.y - aabb.min.y) * (aabb.max.z - aabb.min.z));
+}
+
+f32 PerimeterTriangle3D(triangle3D triangle){
+	f32 d1 = DistanceBetweenPoints3D(triangle.a, triangle.b);
+	f32 d2 = DistanceBetweenPoints3D(triangle.b, triangle.c);
+	f32 d3 = DistanceBetweenPoints3D(triangle.c, triangle.a);
+	return d1 + d2 + d3;
+}
+
+f32 SurfaceAreaSphere3D(sphere3D sphere){
+	return 4.0f*PI*sphere.radius*sphere.radius;
+}
+
+f32 SurfaceAreaAABB3D(AABB3D aabb){
+	AABB2D aabb1 = (AABB2D){.min = {aabb.min.x, aabb.min.y}, .max = {aabb.max.x, aabb.max.y}};
+	AABB2D aabb2 = (AABB2D){.min = {aabb.min.x, aabb.min.y}, .max = {aabb.max.y, aabb.max.z}};
+	AABB2D aabb3 = (AABB2D){.min = {aabb.min.x, aabb.min.y}, .max = {aabb.max.x, aabb.max.z}};
+	f32 areaFace1 = AreaAABB2D(aabb1);
+	f32 areaFace2 = AreaAABB2D(aabb2);
+	f32 areaFace3 = AreaAABB2D(aabb3);
+	return (2 * areaFace1) + (2 * areaFace2) + (2 * areaFace3);
+}
+
+lineSegment2D AddLineSegment2D(lineSegment2D l1, lineSegment2D l2){
+	return (lineSegment2D){l1.start, l2.end};
+}
+
+lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2){
+	return (lineSegment2D){l2.end, l1.end};
+}
+
+b8 LineSegment2DIsNull(lineSegment2D l){
+	return CompareV2(l.start, l.end, PRECISION);
+}
+
+b8 LineSegments2DAreOpposite(lineSegment2D l1, lineSegment2D l2){
+	return (CompareV2(l1.end, l2.start, PRECISION) && CompareV2(l1.start, l2.end, PRECISION));
+}
+
+b8 LineSegments2DHaveEqualLength(lineSegment2D l1, lineSegment2D l2){
+	return DistanceBetweenPoints2D(l1.start, l1.end) == DistanceBetweenPoints2D(l2.start, l2.end);
+}
+
+b8 LineSegments2DAreParallel(lineSegment2D l1, lineSegment2D l2){
+	//this should probably be a function
+	line2D line1 = (line2D){.direction = SubtractV2(l1.end, l1.start), .arbitraryPoint = l1.start};
+	line2D line2 = (line2D){.direction = SubtractV2(l2.end, l2.start), .arbitraryPoint = l2.start};
+	return ParallelLines2D(line1, line2);
+}
+
+b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2){
+	line2D line1 = (line2D){.direction = SubtractV2(l1.end, l1.start), .arbitraryPoint = l1.start};
+	line2D line2 = (line2D){.direction = SubtractV2(l2.end, l2.start), .arbitraryPoint = l2.start};
+	return CompareV2(line1.direction, ScaleV2(line2.direction, -1), PRECISION);
 }
