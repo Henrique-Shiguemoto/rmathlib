@@ -1434,10 +1434,51 @@ b8 LineSegments2DAreParallel(lineSegment2D l1, lineSegment2D l2);
  * */
 b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2);
 
+/**
+ * 
+ * PERFORMS THE ADDITION OF TWO LINE SEGMENTS IN 3D
+ * 
+ * */
 lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2);
+
+/**
+ * 
+ * PERFORMS THE SUBTRACTION OF TWO LINE SEGMENTS IN 2D
+ * 
+ * */
 lineSegment3D SubtractLineSegment3D(lineSegment3D l1, lineSegment3D l2);
+
+/**
+ * 
+ * VERIFIES IF A LINE SEGMENT IS A NULL LINE SEGMENT
+ * 
+ * */
 b8 LineSegment3DIsNull(lineSegment3D l);
+
+/**
+ * 
+ * VERIFIES IF TWO LINE SEGMENTS HAVE OPPOSITE START AND END
+ * 
+ * */
 b8 LineSegments3DAreOpposite(lineSegment3D l1, lineSegment3D l2);
+
+/**
+ * 
+ * VERIFIES IF TWO LINE SEGMENTS HAVE THE SAME LENGTH
+ * 
+ * */
 b8 LineSegments3DHaveEqualLength(lineSegment3D l1, lineSegment3D l2);
+
+/**
+ * 
+ * VERIFIES IF TWO LINE SEGMENTS HAVE THE SAME DIRECTIONS
+ * 
+ * */
 b8 LineSegments3DAreParallel(lineSegment3D l1, lineSegment3D l2);
+
+/**
+ * 
+ * VERIFIES IF TWO LINE SEGMENTS HAVE OPPOSITE DIRECTIONS
+ * 
+ * */
 b8 LineSegments3DHaveOppositeDirection(lineSegment3D l1, lineSegment3D l2);

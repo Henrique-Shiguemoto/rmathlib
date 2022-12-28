@@ -1172,3 +1172,36 @@ b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2){
 	line2D line2 = (line2D){.direction = SubtractV2(l2.end, l2.start), .arbitraryPoint = l2.start};
 	return CompareV2(line1.direction, ScaleV2(line2.direction, -1), PRECISION);
 }
+
+lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2){
+	return (lineSegment3D){l1.start, l2.end};
+}
+
+lineSegment3D SubtractLineSegment3D(lineSegment3D l1, lineSegment3D l2){
+	return (lineSegment3D){l2.end, l1.end};
+}
+
+b8 LineSegment3DIsNull(lineSegment3D l){
+	return CompareV3(l.start, l.end, PRECISION);
+}
+
+b8 LineSegments3DAreOpposite(lineSegment3D l1, lineSegment3D l2){
+	return (CompareV3(l1.end, l2.start, PRECISION) && CompareV3(l1.start, l2.end, PRECISION));
+}
+
+b8 LineSegments3DHaveEqualLength(lineSegment3D l1, lineSegment3D l2){
+	return DistanceBetweenPoints3D(l1.start, l1.end) == DistanceBetweenPoints3D(l2.start, l2.end);
+}
+
+b8 LineSegments3DAreParallel(lineSegment3D l1, lineSegment3D l2){
+	//this should probably be a function
+	line3D line1 = (line3D){.direction = SubtractV3(l1.end, l1.start), .arbitraryPoint = l1.start};
+	line3D line2 = (line3D){.direction = SubtractV3(l2.end, l2.start), .arbitraryPoint = l2.start};
+	return ParallelLines3D(line1, line2);
+}
+
+b8 LineSegments3DHaveOppositeDirection(lineSegment3D l1, lineSegment3D l2){
+	line3D line1 = (line3D){.direction = SubtractV3(l1.end, l1.start), .arbitraryPoint = l1.start};
+	line3D line2 = (line3D){.direction = SubtractV3(l2.end, l2.start), .arbitraryPoint = l2.start};
+	return CompareV3(line1.direction, ScaleV3(line2.direction, -1), PRECISION);
+}
