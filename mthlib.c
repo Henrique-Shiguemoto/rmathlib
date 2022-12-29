@@ -1,9 +1,9 @@
 #include "mthlib.h"
 
 //GLOBALS
-static b8 seeded = FALSE;
+static b8 seeded = MTHLIB_FALSE;
 static u32 random_seed = 0;
-static b8 systemFrequencySet = FALSE;
+static b8 systemFrequencySet = MTHLIB_FALSE;
 static f64 systemFrequency = 0;
 
 //Checking which OS we're running on for absolute time query
@@ -12,7 +12,7 @@ static f64 systemFrequency = 0;
 #include <windows.h>
 
 f64 GetPlatformTime(){
-    if(systemFrequencySet == FALSE){
+    if(systemFrequencySet == MTHLIB_FALSE){
     	LARGE_INTEGER t1;
 	    QueryPerformanceFrequency(&t1);   
 	    systemFrequency = 1.0 / t1.QuadPart;
@@ -45,12 +45,12 @@ f64 DotV2(v2 u, v2 v)				{ return (u.x * v.x) + (u.y * v.y); }
 f64 NormV2(v2 u)					{ return Sqrt64((u.x*u.x) + (u.y*u.y)); }
 v2 UnitV2(v2 u){ 
 	f64 vectorNorm = NormV2(u);
-	if(vectorNorm == 0.0f) return INVALID_V2;
+	if(vectorNorm == 0.0f) return MTHLIB_INVALID_V2;
 	return (v2){ u.x / vectorNorm, u.y / vectorNorm};
 }
 b8 CompareV2(v2 u, v2 v, f32 errorMargin){
-	if(Abs32(u.x - v.x) > errorMargin || Abs32(u.y - v.y) > errorMargin) return FALSE;
-	return TRUE;
+	if(Abs32(u.x - v.x) > errorMargin || Abs32(u.y - v.y) > errorMargin) return MTHLIB_FALSE;
+	return MTHLIB_TRUE;
 }
 
 //V3 IMPLEMENTATIONS
@@ -63,14 +63,14 @@ v3 CrossV3(v3 u, v3 v)				{ return (v3){ (u.y*v.z - u.z*v.y), -(u.x*v.z - u.z*v.
 f64 NormV3(v3 u)					{ return Sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z)); }
 v3 UnitV3(v3 u){
 	f64 vectorNorm = NormV3(u);
-	if(vectorNorm == 0.0f) return INVALID_V3;
+	if(vectorNorm == 0.0f) return MTHLIB_INVALID_V3;
 	return (v3){ u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm};
 }
 b8 CompareV3(v3 u, v3 v, f32 errorMargin){
 	if(Abs32(u.x - v.x) > errorMargin ||
 	   Abs32(u.y - v.y) > errorMargin ||
-	   Abs32(u.z - v.z) > errorMargin) return FALSE;
-	return TRUE;
+	   Abs32(u.z - v.z) > errorMargin) return MTHLIB_FALSE;
+	return MTHLIB_TRUE;
 }
 v2 ConvertV3ToV2(v3 u) 				{ return (v2){ u.x, u.y }; }
 
@@ -85,15 +85,15 @@ f64 DotV4(v4 u, v4 v) 				{ return u.x*v.x + u.y*v.y + u.z*v.z + u.w*v.w; }
 f64 NormV4(v4 u) 					{ return Sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z) + (u.w*u.w)); }
 v4 UnitV4(v4 u) {
 	f64 vectorNorm = NormV4(u);
-	if(vectorNorm == 0) return INVALID_V4;
+	if(vectorNorm == 0) return MTHLIB_INVALID_V4;
 	return (v4){u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm, u.w / vectorNorm};
 }
 b8 CompareV4(v4 u, v4 v, f32 errorMargin){
 	if(Abs32(u.x - v.x) > errorMargin ||
 	   Abs32(u.y - v.y) > errorMargin ||
 	   Abs32(u.z - v.z) > errorMargin ||
-	   Abs32(u.w - v.w) > errorMargin) return FALSE;
-	return TRUE;
+	   Abs32(u.w - v.w) > errorMargin) return MTHLIB_FALSE;
+	return MTHLIB_TRUE;
 }
 v3 ConvertV4ToV3(v4 u) 				{ return (v3){ u.x, u.y, u.z };}
 
@@ -144,7 +144,7 @@ mat2x2 TransposeMatrix2x2(mat2x2 m1){
 
 mat2x2 InverseMatrix2x2(mat2x2 m1){
 	f64 det = DetMatrix2x2(m1);
-	if(det == 0) return INVALID_2X2MATRIX;
+	if(det == 0) return MTHLIB_INVALID_2X2MATRIX;
 
 	mat2x2 adjugate = { 0 };
 	adjugate.elem[0] = m1.elem[3];
@@ -232,7 +232,7 @@ mat3x3 TransposeMatrix3x3(mat3x3 m1){
 
 mat3x3 InverseMatrix3x3(mat3x3 m1){
 	f64 det = DetMatrix3x3(m1);
-	if(det == 0) return INVALID_3X3MATRIX;
+	if(det == 0) return MTHLIB_INVALID_3X3MATRIX;
 
 	mat3x3 t = TransposeMatrix3x3(m1);
 
@@ -366,7 +366,7 @@ mat4x4 TransposeMatrix4x4(mat4x4 m1){
 
 mat4x4 InverseMatrix4x4(mat4x4 m1){
 	f32 det = DetMatrix4x4(m1);
-	if(det == 0) return INVALID_4X4MATRIX;
+	if(det == 0) return MTHLIB_INVALID_4X4MATRIX;
 
 	mat4x4 t = TransposeMatrix4x4(m1);
 
@@ -484,41 +484,41 @@ f64 Sin64(f64 angleInRadians){
 	//For precision purposes I want to make sure that angleInRadians is in a good interval
 	//This interval for us is going to be [-PI/4, PI/4]
 	//(the bigger angleInRadians, the less precise our calculations are)
-	f64 angle = Mod64(angleInRadians, 2*PI, TRUE);
+	f64 angle = Mod64(angleInRadians, 2*MTHLIB_PI, TRUE);
 	
-	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
+	if ((MTHLIB_PI < angle) && (angle < 2*MTHLIB_PI)) angle = -(2*MTHLIB_PI - angle);
 
-	if((-PI/4 <= angle) && (angle <= PI/4)){
+	if((-MTHLIB_PI/4 <= angle) && (angle <= MTHLIB_PI/4)){
 		return static_Sin64(angle);
-	}else if((PI/4 < angle) && (angle <= 3*PI/4)){
-		return static_Cos64(angle - PI/2);
-	}else if((3*PI/4 < angle) && (angle <= PI)){
-		return static_Sin64(angle - PI)*(-1);
-	}else if((-3*PI/4 < angle) && (angle < -PI/4)){
-		return static_Cos64(PI/2 + angle)*(-1);
+	}else if((MTHLIB_PI/4 < angle) && (angle <= 3*MTHLIB_PI/4)){
+		return static_Cos64(angle - MTHLIB_PI/2);
+	}else if((3*MTHLIB_PI/4 < angle) && (angle <= MTHLIB_PI)){
+		return static_Sin64(angle - MTHLIB_PI)*(-1);
+	}else if((-3*MTHLIB_PI/4 < angle) && (angle < -MTHLIB_PI/4)){
+		return static_Cos64(MTHLIB_PI/2 + angle)*(-1);
 	}
 
-	return static_Sin64(PI + angle)*(-1);
+	return static_Sin64(MTHLIB_PI + angle)*(-1);
 }
 
 f64	Cos64(f64 angleInRadians){
 	//For precision purposes I want to make sure that angleInRadians is in a good interval
 	//This interval for us is going to be [-PI/4, PI/4]
 	//(the bigger angleInRadians, the less precise our calculations are)
-	f64 angle = Mod64(angleInRadians, 2*PI, TRUE);
+	f64 angle = Mod64(angleInRadians, 2*MTHLIB_PI, TRUE);
 	
-	if ((PI < angle) && (angle < 2*PI)) angle = -(2*PI - angle);
+	if ((MTHLIB_PI < angle) && (angle < 2*MTHLIB_PI)) angle = -(2*MTHLIB_PI - angle);
 
-	if((-PI/4 <= angle) && (angle <= PI/4)){
+	if((-MTHLIB_PI/4 <= angle) && (angle <= MTHLIB_PI/4)){
 		return static_Cos64(angle);
-	}else if((PI/4 < angle) && (angle <= 3*PI/4)){
-		return static_Sin64(angle - PI/2)*(-1);
-	}else if((-PI/4 > angle) && (angle >= -3*PI/4)){
-		return static_Sin64(angle + PI/2);
-	}else if((3*PI/4 < angle) && (angle <= PI)){
-		return static_Cos64(angle - PI)*(-1);
+	}else if((MTHLIB_PI/4 < angle) && (angle <= 3*MTHLIB_PI/4)){
+		return static_Sin64(angle - MTHLIB_PI/2)*(-1);
+	}else if((-MTHLIB_PI/4 > angle) && (angle >= -3*MTHLIB_PI/4)){
+		return static_Sin64(angle + MTHLIB_PI/2);
+	}else if((3*MTHLIB_PI/4 < angle) && (angle <= MTHLIB_PI)){
+		return static_Cos64(angle - MTHLIB_PI)*(-1);
 	}
-	return static_Cos64(angle + PI)*(-1);
+	return static_Cos64(angle + MTHLIB_PI)*(-1);
 }
 
 //Unfortunetely I couldn't get it to be as precise as Sin and Cos.
@@ -529,25 +529,25 @@ f64	Cos64(f64 angleInRadians){
 f64 Tg64(f64 angleInRadians){
 	f64 s = Sin64(angleInRadians);
 	f64 c = Cos64(angleInRadians);
-	if(c == 0.0f) return INFINITY;
+	if(c == 0.0f) return MTHLIB_INFINITY;
 	return s / c;
 }
 
 f64	Cosec64(f64 angleInRadians){
 	f64 s = Sin64(angleInRadians);
-	if(s == 0.0) return NAN;
+	if(s == 0.0) return MTHLIB_NAN;
 	return 1 / s;
 }
 
 f64	Sec64(f64 angleInRadians){
 	f64 c = Cos64(angleInRadians);
-	if(c == 0.0) return NAN;
+	if(c == 0.0) return MTHLIB_NAN;
 	return 1.0 / c;
 }
 
 f64	Cotg64(f64 angleInRadians){
 	f64 t = Tg64(angleInRadians);
-	if(t == 0.0) return NAN;
+	if(t == 0.0) return MTHLIB_NAN;
 	return 1.0 / t;
 }
 
@@ -568,7 +568,7 @@ static f64 static_Sqrt64(unionF64 x){
 	f64 arg = x.n;
 
 	//We are extracting the exponent part of the floating point number (We are also getting rid of the BIAS)
-	i64 e = x.bits.exponent - BIAS64;
+	i64 e = x.bits.exponent - MTHLIB_BIAS64;
 	
 	//This is going to be the number (1 + f) which is the mantissa plus 1. 
 	//This is useful to get a great initial guess for the Newton-Raphson algorithm. 
@@ -583,7 +583,7 @@ static f64 static_Sqrt64(unionF64 x){
         if((e & 1) == 0){
             rest = 1 << (e/2);
         }else{
-            rest = SQRT_2*(1 << ((e-1)/2));
+            rest = MTHLIB_SQRT_2*(1 << ((e-1)/2));
         }
     }
     else if(e < 0){
@@ -593,7 +593,7 @@ static f64 static_Sqrt64(unionF64 x){
         if((e & 1) == 0){
             rest = 1 / (1 << (-e/2));
         }else{
-            rest = (SQRT_2 / 2)*(1.0 / (1 << -((e+1)/2)));
+            rest = (MTHLIB_SQRT_2 / 2)*(1.0 / (1 << -((e+1)/2)));
         }
     }
     //This is for the case where the input argument is already in the correct scientific notation
@@ -607,7 +607,7 @@ static f64 static_Sqrt64(unionF64 x){
     f64 xk1 = (xk + (f/xk))/2;
     f64 error = Abs64(xk1 - xk);
 
-    while (error > PRECISION)
+    while (error > MTHLIB_PRECISION)
     {
         xk = xk1;
         xk1 = (xk + (f/xk))/2;
@@ -629,12 +629,12 @@ i32 Floor32(f32 x)								{ return (i32)Floor64(x); }
 i32 Round32(f32 x)								{ return (i32)Round64(x); }
 
 f64 DegreesToRadians64(f64 degrees){ 
-	return degrees*DEGREE_IN_RAD;
+	return degrees*MTHLIB_DEGREE_IN_RAD;
 }
 
 f64	Sqrt64(f64 x){
 	if(x == 0.0f || x == 1.0f) return x;
-	if(x < 0.0f) return NAN;
+	if(x < 0.0f) return MTHLIB_NAN;
 
 	unionF64 x_union = {.n = x};
 
@@ -697,7 +697,7 @@ i8 Sign(f64 x){
 
 static void static_SetSeed(){
 	random_seed = (u32)GetPlatformTime();
-	seeded = TRUE;
+	seeded = MTHLIB_TRUE;
 }
 
 static u32 static_XORShift(){
@@ -710,7 +710,7 @@ static u32 static_XORShift(){
 }
 
 u32 RandomU32(){
-	if(seeded == FALSE) static_SetSeed();
+	if(seeded == MTHLIB_FALSE) static_SetSeed();
 	return static_XORShift();
 }
 
@@ -723,7 +723,7 @@ b8 RandomBool(){
 }
 
 i8 RandomSign(){
-	if(RandomBool() == FALSE) return 1;
+	if(RandomBool() == MTHLIB_FALSE) return 1;
 	return -1;
 }
 
@@ -933,7 +933,7 @@ f32 DistanceBetweenLineAndPlane(line3D line, plane pl){
 f32 DistanceBetweenPlanes(plane pl1, plane pl2){
 	line3D normalLine1 = {.direction = pl1.normal, .arbitraryPoint = {0}};
 	line3D normalLine2 = {.direction = pl2.normal, .arbitraryPoint = {0}};
-	if(ParallelLines3D(normalLine1, normalLine2) == TRUE){
+	if(ParallelLines3D(normalLine1, normalLine2) == MTHLIB_TRUE){
 		return DistanceBetweenPointAndPlane(pl1.arbitraryPoint, pl2);
 	}
 	//Here it means that planes are intersecting, since they're not parallel
@@ -950,13 +950,13 @@ b8 ParallelLines2D(line2D l1, line2D l2){
 	    ((l1dy != 0) && (l2dy != 0))) ||
 	   (((l1dy == 0) && (l2dy == 0)) && 
 	    ((l1dx != 0) && (l2dx != 0)))){
-		return TRUE;
+		return MTHLIB_TRUE;
 	}
 	if((l2dx != 0) && (l2dy != 0) && 
 		((l1dx / l2dx) == (l1dy / l2dy))){
-		return TRUE;
+		return MTHLIB_TRUE;
 	}
-	return FALSE;
+	return MTHLIB_FALSE;
 }
 
 b8 ParallelLines3D(line3D l1, line3D l2){
@@ -979,9 +979,9 @@ b8 ParallelLines3D(line3D l1, line3D l2){
 	if(((l1.direction.x / l2.direction.x) == 0) && 
 	   ((l1.direction.y / l2.direction.y) == 0) && 
 	   ((l1.direction.z / l2.direction.z) == 0)){
-		return TRUE;
+		return MTHLIB_TRUE;
 	}
-	return FALSE;
+	return MTHLIB_FALSE;
 }
 
 b8 IntersectingLines2D(line2D l1, line2D l2){
@@ -1053,7 +1053,7 @@ f32 AreaTriangle2D(triangle2D triangle){
 }
 
 f32 AreaSphere2D(sphere2D sphere){
-	return PI*sphere.radius*sphere.radius;
+	return MTHLIB_PI*sphere.radius*sphere.radius;
 }
 
 f32 AreaAABB2D(AABB2D aabb){
@@ -1072,7 +1072,7 @@ f32 AreaQuad2D(quad2D quad){
 }
 
 f32 PerimeterSphere2D(sphere2D sphere){
-	return sphere.radius*2*PI;
+	return sphere.radius*2*MTHLIB_PI;
 }
 
 f32 PerimeterAABB2D(AABB2D aabb){
@@ -1112,7 +1112,7 @@ f32 AreaQuad3D(quad3D quad){
 
 f32 VolumeSphere3D(sphere3D sphere){
 	f32 r = sphere.radius;
-	return (4.0f/3.0f)*PI*(r*r*r);
+	return (4.0f/3.0f)*MTHLIB_PI*(r*r*r);
 }
 
 f32 VolumeAABB3D(AABB3D aabb){
@@ -1127,7 +1127,7 @@ f32 PerimeterTriangle3D(triangle3D triangle){
 }
 
 f32 SurfaceAreaSphere3D(sphere3D sphere){
-	return 4.0f*PI*sphere.radius*sphere.radius;
+	return 4.0f*MTHLIB_PI*sphere.radius*sphere.radius;
 }
 
 f32 SurfaceAreaAABB3D(AABB3D aabb){
@@ -1149,11 +1149,11 @@ lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2){
 }
 
 b8 LineSegment2DIsNull(lineSegment2D l){
-	return CompareV2(l.start, l.end, PRECISION);
+	return CompareV2(l.start, l.end, MTHLIB_PRECISION);
 }
 
 b8 LineSegments2DAreOpposite(lineSegment2D l1, lineSegment2D l2){
-	return (CompareV2(l1.end, l2.start, PRECISION) && CompareV2(l1.start, l2.end, PRECISION));
+	return (CompareV2(l1.end, l2.start, MTHLIB_PRECISION) && CompareV2(l1.start, l2.end, MTHLIB_PRECISION));
 }
 
 b8 LineSegments2DHaveEqualLength(lineSegment2D l1, lineSegment2D l2){
@@ -1170,7 +1170,7 @@ b8 LineSegments2DAreParallel(lineSegment2D l1, lineSegment2D l2){
 b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2){
 	line2D line1 = (line2D){.direction = SubtractV2(l1.end, l1.start), .arbitraryPoint = l1.start};
 	line2D line2 = (line2D){.direction = SubtractV2(l2.end, l2.start), .arbitraryPoint = l2.start};
-	return CompareV2(line1.direction, ScaleV2(line2.direction, -1), PRECISION);
+	return CompareV2(line1.direction, ScaleV2(line2.direction, -1), MTHLIB_PRECISION);
 }
 
 lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2){
@@ -1182,11 +1182,11 @@ lineSegment3D SubtractLineSegment3D(lineSegment3D l1, lineSegment3D l2){
 }
 
 b8 LineSegment3DIsNull(lineSegment3D l){
-	return CompareV3(l.start, l.end, PRECISION);
+	return CompareV3(l.start, l.end, MTHLIB_PRECISION);
 }
 
 b8 LineSegments3DAreOpposite(lineSegment3D l1, lineSegment3D l2){
-	return (CompareV3(l1.end, l2.start, PRECISION) && CompareV3(l1.start, l2.end, PRECISION));
+	return (CompareV3(l1.end, l2.start, MTHLIB_PRECISION) && CompareV3(l1.start, l2.end, MTHLIB_PRECISION));
 }
 
 b8 LineSegments3DHaveEqualLength(lineSegment3D l1, lineSegment3D l2){
@@ -1203,5 +1203,5 @@ b8 LineSegments3DAreParallel(lineSegment3D l1, lineSegment3D l2){
 b8 LineSegments3DHaveOppositeDirection(lineSegment3D l1, lineSegment3D l2){
 	line3D line1 = (line3D){.direction = SubtractV3(l1.end, l1.start), .arbitraryPoint = l1.start};
 	line3D line2 = (line3D){.direction = SubtractV3(l2.end, l2.start), .arbitraryPoint = l2.start};
-	return CompareV3(line1.direction, ScaleV3(line2.direction, -1), PRECISION);
+	return CompareV3(line1.direction, ScaleV3(line2.direction, -1), MTHLIB_PRECISION);
 }

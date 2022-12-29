@@ -150,7 +150,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define INFINITY ((float)(1e+300)*(1e+300))
+#define MTHLIB_INFINITY ((float)(1e+300)*(1e+300))
 
 /**
  * 
@@ -158,7 +158,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define NAN (((float)(1e+300)*(1e+300))*(0.0f))
+#define MTHLIB_NAN (((float)(1e+300)*(1e+300))*(0.0f))
 
 /**
  * 
@@ -166,7 +166,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define PI 3.141592653589793
+#define MTHLIB_PI 3.141592653589793
 
 /**
  * 
@@ -174,7 +174,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define DEGREE_IN_RAD (PI/180)
+#define MTHLIB_DEGREE_IN_RAD (MTHLIB_PI/180)
 
 /**
  * 
@@ -182,7 +182,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define SQRT_2 1.414213562373095
+#define MTHLIB_SQRT_2 1.414213562373095
 
 /**
  * 
@@ -190,7 +190,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define SQRT_3 1.732050807568877
+#define MTHLIB_SQRT_3 1.732050807568877
 
 /**
  * 
@@ -199,7 +199,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define PRECISION 0.0000000001
+#define MTHLIB_PRECISION 0.0000000001
 
 /**
  * 
@@ -208,7 +208,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define BIAS32 127
+#define MTHLIB_BIAS32 127
 
 /**
  * 
@@ -217,7 +217,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define BIAS64 1023
+#define MTHLIB_BIAS64 1023
 
 /**
  * 
@@ -225,7 +225,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define TRUE 1
+#define MTHLIB_TRUE 1
 
 /**
  * 
@@ -233,7 +233,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define FALSE 0
+#define MTHLIB_FALSE 0
 
 /**
  * 
@@ -242,7 +242,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define INVALID_V2 (v2) {NAN, NAN}
+#define MTHLIB_INVALID_V2 (v2) {MTHLIB_NAN, MTHLIB_NAN}
 
 /**
  * 
@@ -251,7 +251,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define INVALID_V3 (v3) {NAN, NAN, NAN}
+#define MTHLIB_INVALID_V3 (v3) {MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}
 
 /**
  * 
@@ -260,7 +260,7 @@ typedef struct sphere3D{
  * 
  * */
 
-#define INVALID_V4 (v4) {NAN, NAN, NAN, NAN}
+#define MTHLIB_INVALID_V4 (v4) {MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}
 
 /**
  * 
@@ -269,10 +269,10 @@ typedef struct sphere3D{
  *      WHICH DOES NOT HAVE AN INVERSE
  * 
  * */
-#define INVALID_2X2MATRIX (mat2x2) \
-            {.elem = \
-            {NAN, NAN, \
-             NAN, NAN}}
+#define MTHLIB_INVALID_2X2MATRIX (mat2x2) \
+                                {.elem = \
+                                {MTHLIB_NAN, MTHLIB_NAN, \
+                                 MTHLIB_NAN, MTHLIB_NAN}}
 
 /**
  * 
@@ -281,11 +281,11 @@ typedef struct sphere3D{
  *      WHICH DOES NOT HAVE AN INVERSE
  * 
  * */
-#define INVALID_3X3MATRIX (mat3x3) \
-            {.elem = \
-            {NAN, NAN, NAN, \
-             NAN, NAN, NAN, \
-             NAN, NAN, NAN}}
+#define MTHLIB_INVALID_3X3MATRIX (mat3x3) \
+                                {.elem = \
+                                {MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
+                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
+                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}}
 
 /**
  * 
@@ -295,12 +295,12 @@ typedef struct sphere3D{
  * 
  * */
              
-#define INVALID_4X4MATRIX (mat4x4) \
-            {.elem = \
-            {NAN, NAN, NAN, NAN, \
-             NAN, NAN, NAN, NAN, \
-             NAN, NAN, NAN, NAN, \
-             NAN, NAN, NAN, NAN}}
+#define MTHLIB_INVALID_4X4MATRIX (mat4x4) \
+                                {.elem = \
+                                {MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
+                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
+                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
+                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}}
 
 f64 GetPlatformTime(); //for now it works on linux and windows
 
