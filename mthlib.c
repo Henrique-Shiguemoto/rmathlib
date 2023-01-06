@@ -3,13 +3,14 @@
 //GLOBALS
 static b8 seeded = MTHLIB_FALSE;
 static u32 random_seed = 0;
-static b8 systemFrequencySet = MTHLIB_FALSE;
-static f64 systemFrequency = 0;
 
 //Checking which OS we're running on for absolute time query
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 
 #include <windows.h>
+
+static b8 systemFrequencySet = MTHLIB_FALSE;
+static f64 systemFrequency = 0;
 
 f64 GetPlatformTime(){
     if(systemFrequencySet == MTHLIB_FALSE){
@@ -26,7 +27,9 @@ f64 GetPlatformTime(){
 
 #elif defined(__linux__) || defined(__gnu_linux__)
 
-#include <sys/time.h>
+//Need to add this so we have access to clock_gettime() and CLOCK_MONOTONIC
+#define _POSIX_C_SOURCE 199309L
+#include <time.h>
 
 f64 GetPlatformTime(){
     struct timespec t;
@@ -484,7 +487,7 @@ f64 Sin64(f64 angleInRadians){
 	//For precision purposes I want to make sure that angleInRadians is in a good interval
 	//This interval for us is going to be [-PI/4, PI/4]
 	//(the bigger angleInRadians, the less precise our calculations are)
-	f64 angle = Mod64(angleInRadians, 2*MTHLIB_PI, TRUE);
+	f64 angle = Mod64(angleInRadians, 2*MTHLIB_PI, MTHLIB_TRUE);
 	
 	if ((MTHLIB_PI < angle) && (angle < 2*MTHLIB_PI)) angle = -(2*MTHLIB_PI - angle);
 
@@ -505,7 +508,7 @@ f64	Cos64(f64 angleInRadians){
 	//For precision purposes I want to make sure that angleInRadians is in a good interval
 	//This interval for us is going to be [-PI/4, PI/4]
 	//(the bigger angleInRadians, the less precise our calculations are)
-	f64 angle = Mod64(angleInRadians, 2*MTHLIB_PI, TRUE);
+	f64 angle = Mod64(angleInRadians, 2*MTHLIB_PI, MTHLIB_TRUE);
 	
 	if ((MTHLIB_PI < angle) && (angle < 2*MTHLIB_PI)) angle = -(2*MTHLIB_PI - angle);
 
