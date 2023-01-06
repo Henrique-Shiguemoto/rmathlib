@@ -89,6 +89,10 @@ typedef struct triangle2D{
     point2D c;
 }triangle2D;
 
+// It's important to be consistent with the order of the vertices. The user can only use either 
+//      clockwise or anticlockwise ordering for vertices. Some of the functions used for this struct
+//      can give you different results if you don't use these orders.
+// Same thing applies to quad3D.
 typedef struct quad2D{
     point2D a;
     point2D b;
@@ -302,7 +306,7 @@ typedef struct sphere3D{
                                  MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
                                  MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}}
 
-f64 GetPlatformTime(); //for now it works on linux and windows
+f64 GetPlatformTime();
 
 /**
  * 

@@ -11,3 +11,14 @@ It supports simple 2D and 3D vector operations, trigonometric operations and som
 To use this library you'll have to get the following files and just copy them into your project: <code>mthlib.h</code> (for the function declarations and vector types definitions) and <code>mthlib.c</code> (for the function implementations).
 
 After this you'll have access to all the resources from this library.
+
+# What you can do with mthlib
+
+- 2D, 3D and 4D vector operations
+- 2x2, 3x3 and 4x4 matrix operations
+- Trigonometric functions (32 and 64 bit results)
+- Random API
+- Computer Graphics operations
+- Perform Planar Geometry operations
+
+Obs: Please check <code>mthlib.h</code> to see all the functionality.
