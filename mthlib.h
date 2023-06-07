@@ -827,11 +827,19 @@ f64 Cotg64(f64 angleInRadians);
 
 /**
  * 
- * ANGLE UNIT CONVERSION FROM DEGREES TO ANGLES WITH 32 BIT FLOAT RETURN
+ * ANGLE UNIT CONVERSION FROM DEGREES TO RADIANS WITH 32 BIT FLOAT RETURN
  * 
  * */
 
 f32 DegreesToRadians32(f32 degrees);
+
+/**
+ * 
+ * ANGLE UNIT CONVERSION FROM RADIANS TO DEGREES WITH 32 BIT FLOAT RETURN
+ * 
+ * */
+
+f32 RadiansToDegrees32(f32 radians);
 
 /**
  * 
@@ -914,6 +922,14 @@ i32 Round32(f32 x);
  * */
 
 f64 DegreesToRadians64(f64 degrees);
+
+/**
+ * 
+ * ANGLE UNIT CONVERSION FROM RADIANS TO DEGREES WITH 64 BIT FLOAT RETURN
+ * 
+ * */
+
+f64 RadiansToDegrees64(f64 radians);
 
 /**
  * 

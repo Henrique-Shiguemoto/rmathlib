@@ -621,6 +621,7 @@ static f64 static_Sqrt64(unionF64 x){
 }
 
 f32 DegreesToRadians32(f32 degrees)				{ return (f32)DegreesToRadians64(degrees); }
+f32 RadiansToDegrees32(f32 radians)				{ return (f32)RadiansToDegrees64(radians); }
 f32 Sqrt32(f32 x)								{ return (f32)Sqrt64(x); }
 f32	Abs32(f32 x)								{ return (f32)Abs64(x); }
 f32 Clamp32(f32 min, f32 max, f32 value)		{ return (f32)Clamp64(min, max, value); }
@@ -633,6 +634,10 @@ i32 Round32(f32 x)								{ return (i32)Round64(x); }
 
 f64 DegreesToRadians64(f64 degrees){ 
 	return degrees*MTHLIB_DEGREE_IN_RAD;
+}
+
+f64 RadiansToDegrees64(f64 radians){ 
+	return radians*(180/MTHLIB_PI);
 }
 
 f64	Sqrt64(f64 x){
