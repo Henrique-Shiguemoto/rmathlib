@@ -52,8 +52,8 @@ v2 UnitV2(v2 u){
 	return (v2){ u.x / vectorNorm, u.y / vectorNorm};
 }
 b8 CompareV2(v2 u, v2 v, f32 errorMargin){
-	if(Abs32(u.x - v.x) > errorMargin || Abs32(u.y - v.y) > errorMargin) return MTHLIB_FALSE;
-	return MTHLIB_TRUE;
+	return Compare32(u.x, v.x, errorMargin) && 
+		   Compare32(u.y, v.y, errorMargin);
 }
 
 //V3 IMPLEMENTATIONS
@@ -610,14 +610,17 @@ static f64 static_Sqrt64(unionF64 x){
     f64 xk1 = (xk + (f/xk))/2;
     f64 error = Abs64(xk1 - xk);
 
-    while (error > MTHLIB_PRECISION)
-    {
+    while (error > MTHLIB_64_PRECISION){
         xk = xk1;
         xk1 = (xk + (f/xk))/2;
         error = Abs64(xk1 - xk);
     }
 
 	return xk1*rest;
+}
+
+b8 Compare32(f32 x, f32 y, f32 errorMargin) {
+	return (Abs32(x - y) < errorMargin);
 }
 
 f32 DegreesToRadians32(f32 degrees)				{ return (f32)DegreesToRadians64(degrees); }
@@ -631,6 +634,10 @@ f32 Mod32(f32 f1, f64 f2, u8 positiveResult)	{ return (f32)Mod64(f1, f2, positiv
 i32 Ceil32(f32 x)								{ return (f32)Ceil64(x); }
 i32 Floor32(f32 x)								{ return (i32)Floor64(x); }
 i32 Round32(f32 x)								{ return (i32)Round64(x); }
+
+b8 Compare64(f64 x, f64 y, f64 errorMargin){
+	return (Abs64(x - y) < errorMargin);
+}
 
 f64 DegreesToRadians64(f64 degrees){ 
 	return degrees*MTHLIB_DEGREE_IN_RAD;
@@ -1157,11 +1164,11 @@ lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2){
 }
 
 b8 LineSegment2DIsNull(lineSegment2D l){
-	return CompareV2(l.start, l.end, MTHLIB_PRECISION);
+	return CompareV2(l.start, l.end, MTHLIB_32_PRECISION);
 }
 
 b8 LineSegments2DAreOpposite(lineSegment2D l1, lineSegment2D l2){
-	return (CompareV2(l1.end, l2.start, MTHLIB_PRECISION) && CompareV2(l1.start, l2.end, MTHLIB_PRECISION));
+	return (CompareV2(l1.end, l2.start, MTHLIB_32_PRECISION) && CompareV2(l1.start, l2.end, MTHLIB_32_PRECISION));
 }
 
 b8 LineSegments2DHaveEqualLength(lineSegment2D l1, lineSegment2D l2){
@@ -1178,7 +1185,7 @@ b8 LineSegments2DAreParallel(lineSegment2D l1, lineSegment2D l2){
 b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2){
 	line2D line1 = (line2D){.direction = SubtractV2(l1.end, l1.start), .arbitraryPoint = l1.start};
 	line2D line2 = (line2D){.direction = SubtractV2(l2.end, l2.start), .arbitraryPoint = l2.start};
-	return CompareV2(line1.direction, ScaleV2(line2.direction, -1), MTHLIB_PRECISION);
+	return CompareV2(line1.direction, ScaleV2(line2.direction, -1), MTHLIB_32_PRECISION);
 }
 
 lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2){
@@ -1190,11 +1197,11 @@ lineSegment3D SubtractLineSegment3D(lineSegment3D l1, lineSegment3D l2){
 }
 
 b8 LineSegment3DIsNull(lineSegment3D l){
-	return CompareV3(l.start, l.end, MTHLIB_PRECISION);
+	return CompareV3(l.start, l.end, MTHLIB_32_PRECISION);
 }
 
 b8 LineSegments3DAreOpposite(lineSegment3D l1, lineSegment3D l2){
-	return (CompareV3(l1.end, l2.start, MTHLIB_PRECISION) && CompareV3(l1.start, l2.end, MTHLIB_PRECISION));
+	return (CompareV3(l1.end, l2.start, MTHLIB_32_PRECISION) && CompareV3(l1.start, l2.end, MTHLIB_32_PRECISION));
 }
 
 b8 LineSegments3DHaveEqualLength(lineSegment3D l1, lineSegment3D l2){
@@ -1211,5 +1218,5 @@ b8 LineSegments3DAreParallel(lineSegment3D l1, lineSegment3D l2){
 b8 LineSegments3DHaveOppositeDirection(lineSegment3D l1, lineSegment3D l2){
 	line3D line1 = (line3D){.direction = SubtractV3(l1.end, l1.start), .arbitraryPoint = l1.start};
 	line3D line2 = (line3D){.direction = SubtractV3(l2.end, l2.start), .arbitraryPoint = l2.start};
-	return CompareV3(line1.direction, ScaleV3(line2.direction, -1), MTHLIB_PRECISION);
+	return CompareV3(line1.direction, ScaleV3(line2.direction, -1), MTHLIB_32_PRECISION);
 }

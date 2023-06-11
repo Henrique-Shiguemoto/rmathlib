@@ -1,24 +1,21 @@
 CC=gcc
 BIN=main
+DEBUGGER=gdb
 FLAGS=-Wall -Wextra -g
+TEST_DIR=samples
 
-main: main.o mthlib.o
+main: main.c mthlib.c
 	$(CC) $(FLAGS) -o $(BIN) main.c mthlib.c
-
-main.o: main.c
-	$(CC) -c main.c
-
-mthlib.o: mthlib.c mthlib.h
-	$(CC) -c mthlib.c
 
 run: $(BIN)
 	$(BIN)
 
-test: test.o
-	g++ -o test test.o
+debug: $(BIN)
+	$(DEBUGGER) $(BIN)
 
-test.o: test.cpp
-	g++ -c test.cpp
+test: 
+	$(CC) $(FLAGS) -o test0 $(TEST_DIR)/GetPlatformTime_test.c mthlib.c
+	$(CC) $(FLAGS) -o test1 $(TEST_DIR)/V2_test.c mthlib.c
 
 clean:
-	del *.o *.exe
+	del *.exe

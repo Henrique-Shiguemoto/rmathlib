@@ -1,17 +1,6 @@
 #pragma once
 
-/**
- * 
- * USEFUL TYPEDEFS AND DEFINES FOR EASE OF READABILITY AND ORGANIZATION
- * 
- * */
-
-/**
- * 
- * TYPE DEFINITIONS (INSPIRED BY stdint.h)
- * 
- * */
-
+// Type definitions
 typedef char i8;
 typedef short i16;
 typedef int i32;
@@ -25,39 +14,33 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-typedef struct v2
-{
+typedef struct v2 {
     f32 x;
     f32 y;
 } v2;
 
-typedef struct v3
-{
+typedef struct v3 {
     f32 x;
     f32 y;
     f32 z;
 } v3;
 
-typedef struct v4
-{
+typedef struct v4 {
     f32 x;
     f32 y;
     f32 z;
     f32 w;
 } v4;
 
-typedef struct mat2x2
-{
+typedef struct mat2x2 {
     f32 elem[4];
 } mat2x2;
 
-typedef struct mat3x3
-{
+typedef struct mat3x3 {
     f32 elem[9];
 } mat3x3;
 
-typedef struct mat4x4
-{
+typedef struct mat4x4 {
     f32 elem[16];
 } mat4x4;
 
@@ -65,80 +48,80 @@ typedef v2 point2D;
 typedef v3 point3D;
 typedef v4 quaternion;
 
-typedef struct lineSegment2D{
+typedef struct lineSegment2D {
     point2D start;
     point2D end;
-}lineSegment2D;
+} lineSegment2D;
 
-typedef struct line2D{
+typedef struct line2D {
     v2 direction;
     point2D arbitraryPoint;
-}line2D;
+} line2D;
 
-typedef struct triangle2D{
+typedef struct triangle2D {
     point2D a;
     point2D b;
     point2D c;
-}triangle2D;
+} triangle2D;
 
 // It's important to be consistent with the order of the vertices. The user can only use either 
 //      clockwise or anticlockwise ordering for vertices. Some of the functions used for this struct
 //      can give you different results if you don't use these orders.
 // Same thing applies to quad3D.
-typedef struct quad2D{
+typedef struct quad2D {
     point2D a;
     point2D b;
     point2D c;
     point2D d;
-}quad2D;
+} quad2D;
 
-typedef struct AABB2D{
+typedef struct AABB2D {
     point2D min;
     point2D max;
-}AABB2D;
+} AABB2D;
 
-typedef struct sphere2D{
+typedef struct sphere2D {
     point2D center;
     f32 radius;
-}sphere2D;
+} sphere2D;
 
-typedef struct lineSegment3D{
+typedef struct lineSegment3D {
     point3D start;
     point3D end;
-}lineSegment3D;
+} lineSegment3D;
 
-typedef struct line3D{
+typedef struct line3D {
     v3 direction;
     point3D arbitraryPoint;
-}line3D;
+} line3D;
 
-typedef struct triangle3D{
+typedef struct triangle3D {
     point3D a;
     point3D b;
     point3D c;
-}triangle3D;
+} triangle3D;
 
-typedef struct quad3D{
+typedef struct quad3D {
     point3D a;
     point3D b;
     point3D c;
     point3D d;
-}quad3D;
+} quad3D;
 
-typedef struct plane{
+typedef struct plane {
     v3 normal;
     point3D arbitraryPoint; 
-}plane;
+} plane;
 
-typedef struct AABB3D{
+typedef struct AABB3D {
     point3D min;
     point3D max;
-}AABB3D;
+} AABB3D;
 
-typedef struct sphere3D{
+typedef struct sphere3D {
     point3D center;
     f32 radius;
-}sphere3D;
+} sphere3D;
 
 #define MTHLIB_INFINITY ((float)(1e+300)*(1e+300))
 #define MTHLIB_NAN (((float)(1e+300)*(1e+300))*(0.0f))
@@ -146,7 +129,8 @@ typedef struct sphere3D{
 #define MTHLIB_DEGREE_IN_RAD (MTHLIB_PI/180)
 #define MTHLIB_SQRT_2 1.414213562373095
 #define MTHLIB_SQRT_3 1.732050807568877
-#define MTHLIB_PRECISION 0.0000000001
+#define MTHLIB_32_PRECISION 0.00001
+#define MTHLIB_64_PRECISION 0.0000000001
 #define MTHLIB_BIAS32 127
 #define MTHLIB_BIAS64 1023
 #define MTHLIB_TRUE 1
@@ -181,6 +165,8 @@ f64 DotV2(v2 u, v2 v);
 f64 NormV2(v2 u);
 v2 UnitV2(v2 u);
 b8 CompareV2(v2 u, v2 v, f32 errorMargin);
+
+// ------------------------------------------------------------------
 
 v3 AddV3(v3 u, v3 v);
 v3 SubtractV3(v3 u, v3 v);
@@ -251,6 +237,7 @@ f64 Cotg64(f64 angleInRadians);
 
 //Other convenient functions
 
+b8 Compare32(f32 x, f32 y, f32 errorMargin);
 f32 DegreesToRadians32(f32 degrees);
 f32 RadiansToDegrees32(f32 radians);
 f32 Sqrt32(f32 x);
@@ -271,6 +258,8 @@ f32 Mod32(f32 f1, f64 f2, u8 positiveResult);
 i32 Ceil32(f32 x);
 i32 Floor32(f32 x);
 i32 Round32(f32 x);
+
+b8 Compare64(f64 x, f64 y, f64 errorMargin);
 f64 DegreesToRadians64(f64 degrees);
 f64 RadiansToDegrees64(f64 radians);
 f64	Sqrt64(f64 x);
