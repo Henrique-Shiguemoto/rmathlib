@@ -70,10 +70,9 @@ v3 UnitV3(v3 u){
 	return (v3){ u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm};
 }
 b8 CompareV3(v3 u, v3 v, f32 errorMargin){
-	if(Abs32(u.x - v.x) > errorMargin ||
-	   Abs32(u.y - v.y) > errorMargin ||
-	   Abs32(u.z - v.z) > errorMargin) return MTHLIB_FALSE;
-	return MTHLIB_TRUE;
+	return Compare32(u.x, v.x, errorMargin) && 
+		   Compare32(u.y, v.y, errorMargin) && 
+		   Compare32(u.z, v.z, errorMargin);
 }
 v2 ConvertV3ToV2(v3 u) 				{ return (v2){ u.x, u.y }; }
 
@@ -92,11 +91,10 @@ v4 UnitV4(v4 u) {
 	return (v4){u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm, u.w / vectorNorm};
 }
 b8 CompareV4(v4 u, v4 v, f32 errorMargin){
-	if(Abs32(u.x - v.x) > errorMargin ||
-	   Abs32(u.y - v.y) > errorMargin ||
-	   Abs32(u.z - v.z) > errorMargin ||
-	   Abs32(u.w - v.w) > errorMargin) return MTHLIB_FALSE;
-	return MTHLIB_TRUE;
+	return Compare32(u.x, v.x, errorMargin) && 
+		   Compare32(u.y, v.y, errorMargin) && 
+		   Compare32(u.z, v.z, errorMargin) && 
+		   Compare32(u.w, v.w, errorMargin);
 }
 v3 ConvertV4ToV3(v4 u) 				{ return (v3){ u.x, u.y, u.z };}
 

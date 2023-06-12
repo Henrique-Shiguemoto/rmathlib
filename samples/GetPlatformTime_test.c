@@ -7,5 +7,6 @@
 
 int main(void){
 	printf("Time = %lf\n", GetPlatformTime());
+	printf("%s tests done...\n", __FILE__);
 	return 0;
 }

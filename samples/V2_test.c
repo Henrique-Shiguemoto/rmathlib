@@ -8,7 +8,7 @@
 int main(void){
 	v2 u = {3.43f, 1.53f};
 	v2 v = {6.28f, 9.01f};
-	v2 r = {0.0f, 0.0f};
+	v2 r = {0};
 	f32 r_f = 0.0f;
 
 	r = AddV2(u, v);
@@ -34,6 +34,8 @@ int main(void){
 
 	r = UnitV2(v);
 	MTHLIB_ASSERT(CompareV2(r, (v2){0.57181f, 0.82038f}, MTHLIB_32_PRECISION));
+
+	printf("%s tests done...\n", __FILE__);
 
 	return 0;
 }

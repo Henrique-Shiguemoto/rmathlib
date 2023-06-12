@@ -16,6 +16,12 @@ debug: $(BIN)
 test: 
 	$(CC) $(FLAGS) -o test0 $(TEST_DIR)/GetPlatformTime_test.c mthlib.c
 	$(CC) $(FLAGS) -o test1 $(TEST_DIR)/V2_test.c mthlib.c
+	$(CC) $(FLAGS) -o test2 $(TEST_DIR)/V3_test.c mthlib.c
+	$(CC) $(FLAGS) -o test3 $(TEST_DIR)/V4_test.c mthlib.c
+	test0
+	test1
+	test2
+	test3
 
 clean:
 	del *.exe

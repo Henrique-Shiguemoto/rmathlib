@@ -166,8 +166,6 @@ f64 NormV2(v2 u);
 v2 UnitV2(v2 u);
 b8 CompareV2(v2 u, v2 v, f32 errorMargin);
 
-// ------------------------------------------------------------------
-
 v3 AddV3(v3 u, v3 v);
 v3 SubtractV3(v3 u, v3 v);
 v3 ScaleV3(v3 u, f32 scalar);
@@ -187,6 +185,8 @@ f64 NormV4(v4 u);
 v4 UnitV4(v4 u);
 b8 CompareV4(v4 u, v4 v, f32 errorMargin);
 v3 ConvertV4ToV3(v4 u);
+
+// ------------------------------------------------------------------
 
 //Matrix Operations
 
