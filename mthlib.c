@@ -244,13 +244,13 @@ mat3x3 InverseMatrix3x3(mat3x3 m1){
 	mat3x3 t = TransposeMatrix3x3(m1);
 
 	f64 det00 = DetMatrix2x2((mat2x2){.elem = {t.elem[4], t.elem[5], t.elem[7], t.elem[8]}});
-	f64 det01 = -DetMatrix2x2((mat2x2){.elem = {t.elem[3], t.elem[5], t.elem[6], t.elem[8]}});
+	f64 det01 = DetMatrix2x2((mat2x2){.elem = {t.elem[3], t.elem[5], t.elem[6], t.elem[8]}});
 	f64 det02 = DetMatrix2x2((mat2x2){.elem = {t.elem[3], t.elem[4], t.elem[6], t.elem[7]}});
-	f64 det10 = -DetMatrix2x2((mat2x2){.elem = {t.elem[1], t.elem[2], t.elem[7], t.elem[8]}});
+	f64 det10 = DetMatrix2x2((mat2x2){.elem = {t.elem[1], t.elem[2], t.elem[7], t.elem[8]}});
 	f64 det11 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[2], t.elem[6], t.elem[8]}});
-	f64 det12 = -DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[1], t.elem[6], t.elem[7]}});
+	f64 det12 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[1], t.elem[6], t.elem[7]}});
 	f64 det20 = DetMatrix2x2((mat2x2){.elem = {t.elem[1], t.elem[2], t.elem[4], t.elem[5]}});
-	f64 det21 = -DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[2], t.elem[3], t.elem[5]}});
+	f64 det21 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[2], t.elem[3], t.elem[5]}});
 	f64 det22 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[1], t.elem[3], t.elem[4]}});
 
 	mat3x3 adjugate = {.elem = {det00, -det01, det02, 
