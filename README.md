@@ -12,6 +12,8 @@ To use this library you'll have to get the following files and just copy them in
 
 After this you'll have access to all the resources from this library.
 
+The <code>samples</code> folder has samples/test files to show how functions, structures and #define's are used.
+
 # What you can do with mthlib
 
 - 2D, 3D and 4D vector operations
