@@ -170,6 +170,12 @@ mat2x2 CreateIdentity2x2(){
 	return output;
 }
 
+b8 CompareMat2x2(mat2x2 m1, mat2x2 m2, f32 errorMargin){
+	for(i32 i = 0; i < 4; i++)
+		if(!Compare32(m1.elem[i], m2.elem[i], errorMargin)) return MTHLIB_FALSE;
+	return MTHLIB_TRUE;
+}
+
 //3x3 MATRIX SUPPORT
 mat3x3 AddMatrix3x3(mat3x3 m1, mat3x3 m2){
 	mat3x3 output = {0};
@@ -268,6 +274,12 @@ mat3x3 CreateIdentity3x3(){
 	output.elem[8] = 1.0;
 
 	return output;
+}
+
+b8 CompareMat3x3(mat3x3 m1, mat3x3 m2, f32 errorMargin){
+	for(i32 i = 0; i < 9; i++)
+		if(!Compare32(m1.elem[i], m2.elem[i], errorMargin)) return MTHLIB_FALSE;
+	return MTHLIB_TRUE;
 }
 
 //4x4 MATRIX SUPPORT
@@ -444,6 +456,12 @@ mat4x4 CreateIdentity4x4(){
 	output.elem[15] = 1.0;
 
 	return output;
+}
+
+b8 CompareMat4x4(mat4x4 m1, mat4x4 m2, f32 errorMargin){
+	for(i32 i = 0; i < 16; i++)
+		if(!Compare32(m1.elem[i], m2.elem[i], errorMargin)) return MTHLIB_FALSE;
+	return MTHLIB_TRUE;
 }
 
 //TRIG FUNCTIONS IMPLEMENTATIONS

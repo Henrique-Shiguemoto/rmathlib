@@ -18,10 +18,12 @@ test:
 	$(CC) $(FLAGS) -o test1 $(TEST_DIR)/V2_test.c mthlib.c
 	$(CC) $(FLAGS) -o test2 $(TEST_DIR)/V3_test.c mthlib.c
 	$(CC) $(FLAGS) -o test3 $(TEST_DIR)/V4_test.c mthlib.c
+	$(CC) $(FLAGS) -o test4 $(TEST_DIR)/mat2x2_test.c mthlib.c
 	test0
 	test1
 	test2
 	test3
+	test4
 
 clean:
 	del *.exe

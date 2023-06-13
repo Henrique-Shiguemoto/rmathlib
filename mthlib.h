@@ -197,6 +197,7 @@ mat2x2 TransposeMatrix2x2(mat2x2 m1);
 mat2x2 InverseMatrix2x2(mat2x2 m1);
 v2 MultV2ByMatrix2x2(v2 u, mat2x2 m1);
 mat2x2 CreateIdentity2x2();
+b8 CompareMat2x2(mat2x2 m1, mat2x2 m2, f32 errorMargin);
 
 // ------------------------------------------------------------------
 
@@ -209,6 +210,7 @@ mat3x3 TransposeMatrix3x3(mat3x3 m1);
 mat3x3 InverseMatrix3x3(mat3x3 m1);
 v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1);
 mat3x3 CreateIdentity3x3();
+b8 CompareMat3x3(mat3x3 m1, mat3x3 m2, f32 errorMargin);
 
 mat4x4 AddMatrix4x4(mat4x4 m1, mat4x4 m2);
 mat4x4 SubMatrix4x4(mat4x4 m1, mat4x4 m2);
@@ -219,6 +221,7 @@ mat4x4 TransposeMatrix4x4(mat4x4 m1);
 mat4x4 InverseMatrix4x4(mat4x4 m1);
 v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1);
 mat4x4 CreateIdentity4x4();
+b8 CompareMat4x4(mat4x4 m1, mat4x4 m2, f32 errorMargin);
 
 //Trig Functions
 
