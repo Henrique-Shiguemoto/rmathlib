@@ -608,7 +608,7 @@ static f64 static_Sqrt64(unionF64 x){
     f64 xk1 = (xk + (f/xk))/2;
     f64 error = Abs64(xk1 - xk);
 
-    while (error > MTHLIB_64_PRECISION){
+    while (error > MTHLIB_HIGH_PRECISION){
         xk = xk1;
         xk1 = (xk + (f/xk))/2;
         error = Abs64(xk1 - xk);
@@ -1162,11 +1162,11 @@ lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2){
 }
 
 b8 LineSegment2DIsNull(lineSegment2D l){
-	return CompareV2(l.start, l.end, MTHLIB_32_PRECISION);
+	return CompareV2(l.start, l.end, MTHLIB_LOW_PRECISION);
 }
 
 b8 LineSegments2DAreOpposite(lineSegment2D l1, lineSegment2D l2){
-	return (CompareV2(l1.end, l2.start, MTHLIB_32_PRECISION) && CompareV2(l1.start, l2.end, MTHLIB_32_PRECISION));
+	return (CompareV2(l1.end, l2.start, MTHLIB_LOW_PRECISION) && CompareV2(l1.start, l2.end, MTHLIB_LOW_PRECISION));
 }
 
 b8 LineSegments2DHaveEqualLength(lineSegment2D l1, lineSegment2D l2){
@@ -1183,7 +1183,7 @@ b8 LineSegments2DAreParallel(lineSegment2D l1, lineSegment2D l2){
 b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2){
 	line2D line1 = (line2D){.direction = SubtractV2(l1.end, l1.start), .arbitraryPoint = l1.start};
 	line2D line2 = (line2D){.direction = SubtractV2(l2.end, l2.start), .arbitraryPoint = l2.start};
-	return CompareV2(line1.direction, ScaleV2(line2.direction, -1), MTHLIB_32_PRECISION);
+	return CompareV2(line1.direction, ScaleV2(line2.direction, -1), MTHLIB_LOW_PRECISION);
 }
 
 lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2){
@@ -1195,11 +1195,11 @@ lineSegment3D SubtractLineSegment3D(lineSegment3D l1, lineSegment3D l2){
 }
 
 b8 LineSegment3DIsNull(lineSegment3D l){
-	return CompareV3(l.start, l.end, MTHLIB_32_PRECISION);
+	return CompareV3(l.start, l.end, MTHLIB_LOW_PRECISION);
 }
 
 b8 LineSegments3DAreOpposite(lineSegment3D l1, lineSegment3D l2){
-	return (CompareV3(l1.end, l2.start, MTHLIB_32_PRECISION) && CompareV3(l1.start, l2.end, MTHLIB_32_PRECISION));
+	return (CompareV3(l1.end, l2.start, MTHLIB_LOW_PRECISION) && CompareV3(l1.start, l2.end, MTHLIB_LOW_PRECISION));
 }
 
 b8 LineSegments3DHaveEqualLength(lineSegment3D l1, lineSegment3D l2){
@@ -1216,5 +1216,5 @@ b8 LineSegments3DAreParallel(lineSegment3D l1, lineSegment3D l2){
 b8 LineSegments3DHaveOppositeDirection(lineSegment3D l1, lineSegment3D l2){
 	line3D line1 = (line3D){.direction = SubtractV3(l1.end, l1.start), .arbitraryPoint = l1.start};
 	line3D line2 = (line3D){.direction = SubtractV3(l2.end, l2.start), .arbitraryPoint = l2.start};
-	return CompareV3(line1.direction, ScaleV3(line2.direction, -1), MTHLIB_32_PRECISION);
+	return CompareV3(line1.direction, ScaleV3(line2.direction, -1), MTHLIB_LOW_PRECISION);
 }

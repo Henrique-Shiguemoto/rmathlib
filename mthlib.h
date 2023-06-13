@@ -129,8 +129,8 @@ typedef struct sphere3D {
 #define MTHLIB_DEGREE_IN_RAD (MTHLIB_PI/180)
 #define MTHLIB_SQRT_2 1.414213562373095
 #define MTHLIB_SQRT_3 1.732050807568877
-#define MTHLIB_32_PRECISION 0.00001
-#define MTHLIB_64_PRECISION 0.0000000001
+#define MTHLIB_LOW_PRECISION 0.00001
+#define MTHLIB_HIGH_PRECISION 0.0000000001
 #define MTHLIB_BIAS32 127
 #define MTHLIB_BIAS64 1023
 #define MTHLIB_TRUE 1
@@ -186,8 +186,6 @@ v4 UnitV4(v4 u);
 b8 CompareV4(v4 u, v4 v, f32 errorMargin);
 v3 ConvertV4ToV3(v4 u);
 
-// ------------------------------------------------------------------
-
 //Matrix Operations
 
 mat2x2 AddMatrix2x2(mat2x2 m1, mat2x2 m2);
@@ -199,6 +197,8 @@ mat2x2 TransposeMatrix2x2(mat2x2 m1);
 mat2x2 InverseMatrix2x2(mat2x2 m1);
 v2 MultV2ByMatrix2x2(v2 u, mat2x2 m1);
 mat2x2 CreateIdentity2x2();
+
+// ------------------------------------------------------------------
 
 mat3x3 AddMatrix3x3(mat3x3 m1, mat3x3 m2);
 mat3x3 SubMatrix3x3(mat3x3 m1, mat3x3 m2);
