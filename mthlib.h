@@ -123,8 +123,8 @@ typedef struct sphere3D {
     f32 radius;
 } sphere3D;
 
-#define MTHLIB_INFINITY ((float)(1e+300)*(1e+300))
-#define MTHLIB_NAN (((float)(1e+300)*(1e+300))*(0.0f))
+#define MTHLIB_INFINITY ((f32)(1e+300)*(1e+300))
+#define MTHLIB_NAN (((f32)(1e+300)*(1e+300))*(0.0f))
 #define MTHLIB_PI 3.141592653589793
 #define MTHLIB_DEGREE_IN_RAD (MTHLIB_PI/180)
 #define MTHLIB_SQRT_2 1.414213562373095
@@ -210,8 +210,6 @@ v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1);
 mat3x3 CreateIdentity3x3();
 b8 CompareMat3x3(mat3x3 m1, mat3x3 m2, f32 errorMargin);
 
-// ------------------------------------------------------------------
-
 mat4x4 AddMatrix4x4(mat4x4 m1, mat4x4 m2);
 mat4x4 SubMatrix4x4(mat4x4 m1, mat4x4 m2);
 mat4x4 ScalarMultMatrix4x4(f64 scalar, mat4x4 m1);
@@ -222,6 +220,8 @@ mat4x4 InverseMatrix4x4(mat4x4 m1);
 v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1);
 mat4x4 CreateIdentity4x4();
 b8 CompareMat4x4(mat4x4 m1, mat4x4 m2, f32 errorMargin);
+
+// ------------------------------------------------------------------
 
 //Trig Functions
 

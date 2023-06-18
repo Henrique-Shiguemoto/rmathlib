@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "mthlib.h"
+#include "../mthlib.h"
 
 #define MTHLIB_ASSERT(x); \
 	if(!(x)){ fprintf(stderr, "ASSERT - ERROR AT: (%d)\n", __LINE__); exit(1); }
@@ -9,8 +9,8 @@ int main(void){
 	mat4x4 m1 = {.elem = {-5.18f, 2.3f, -4.7f, 7.45f, 3.24f, -9.51f, -6.01f, 6.03f, 8.56f, -3.83f, -0.37f, 7.59f, 3.14f, -3.16f, -0.62f, -9.50f}};
 	mat4x4 m2 = {.elem = {-3.36f, -6.32f, 2.22f, -3.45f, -3.22f, -3.20f, -4.32f, 9.45f, -0.58f, -5.89f, 8.09f, 1.13f, -9.82f, 8.13f, -6.05f, 9.68f}};
 	mat4x4 r = {0};
-	// v4 u = {1.2f, -3.4f, 5.1f, -4.3f};
-	// v4 r_v4 = {0};
+	v4 u = {1.2f, -3.4f, 5.1f, -4.3f};
+	v4 r_v4 = {0};
 	f32 r_f = 0.0f;
 
 	r = AddMatrix4x4(m1, m2);
@@ -26,16 +26,19 @@ int main(void){
 	MTHLIB_ASSERT(CompareMat4x4(r, (mat4x4){.elem = {-60.4342f, 113.6291f, -104.5311f, 106.411f, -35.993f, 94.378f, -36.8264f, -49.4684f, -90.7482f, 22.0428f, -13.364f, 7.3276f, 93.2744f, -83.316f, 73.0812f, -133.3556f}}, MTHLIB_LOW_PRECISION));
 	
 	r_f = DetMatrix4x4(m1);
-	MTHLIB_ASSERT(Compare32(r_f, 3736.0847f, 0.001f)); // too little precision... :c
+	MTHLIB_ASSERT(Compare32(r_f, 3736.0847f, 0.001f));
 	
 	r = TransposeMatrix4x4(m1);
 	MTHLIB_ASSERT(CompareMat4x4(r, (mat4x4){.elem = {-5.18f, 3.24f, 8.56f, 3.14f, 2.3f, -9.51f, -3.83f, -3.16f, -4.7f, -6.01f, -0.37f, -0.62f, 7.45f, 6.03f, 7.59f, -9.50f}}, MTHLIB_LOW_PRECISION));
 
 	r = InverseMatrix4x4(m1);
-	// MTHLIB_ASSERT(CompareMat4x4(r, (mat4x4){.elem = {0.0781f, -0.0834f, 0.1489f, 0.1273f, 0.1687f, -0.1519f, 0.1132f, 0.1263f, -0.2395f, 0.0489f, -0.0819f, -0.2222f, -0.0146f, 0.0197f, 0.0169f, -0.0906f}}, MTHLIB_LOW_PRECISION));
+	MTHLIB_ASSERT(CompareMat4x4(r, (mat4x4){.elem = {0.0781f, -0.0834f, 0.1489f, 0.1273f, 0.1687f, -0.1519f, 0.1132f, 0.1263f, -0.2395f, 0.0489f, -0.0819f, -0.2222f, -0.0146f, 0.0197f, 0.01691f, -0.0906f}}, 0.0001f)); // too little precision... :c
 
-	// v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1);
-	// mat4x4 CreateIdentity4x4();
+	r_v4 = MultV4ByMatrix4x4(u, m1);
+	MTHLIB_ASSERT(CompareV4(r_v4, (v4){12.922f, 29.149f, 15.573f, 67.997f}, MTHLIB_LOW_PRECISION));
+	
+	r = CreateIdentity4x4();
+	MTHLIB_ASSERT(CompareMat4x4(r, (mat4x4){.elem = {1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f}}, MTHLIB_LOW_PRECISION));
 
 	printf("%s tests done...\n", __FILE__);
 	return 0;
