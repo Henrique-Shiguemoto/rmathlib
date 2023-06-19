@@ -236,8 +236,6 @@ f64 Cosec64(f64 angleInRadians);
 f64 Sec64(f64 angleInRadians);
 f64 Cotg64(f64 angleInRadians);
 
-// ------------------------------------------------------------------
-
 //Other convenient functions
 
 b8 Compare32(f32 x, f32 y, f32 errorMargin);
@@ -284,6 +282,8 @@ i64 Ceil64(f64 x);
 i64 Floor64(f64 x);
 i64 Round64(f64 x);
 i8 Sign(f64 x);
+
+// ------------------------------------------------------------------
 
 //RANDOM FUNCTIONS
 
