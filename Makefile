@@ -21,6 +21,7 @@ test:
 	$(CC) $(FLAGS) -o test4 $(TEST_DIR)/mat2x2_test.c mthlib.c
 	$(CC) $(FLAGS) -o test5 $(TEST_DIR)/mat3x3_test.c mthlib.c
 	$(CC) $(FLAGS) -o test6 $(TEST_DIR)/mat4x4_test.c mthlib.c
+	$(CC) $(FLAGS) -o test7 $(TEST_DIR)/trig_test.c mthlib.c
 	test0
 	test1
 	test2
@@ -28,6 +29,7 @@ test:
 	test4
 	test5
 	test6
+	test7
 
 clean:
 	del *.exe

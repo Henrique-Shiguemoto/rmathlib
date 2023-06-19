@@ -221,8 +221,6 @@ v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1);
 mat4x4 CreateIdentity4x4();
 b8 CompareMat4x4(mat4x4 m1, mat4x4 m2, f32 errorMargin);
 
-// ------------------------------------------------------------------
-
 //Trig Functions
 
 f32 Sin32(f32 angleInRadians);
@@ -237,6 +235,8 @@ f64 Tg64(f64 angleInRadians);
 f64 Cosec64(f64 angleInRadians);
 f64 Sec64(f64 angleInRadians);
 f64 Cotg64(f64 angleInRadians);
+
+// ------------------------------------------------------------------
 
 //Other convenient functions
 
