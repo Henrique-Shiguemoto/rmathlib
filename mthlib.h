@@ -125,6 +125,7 @@ typedef struct sphere3D {
 
 #define MTHLIB_INFINITY ((f32)(1e+300)*(1e+300))
 #define MTHLIB_NAN (((f32)(1e+300)*(1e+300))*(0.0f))
+#define MTHLIB_U32_MAX 4294967295
 #define MTHLIB_PI 3.141592653589793
 #define MTHLIB_DEGREE_IN_RAD (MTHLIB_PI/180)
 #define MTHLIB_SQRT_2 1.414213562373095
@@ -283,14 +284,21 @@ i64 Floor64(f64 x);
 i64 Round64(f64 x);
 i8 Sign(f64 x);
 
-// ------------------------------------------------------------------
-
 //RANDOM FUNCTIONS
 
-u32 RandomU32();
+u32 RandomU32(void);
 u32 RandomU32InInterval(u32 min, u32 max);
-b8 RandomBool();
-i8 RandomSign();
+b8 RandomBool(void);
+i8 RandomSign(void);
+f32 Random32(void);                 // returns f32 from 0.0f to 1.0f
+v2 RandomV2(void);                  // elements are from 0.0f to 1.0f
+v3 RandomV3(void);                  // elements are from 0.0f to 1.0f
+v4 RandomV4(void);                  // elements are from 0.0f to 1.0f
+mat2x2 RandomMat2x2(void);          // elements are from 0.0f to 1.0f
+mat3x3 RandomMat3x3(void);          // elements are from 0.0f to 1.0f
+mat4x4 RandomMat4x4(void);          // elements are from 0.0f to 1.0f
+
+// ------------------------------------------------------------------
 
 //GRAPHICS FUNCTIONS
 

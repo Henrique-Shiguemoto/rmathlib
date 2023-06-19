@@ -740,7 +740,7 @@ static u32 static_XORShift(){
 	return random_seed;
 }
 
-u32 RandomU32(){
+u32 RandomU32(void){
 	if(seeded == MTHLIB_FALSE) static_SetSeed();
 	return static_XORShift();
 }
@@ -749,13 +749,72 @@ u32 RandomU32InInterval(u32 min, u32 max){
 	return (RandomU32() % (max - min + 1)) + min;
 }
 
-b8 RandomBool(){
+b8 RandomBool(void){
 	return (RandomU32() & 1) == 0;
 }
 
-i8 RandomSign(){
-	if(RandomBool() == MTHLIB_FALSE) return 1;
-	return -1;
+i8 RandomSign(void){
+	return RandomBool() == MTHLIB_FALSE ? 1 : -1;
+}
+
+f32 Random32(void){
+	return (f32)RandomU32() / (f32)MTHLIB_U32_MAX;
+}
+
+v2 RandomV2(void){
+	return (v2){RandomSign() * Random32(), 
+				RandomSign() * Random32()};
+}
+
+v3 RandomV3(void){
+	return (v3){RandomSign() * Random32(),
+				RandomSign() * Random32(),
+				RandomSign() * Random32()};
+}
+
+v4 RandomV4(void){
+	return (v4){RandomSign() * Random32(),
+				RandomSign() * Random32(),
+				RandomSign() * Random32(),
+				RandomSign() * Random32()};
+}
+
+mat2x2 RandomMat2x2(void){
+	return (mat2x2){.elem = {RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32()}};
+}
+
+mat3x3 RandomMat3x3(void){
+	return (mat3x3){.elem = {RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32()}};
+}
+
+mat4x4 RandomMat4x4(void){
+	return (mat4x4){.elem = {RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32(),
+							 RandomSign() * Random32()}};
 }
 
 //GRAPHICS IMPLEMENTATIONS
