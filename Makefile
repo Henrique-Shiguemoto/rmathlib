@@ -24,6 +24,8 @@ test:
 	$(CC) $(FLAGS) -o test7 $(TEST_DIR)/trig_test.c mthlib.c
 	$(CC) $(FLAGS) -o test8 $(TEST_DIR)/convenient_functions_test.c mthlib.c
 	$(CC) $(FLAGS) -o test9 $(TEST_DIR)/random_test.c mthlib.c
+	$(CC) $(FLAGS) -o test10 $(TEST_DIR)/graphics2D_test.c mthlib.c
+	$(CC) $(FLAGS) -o test11 $(TEST_DIR)/graphics3D_test.c mthlib.c
 	test0
 	test1
 	test2
@@ -34,6 +36,8 @@ test:
 	test7
 	test8
 	test9
+	test10
+	test11
 
 clean:
 	del *.exe

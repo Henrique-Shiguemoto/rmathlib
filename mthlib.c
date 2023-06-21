@@ -269,9 +269,9 @@ v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1){
 mat3x3 CreateIdentity3x3(){
 	mat3x3 output = { 0 };
 
-	output.elem[0] = 1.0;
-	output.elem[4] = 1.0;
-	output.elem[8] = 1.0;
+	output.elem[0] = 1.0f;
+	output.elem[4] = 1.0f;
+	output.elem[8] = 1.0f;
 
 	return output;
 }

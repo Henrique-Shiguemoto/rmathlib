@@ -298,15 +298,13 @@ mat2x2 RandomMat2x2(void);          // elements are from 0.0f to 1.0f
 mat3x3 RandomMat3x3(void);          // elements are from 0.0f to 1.0f
 mat4x4 RandomMat4x4(void);          // elements are from 0.0f to 1.0f
 
-// ------------------------------------------------------------------
-
 //GRAPHICS FUNCTIONS
 
 mat3x3 CreateTranslationMatrix2D(v2 posDelta);
 mat3x3 CreateScaleMatrixWithSetOrigin2D(v2 scale, v2 origin);
 mat3x3 CreateScaleMatrix2D(v2 scale);
-mat3x3 CreateRotationAroundPointMatrix2D(f32 angleVec, v2 pos);
-mat3x3 CreateRotationMatrix2D(f32 angleVec);
+mat3x3 CreateRotationAroundPointMatrix2D(f32 angle, v2 pos);
+mat3x3 CreateRotationMatrix2D(f32 angle);
 
 mat4x4 CreateTranslationMatrix3D(v3 posDelta);
 mat4x4 CreateScaleMatrix3D(v3 scale);
@@ -324,6 +322,8 @@ mat4x4 CreateEulerRotationInXYZMatrix3D(v3 angles);
 mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n);
 mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n);
 
+// ------------------------------------------------------------------
+
 // GEOMETRY FUNCTIONS
 
 f32 DistanceBetweenPoints2D(point2D p, point2D q);
@@ -335,6 +335,7 @@ f32 DistanceBetweenLines3D(line3D line1, line3D line2);
 f32 DistanceBetweenPointAndPlane(point3D p, plane pl);
 f32 DistanceBetweenLineAndPlane(line3D line, plane pl);
 f32 DistanceBetweenPlanes(plane pl1, plane pl2);
+
 b8 ParallelLines2D(line2D l1, line2D l2);
 b8 ParallelLines3D(line3D l1, line3D l2);
 b8 IntersectingLines2D(line2D l1, line2D l2);
@@ -345,7 +346,6 @@ b8 CollisionAABB2D(AABB2D r1, AABB2D r2);
 b8 CollisionPointAndAABB2D(point2D p, AABB2D r);
 b8 CollisionPointAndSphere2D(point2D p, sphere2D s);
 b8 CollisionSphere2D(sphere2D s1, sphere2D s2);
-
 b8 CollisionAABB3D(AABB3D r1, AABB3D r2);
 b8 CollisionPointAndAABB3D(point3D p, AABB3D r);
 b8 CollisionPointAndSphere3D(point3D p, sphere3D s);
@@ -355,12 +355,10 @@ f32 AreaTriangle2D(triangle2D triangle);
 f32 AreaSphere2D(sphere2D sphere);
 f32 AreaAABB2D(AABB2D aabb);
 f32 AreaQuad2D(quad2D quad);
-
 f32 PerimeterSphere2D(sphere2D sphere);
 f32 PerimeterAABB2D(AABB2D aabb);
 f32 PerimeterQuad2D(quad2D quad);
 f32 PerimeterTriangle2D(triangle2D triangle);
-
 f32 AreaTriangle3D(triangle3D triangle);
 f32 AreaQuad3D(quad3D quad);
 f32 VolumeSphere3D(sphere3D sphere);
@@ -371,7 +369,6 @@ f32 SurfaceAreaAABB3D(AABB3D aabb);
 
 lineSegment2D AddLineSegment2D(lineSegment2D l1, lineSegment2D l2);
 lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2);
-
 b8 LineSegment2DIsNull(lineSegment2D l);
 b8 LineSegments2DAreOpposite(lineSegment2D l1, lineSegment2D l2);
 b8 LineSegments2DHaveEqualLength(lineSegment2D l1, lineSegment2D l2);
@@ -380,7 +377,6 @@ b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2);
 
 lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2);
 lineSegment3D SubtractLineSegment3D(lineSegment3D l1, lineSegment3D l2);
-
 b8 LineSegment3DIsNull(lineSegment3D l);
 b8 LineSegments3DAreOpposite(lineSegment3D l1, lineSegment3D l2);
 b8 LineSegments3DHaveEqualLength(lineSegment3D l1, lineSegment3D l2);
