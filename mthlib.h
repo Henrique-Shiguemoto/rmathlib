@@ -303,14 +303,14 @@ mat4x4 RandomMat4x4(void);          // elements are from 0.0f to 1.0f
 mat3x3 CreateTranslationMatrix2D(v2 posDelta);
 mat3x3 CreateScaleMatrixWithSetOrigin2D(v2 scale, v2 origin);
 mat3x3 CreateScaleMatrix2D(v2 scale);
-mat3x3 CreateRotationAroundPointMatrix2D(f32 angle, v2 pos);
-mat3x3 CreateRotationMatrix2D(f32 angle);
+mat3x3 CreateRotationAroundPointMatrix2D(f32 angleInRadians, v2 pos);
+mat3x3 CreateRotationMatrix2D(f32 angleInRadians);
 
 mat4x4 CreateTranslationMatrix3D(v3 posDelta);
 mat4x4 CreateScaleMatrix3D(v3 scale);
-mat4x4 CreateEulerRotationInXMatrix3D(f32 angle);
-mat4x4 CreateEulerRotationInYMatrix3D(f32 angle);
-mat4x4 CreateEulerRotationInZMatrix3D(f32 angle);
+mat4x4 CreateEulerRotationInXMatrix3D(f32 angleInRadians);
+mat4x4 CreateEulerRotationInYMatrix3D(f32 angleInRadians);
+mat4x4 CreateEulerRotationInZMatrix3D(f32 angleInRadians);
 
 /**
  * 
@@ -318,7 +318,7 @@ mat4x4 CreateEulerRotationInZMatrix3D(f32 angle);
  *      (AXIS HIERARCHY IS X => Y => Z, Z IS THE MOST SIGNIFICANT)
  * 
  * */
-mat4x4 CreateEulerRotationInXYZMatrix3D(v3 angles);
+mat4x4 CreateEulerRotationInXYZMatrix3D(v3 anglesInRadians);
 mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n);
 mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n);
 

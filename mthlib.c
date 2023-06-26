@@ -1,4 +1,5 @@
 #include "mthlib.h"
+#include <stdio.h>
 
 //GLOBALS
 static b8 seeded = MTHLIB_FALSE;
@@ -843,11 +844,11 @@ mat3x3 CreateScaleMatrix2D(v2 scale){
 	return CreateScaleMatrixWithSetOrigin2D(scale, (v2){ 0, 0 });
 }
 
-mat3x3 CreateRotationAroundPointMatrix2D(f32 angle, v2 pos){
+mat3x3 CreateRotationAroundPointMatrix2D(f32 angleInRadians, v2 pos){
 	mat3x3 output = CreateIdentity3x3();
 
-	f32 s = Sin32(angle);
-	f32 c = Cos32(angle);
+	f32 s = Sin32(angleInRadians);
+	f32 c = Cos32(angleInRadians);
 
 	output.elem[0] = c;
 	output.elem[1] = -s;
@@ -859,8 +860,8 @@ mat3x3 CreateRotationAroundPointMatrix2D(f32 angle, v2 pos){
 	return output;
 }
 
-mat3x3 CreateRotationMatrix2D(f32 angle){
-	return CreateRotationAroundPointMatrix2D(angle, (v2){ 0, 0 });
+mat3x3 CreateRotationMatrix2D(f32 angleInRadians){
+	return CreateRotationAroundPointMatrix2D(angleInRadians, (v2){ 0, 0 });
 }
 
 mat4x4 CreateTranslationMatrix3D(v3 posDelta){
@@ -883,11 +884,11 @@ mat4x4 CreateScaleMatrix3D(v3 scale){
 	return output;
 }
 
-mat4x4 CreateEulerRotationInXMatrix3D(f32 angle){
+mat4x4 CreateEulerRotationInXMatrix3D(f32 angleInRadians){
 	mat4x4 output = CreateIdentity4x4();
 
-	f32 s = Sin32(angle);
-	f32 c = Cos32(angle);
+	f32 s = Sin32(angleInRadians);
+	f32 c = Cos32(angleInRadians);
 
 	output.elem[5] = c;
 	output.elem[6] = -s;
@@ -897,25 +898,25 @@ mat4x4 CreateEulerRotationInXMatrix3D(f32 angle){
 	return output;
 }
 
-mat4x4 CreateEulerRotationInYMatrix3D(f32 angle){
+mat4x4 CreateEulerRotationInYMatrix3D(f32 angleInRadians){
 	mat4x4 output = CreateIdentity4x4();
 
-	f32 s = Sin32(angle);
-	f32 c = Cos32(angle);
+	f32 s = Sin32(angleInRadians);
+	f32 c = Cos32(angleInRadians);
 
 	output.elem[0] = c;
 	output.elem[2] = s;
-	output.elem[10] = -s;
-	output.elem[12] = c;	
+	output.elem[8] = -s;
+	output.elem[10] = c;	
 
 	return output;
 }
 
-mat4x4 CreateEulerRotationInZMatrix3D(f32 angle){
+mat4x4 CreateEulerRotationInZMatrix3D(f32 angleInRadians){
 	mat4x4 output = CreateIdentity4x4();
 
-	f32 s = Sin32(angle);
-	f32 c = Cos32(angle);
+	f32 s = Sin32(angleInRadians);
+	f32 c = Cos32(angleInRadians);
 
 	output.elem[0] = c;
 	output.elem[1] = -s;
@@ -925,13 +926,13 @@ mat4x4 CreateEulerRotationInZMatrix3D(f32 angle){
 	return output;
 }
 
-mat4x4 CreateEulerRotationInXYZMatrix3D(v3 angles){
+mat4x4 CreateEulerRotationInXYZMatrix3D(v3 anglesInRadians){
 	mat4x4 output = { 0 };
 
-	mat4x4 rotationMatrixInX = CreateEulerRotationInXMatrix3D(angles.x);
-	mat4x4 rotationMatrixInY = CreateEulerRotationInYMatrix3D(angles.y);
-	mat4x4 rotationMatrixInZ = CreateEulerRotationInZMatrix3D(angles.z);
-
+	mat4x4 rotationMatrixInX = CreateEulerRotationInXMatrix3D(anglesInRadians.x);
+	mat4x4 rotationMatrixInY = CreateEulerRotationInYMatrix3D(anglesInRadians.y);
+	mat4x4 rotationMatrixInZ = CreateEulerRotationInZMatrix3D(anglesInRadians.z);
+	
 	output = MultMatrix4x4(rotationMatrixInX, rotationMatrixInY);
 	output = MultMatrix4x4(output, rotationMatrixInZ);
 
@@ -955,9 +956,9 @@ mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n
 mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n){
 	mat4x4 output = { 0 };
 
-	f32 tg = Tg32(fovY / 2);
+	f32 tg = Tg32(0.5f*fovY);
 
-	output.elem[0] = aspectRatio * (1 / tg);
+	output.elem[0] = (1 / tg) / aspectRatio;
 	output.elem[5] = (1 / tg);
 	output.elem[10] = f / (f - n);
 	output.elem[11] = -(f * n) / (f - n);
