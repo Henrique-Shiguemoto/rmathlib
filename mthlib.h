@@ -411,21 +411,3 @@ f32 VolumeAABB3D(AABB3D aabb);
 f32 PerimeterTriangle3D(triangle3D triangle);
 f32 SurfaceAreaSphere3D(sphere3D sphere);
 f32 SurfaceAreaAABB3D(AABB3D aabb);
-
-// ------------------------------------------------------------------
-
-lineSegment2D AddLineSegment2D(lineSegment2D l1, lineSegment2D l2);
-lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2);
-b8 LineSegment2DIsNull(lineSegment2D l);
-b8 LineSegments2DAreOpposite(lineSegment2D l1, lineSegment2D l2);
-b8 LineSegments2DHaveEqualLength(lineSegment2D l1, lineSegment2D l2);
-b8 LineSegments2DAreParallel(lineSegment2D l1, lineSegment2D l2);
-b8 LineSegments2DHaveOppositeDirection(lineSegment2D l1, lineSegment2D l2);
-
-lineSegment3D AddLineSegment3D(lineSegment3D l1, lineSegment3D l2);
-lineSegment3D SubtractLineSegment3D(lineSegment3D l1, lineSegment3D l2);
-b8 LineSegment3DIsNull(lineSegment3D l);
-b8 LineSegments3DAreOpposite(lineSegment3D l1, lineSegment3D l2);
-b8 LineSegments3DHaveEqualLength(lineSegment3D l1, lineSegment3D l2);
-b8 LineSegments3DAreParallel(lineSegment3D l1, lineSegment3D l2);
-b8 LineSegments3DHaveOppositeDirection(lineSegment3D l1, lineSegment3D l2);
