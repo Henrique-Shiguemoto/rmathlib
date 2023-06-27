@@ -1094,6 +1094,7 @@ b8 IntersectingLines3D(line3D l1, line3D l2){
 	return !ParallelLines3D(l1, l2) && Compare32(DotV3(directionCross, directionSub), 0.0f, MTHLIB_LOW_PRECISION);
 }
 
+// REFACTOR: rename function (change name for consistency)
 b8 SkewLines(line3D l1, line3D l2){
 	return !ParallelLines3D(l1, l2) && !IntersectingLines3D(l1, l2);
 }
@@ -1105,11 +1106,13 @@ b8 CollisionAABB2D(AABB2D r1, AABB2D r2){
     	   (r1.max.y > r2.min.y));
 }
 
+// REFACTOR: rename function (it checks if the point is inside the AABB2D or in the bounding line segments)
 b8 CollisionPointAndAABB2D(point2D p, AABB2D r){
 	return (p.x >= r.min.x && p.x <= r.max.x) &&
            (p.y >= r.min.y && p.y <= r.max.y);
 }
 
+// REFACTOR: rename function (it checks if the point is inside the circle or in the surface)
 b8 CollisionPointAndSphere2D(point2D p, sphere2D s){
 	return DistanceBetweenPoints2D(p, s.center) < s.radius;	
 }

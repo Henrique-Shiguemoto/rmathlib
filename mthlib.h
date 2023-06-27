@@ -75,11 +75,58 @@ typedef struct quad2D {
     point2D d;
 } quad2D;
 
+
+/**
+ * 
+ * Functions with this structure as parameter assumes the following
+ *      (These assumptions are also analogous to AABB3D):
+ * 
+ * For y-is-up scenarios:
+ *                              ^  (max4)
+ *                              |            (max3)
+ *                              |
+ *                              |
+ *        (min4)                |  (min3)
+ *                              |
+ *                              |        (max2)
+ *        --------------------- 0 --------------------->
+ *                     (max1)   |
+ *                              |    (min2)
+ *                              |
+ *                 (min1)       |
+ *                              |
+ *                              |
+ * - min.x and min.y are below and to the left of max.x and max.y
+ * - min.x != max.x and min.y != max.y (so that AABBs don't determine a line segment)
+ * 
+ * 
+ * For y-is-down scenarios:
+ *                              |
+ *                              |
+ *                              |
+ *                              |
+ *        (min1)                |  (min2)
+ *                              |
+ *                              |        (max2)
+ *        --------------------- 0 --------------------->
+ *                   (min3)     |
+ *                              |    (min4)
+ *                              |
+ *                              |               (max4)
+ *                              |  (max1)
+ *                       (max3) |
+ *                              v
+ * 
+ * - min.x and min.y are up and to the left of max.x and max.y
+ * - min.x != max.x and min.y != max.y (so that AABBs don't determine a line segment)
+ * 
+ * */ 
 typedef struct AABB2D {
     point2D min;
     point2D max;
 } AABB2D;
 
+// REFACTOR: rename function (just call it a circle)
 typedef struct sphere2D {
     point2D center;
     f32 radius;
@@ -340,8 +387,6 @@ b8 IntersectingLines2D(line2D l1, line2D l2);
 b8 IntersectingLines3D(line3D l1, line3D l2);
 b8 SkewLines(line3D l1, line3D l2);
 
-// ------------------------------------------------------------------
-
 b8 CollisionAABB2D(AABB2D r1, AABB2D r2);
 b8 CollisionPointAndAABB2D(point2D p, AABB2D r);
 b8 CollisionPointAndSphere2D(point2D p, sphere2D s);
@@ -350,6 +395,8 @@ b8 CollisionAABB3D(AABB3D r1, AABB3D r2);
 b8 CollisionPointAndAABB3D(point3D p, AABB3D r);
 b8 CollisionPointAndSphere3D(point3D p, sphere3D s);
 b8 CollisionSphere3D(sphere3D s1, sphere3D s2);
+
+// ------------------------------------------------------------------
 
 f32 AreaTriangle2D(triangle2D triangle);
 f32 AreaSphere2D(sphere2D sphere);
