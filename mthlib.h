@@ -396,8 +396,6 @@ b8 CollisionPointAndAABB3D(point3D p, AABB3D r);
 b8 CollisionPointAndSphere3D(point3D p, sphere3D s);
 b8 CollisionSphere3D(sphere3D s1, sphere3D s2);
 
-// ------------------------------------------------------------------
-
 f32 AreaTriangle2D(triangle2D triangle);
 f32 AreaSphere2D(sphere2D sphere);
 f32 AreaAABB2D(AABB2D aabb);
@@ -413,6 +411,8 @@ f32 VolumeAABB3D(AABB3D aabb);
 f32 PerimeterTriangle3D(triangle3D triangle);
 f32 SurfaceAreaSphere3D(sphere3D sphere);
 f32 SurfaceAreaAABB3D(AABB3D aabb);
+
+// ------------------------------------------------------------------
 
 lineSegment2D AddLineSegment2D(lineSegment2D l1, lineSegment2D l2);
 lineSegment2D SubtractLineSegment2D(lineSegment2D l1, lineSegment2D l2);

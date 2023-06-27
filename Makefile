@@ -30,6 +30,7 @@ test:
 	$(CC) $(FLAGS) -o test13 $(TEST_DIR)/lines_relative_positions_test.c mthlib.c
 	$(CC) $(FLAGS) -o test14 $(TEST_DIR)/distances_test.c mthlib.c
 	$(CC) $(FLAGS) -o test15 $(TEST_DIR)/collisions_test.c mthlib.c
+	$(CC) $(FLAGS) -o test16 $(TEST_DIR)/area_volume_perimeter_test.c mthlib.c
 	test0
 	test1
 	test2
@@ -46,6 +47,7 @@ test:
 	test13
 	test14
 	test15
+	test16
 
 clean:
 	del *.exe

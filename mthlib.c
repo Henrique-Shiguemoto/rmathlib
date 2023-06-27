@@ -1152,15 +1152,15 @@ f32 AreaTriangle2D(triangle2D triangle){
 	output.elem[2] = triangle.a.y - triangle.b.y;
 	output.elem[3] = triangle.a.y - triangle.c.y;
 
-	return 0.5f*DetMatrix2x2(output);
+	return Abs32(0.5f*DetMatrix2x2(output));
 }
 
 f32 AreaSphere2D(sphere2D sphere){
-	return MTHLIB_PI*sphere.radius*sphere.radius;
+	return Abs32(MTHLIB_PI*sphere.radius*sphere.radius);
 }
 
 f32 AreaAABB2D(AABB2D aabb){
-	return (aabb.max.x - aabb.min.x) * (aabb.max.y - aabb.min.y);
+	return Abs32((aabb.max.x - aabb.min.x)) * Abs32((aabb.max.y - aabb.min.y));
 }
 
 f32 AreaQuad2D(quad2D quad){
@@ -1171,15 +1171,15 @@ f32 AreaQuad2D(quad2D quad){
 	output.elem[2] = quad.b.x - quad.d.x;
 	output.elem[3] = quad.b.y - quad.d.y;
 
-	return 0.5f*DetMatrix2x2(output);
+	return Abs32(0.5f*DetMatrix2x2(output));
 }
 
 f32 PerimeterSphere2D(sphere2D sphere){
-	return sphere.radius*2*MTHLIB_PI;
+	return Abs32(sphere.radius*2*MTHLIB_PI);
 }
 
 f32 PerimeterAABB2D(AABB2D aabb){
-	return 2 * (aabb.max.x - aabb.min.x) + 2 * (aabb.max.y - aabb.min.y);
+	return Abs32(2 * (aabb.max.x - aabb.min.x)) + Abs32(2 * (aabb.max.y - aabb.min.y));
 }
 
 f32 PerimeterQuad2D(quad2D quad){
@@ -1215,11 +1215,11 @@ f32 AreaQuad3D(quad3D quad){
 
 f32 VolumeSphere3D(sphere3D sphere){
 	f32 r = sphere.radius;
-	return (4.0f/3.0f)*MTHLIB_PI*(r*r*r);
+	return Abs32((4.0f/3.0f)*MTHLIB_PI*(r*r*r));
 }
 
 f32 VolumeAABB3D(AABB3D aabb){
-	return Abs32((aabb.max.x - aabb.min.x) * (aabb.max.y - aabb.min.y) * (aabb.max.z - aabb.min.z));
+	return Abs32((aabb.max.x - aabb.min.x)) * Abs32((aabb.max.y - aabb.min.y)) * Abs32((aabb.max.z - aabb.min.z));
 }
 
 f32 PerimeterTriangle3D(triangle3D triangle){
@@ -1234,13 +1234,10 @@ f32 SurfaceAreaSphere3D(sphere3D sphere){
 }
 
 f32 SurfaceAreaAABB3D(AABB3D aabb){
-	AABB2D aabb1 = (AABB2D){.min = {aabb.min.x, aabb.min.y}, .max = {aabb.max.x, aabb.max.y}};
-	AABB2D aabb2 = (AABB2D){.min = {aabb.min.x, aabb.min.y}, .max = {aabb.max.y, aabb.max.z}};
-	AABB2D aabb3 = (AABB2D){.min = {aabb.min.x, aabb.min.y}, .max = {aabb.max.x, aabb.max.z}};
-	f32 areaFace1 = AreaAABB2D(aabb1);
-	f32 areaFace2 = AreaAABB2D(aabb2);
-	f32 areaFace3 = AreaAABB2D(aabb3);
-	return (2 * areaFace1) + (2 * areaFace2) + (2 * areaFace3);
+	f32 xDelta = aabb.max.x - aabb.min.x;
+	f32 yDelta = aabb.max.y - aabb.min.y;
+	f32 zDelta = aabb.max.z - aabb.min.z;
+	return 2.0f * (xDelta*yDelta + xDelta*zDelta + yDelta*zDelta);
 }
 
 lineSegment2D AddLineSegment2D(lineSegment2D l1, lineSegment2D l2){
