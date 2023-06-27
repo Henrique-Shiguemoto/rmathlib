@@ -1014,7 +1014,8 @@ f32 DistanceBetweenPointAndPlane(point3D p, plane pl){
 
 f32 DistanceBetweenLineAndPlane(line3D line, plane pl){
 	//Check if the line is parallel to the plane
-	if(DotV3(line.direction, pl.normal) == 0){
+	// Use Compare32() ?
+	if(Compare32(DotV3(line.direction, pl.normal), 0.0f, MTHLIB_LOW_PRECISION)){
 		return DistanceBetweenPointAndPlane(line.arbitraryPoint, pl);
 	}
 	//Here it means that the line is intersecting the plane in one point, since it's not parallel
@@ -1052,24 +1053,28 @@ b8 ParallelLines2D(line2D l1, line2D l2){
 
 b8 ParallelLines3D(line3D l1, line3D l2){
 	//The arbitrary points don't matter, since we only need the direction vectors
-	if((l1.direction.x == 0) && (l2.direction.x == 0)){
+	if(l1.direction.x == l2.direction.x){
 		line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.y, l1.direction.z}};
 		line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.y, l2.direction.z}};
 		return ParallelLines2D(aux1, aux2);
 	}
-	if((l1.direction.y == 0) && (l2.direction.y == 0)){
+	if(l1.direction.y == l2.direction.y){
 		line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.x, l1.direction.z}};
 		line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.x, l2.direction.z}};
 		return ParallelLines2D(aux1, aux2);
 	}
-	if((l1.direction.z == 0) && (l2.direction.z == 0)){
+	if(l1.direction.z == l2.direction.z){
 		line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.x, l1.direction.y}};
 		line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.x, l2.direction.y}};
 		return ParallelLines2D(aux1, aux2);
 	}
-	if(((l1.direction.x / l2.direction.x) == 0) && 
-	   ((l1.direction.y / l2.direction.y) == 0) && 
-	   ((l1.direction.z / l2.direction.z) == 0)){
+
+	f32 xRatio = l1.direction.x / l2.direction.x;
+	f32 yRatio = l1.direction.y / l2.direction.y;
+	f32 zRatio = l1.direction.z / l2.direction.z;
+
+	// transitivity
+	if(xRatio == yRatio && yRatio == zRatio){
 		return MTHLIB_TRUE;
 	}
 	return MTHLIB_FALSE;

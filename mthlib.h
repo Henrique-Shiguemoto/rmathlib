@@ -110,7 +110,7 @@ typedef struct quad3D {
 
 typedef struct plane {
     v3 normal;
-    point3D arbitraryPoint; 
+    point3D arbitraryPoint;
 } plane;
 
 typedef struct AABB3D {
@@ -322,8 +322,6 @@ mat4x4 CreateEulerRotationInXYZMatrix3D(v3 anglesInRadians);
 mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n);
 mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n);
 
-// ------------------------------------------------------------------
-
 // GEOMETRY FUNCTIONS
 
 f32 DistanceBetweenPoints2D(point2D p, point2D q);
@@ -335,6 +333,8 @@ f32 DistanceBetweenLines3D(line3D line1, line3D line2);
 f32 DistanceBetweenPointAndPlane(point3D p, plane pl);
 f32 DistanceBetweenLineAndPlane(line3D line, plane pl);
 f32 DistanceBetweenPlanes(plane pl1, plane pl2);
+
+// ------------------------------------------------------------------
 
 b8 ParallelLines2D(line2D l1, line2D l2);
 b8 ParallelLines3D(line3D l1, line3D l2);

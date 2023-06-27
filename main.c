@@ -6,6 +6,6 @@
 	if(!(x)){ fprintf(stderr, "ASSERT - ERROR AT: (%d)\n", __LINE__); exit(1); }
 
 int main(void){
-	
+
 	return 0;
 }
