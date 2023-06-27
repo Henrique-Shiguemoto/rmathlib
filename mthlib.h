@@ -334,13 +334,13 @@ f32 DistanceBetweenPointAndPlane(point3D p, plane pl);
 f32 DistanceBetweenLineAndPlane(line3D line, plane pl);
 f32 DistanceBetweenPlanes(plane pl1, plane pl2);
 
-// ------------------------------------------------------------------
-
 b8 ParallelLines2D(line2D l1, line2D l2);
 b8 ParallelLines3D(line3D l1, line3D l2);
 b8 IntersectingLines2D(line2D l1, line2D l2);
 b8 IntersectingLines3D(line3D l1, line3D l2);
 b8 SkewLines(line3D l1, line3D l2);
+
+// ------------------------------------------------------------------
 
 b8 CollisionAABB2D(AABB2D r1, AABB2D r2);
 b8 CollisionPointAndAABB2D(point2D p, AABB2D r);

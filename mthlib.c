@@ -1044,10 +1044,11 @@ b8 ParallelLines2D(line2D l1, line2D l2){
 	    ((l1dx != 0) && (l2dx != 0)))){
 		return MTHLIB_TRUE;
 	}
-	if((l2dx != 0) && (l2dy != 0) && 
-		((l1dx / l2dx) == (l1dy / l2dy))){
+
+	if(l2dx != 0.0f && l2dy != 0.0f && Compare32((l1dx / l2dx), (l1dy / l2dy), MTHLIB_LOW_PRECISION)){
 		return MTHLIB_TRUE;
 	}
+	
 	return MTHLIB_FALSE;
 }
 
@@ -1069,14 +1070,17 @@ b8 ParallelLines3D(line3D l1, line3D l2){
 		return ParallelLines2D(aux1, aux2);
 	}
 
-	f32 xRatio = l1.direction.x / l2.direction.x;
-	f32 yRatio = l1.direction.y / l2.direction.y;
-	f32 zRatio = l1.direction.z / l2.direction.z;
-
 	// transitivity
-	if(xRatio == yRatio && yRatio == zRatio){
-		return MTHLIB_TRUE;
+	if(l2.direction.x != 0.0f && l2.direction.y != 0.0f && l2.direction.z != 0.0f){
+		f32 xRatio = l1.direction.x / l2.direction.x;
+		f32 yRatio = l1.direction.y / l2.direction.y;
+		f32 zRatio = l1.direction.z / l2.direction.z;
+		if(Compare32(xRatio, yRatio, MTHLIB_LOW_PRECISION) && 
+			Compare32(yRatio, zRatio, MTHLIB_LOW_PRECISION)){
+			return MTHLIB_TRUE;
+		}
 	}
+
 	return MTHLIB_FALSE;
 }
 
@@ -1087,7 +1091,7 @@ b8 IntersectingLines2D(line2D l1, line2D l2){
 b8 IntersectingLines3D(line3D l1, line3D l2){
 	v3 directionCross = CrossV3(l1.direction, l2.direction);
 	v3 directionSub = SubtractV3(l1.arbitraryPoint, l2.arbitraryPoint);
-	return !ParallelLines3D(l1, l2) && (DotV3(directionCross, directionSub) == 0);
+	return !ParallelLines3D(l1, l2) && Compare32(DotV3(directionCross, directionSub), 0.0f, MTHLIB_LOW_PRECISION);
 }
 
 b8 SkewLines(line3D l1, line3D l2){
