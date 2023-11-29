@@ -418,8 +418,6 @@ f32 SurfaceAreaAABB3D(AABB3D aabb);
 
 #ifdef RMATHLIB_IMPLEMENTATION
 
-#include <stdio.h>
-
 //GLOBALS
 static b8 seeded = MTHLIB_FALSE;
 static u32 random_seed = 0;

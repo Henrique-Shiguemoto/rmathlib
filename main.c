@@ -1,6 +1,8 @@
 #define RMATHLIB_IMPLEMENTATION
 #include "rmathlib.h"
 
+#include <stdio.h>
+
 // this is a test program
 
 int main(void){
