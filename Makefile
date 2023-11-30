@@ -1,4 +1,4 @@
-COMPILER=gcc
+COMPILER=clang
 COMPILER_FLAGS=-Wall -Wextra -pedantic -g -std=c11
 SRC=main.c
 BIN=main.exe

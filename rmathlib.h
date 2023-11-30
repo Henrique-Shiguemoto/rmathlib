@@ -2,79 +2,74 @@
 #define RMATHLIB_H
 
 // Type definitions
-typedef char i8;
-typedef short i16;
-typedef int i32;
-typedef long int i64;
-typedef float f32;
-typedef double f64;
-typedef _Bool b8;
+// typedef char i8;
+// typedef short i16;
+// typedef int i32;
+// typedef long int int;
+// typedef float float;
+// typedef double f64;
+// typedef _Bool b8;
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
+// typedef unsigned char u8;
+// typedef unsigned short u16;
+// typedef unsigned int u32;
+// typedef unsigned long long u64;
 
-typedef struct v2 {
-    f32 x;
-    f32 y;
-} v2;
+typedef struct rm_v2f {
+    float x;
+    float y;
+} rm_v2f;
 
-typedef struct v3 {
-    f32 x;
-    f32 y;
-    f32 z;
-} v3;
+typedef struct rm_v3f {
+    float x;
+    float y;
+    float z;
+} rm_v3f;
 
-typedef struct v4 {
-    f32 x;
-    f32 y;
-    f32 z;
-    f32 w;
-} v4;
+typedef struct rm_v4f {
+    float x;
+    float y;
+    float z;
+    float w;
+} rm_v4f;
 
-typedef struct mat2x2 {
-    f32 elem[4];
-} mat2x2;
+typedef struct rm_mat2f {
+    float elem[4];
+} rm_mat2f;
 
-typedef struct mat3x3 {
-    f32 elem[9];
-} mat3x3;
+typedef struct rm_mat3f {
+    float elem[9];
+} rm_mat3f;
 
-typedef struct mat4x4 {
-    f32 elem[16];
-} mat4x4;
+typedef struct rm_mat4f {
+    float elem[16];
+} rm_mat4f;
 
-typedef v2 point2D;
-typedef v3 point3D;
-typedef v4 quaternion;
+typedef rm_v2f rm_point2D;
+typedef rm_v3f rm_point3D;
+typedef rm_v4f rm_quat;
 
-typedef struct lineSegment2D {
-    point2D start;
-    point2D end;
-} lineSegment2D;
+typedef struct rm_line2D {
+    rm_v2f direction;
+    rm_point2D point;
+} rm_line2D;
 
-typedef struct line2D {
-    v2 direction;
-    point2D arbitraryPoint;
-} line2D;
-
-typedef struct triangle2D {
-    point2D a;
-    point2D b;
-    point2D c;
-} triangle2D;
+typedef struct rm_triangle2D {
+    rm_point2D a;
+    rm_point2D b;
+    rm_point2D c;
+} rm_triangle2D;
 
 // It's important to be consistent with the order of the vertices. The user can only use either 
 //      clockwise or anticlockwise ordering for vertices. Some of the functions used for this struct
 //      can give you different results if you don't use these orders.
 // Same thing applies to quad3D.
-typedef struct quad2D {
-    point2D a;
-    point2D b;
-    point2D c;
-    point2D d;
-} quad2D;
+typedef struct rm_quad2D {
+    rm_point2D a;
+    rm_point2D b;
+    rm_point2D c;
+    rm_point2D d;
+} rm_quad2D;
 
 
 /**
@@ -122,179 +117,174 @@ typedef struct quad2D {
  * - min.x != max.x and min.y != max.y (so that AABBs don't determine a line segment)
  * 
  * */ 
-typedef struct AABB2D {
-    point2D min;
-    point2D max;
-} AABB2D;
+typedef struct rm_AABB2D {
+    rm_point2D min;
+    rm_point2D max;
+} rm_AABB2D;
 
 // REFACTOR: rename function (just call it a circle)
-typedef struct sphere2D {
-    point2D center;
-    f32 radius;
-} sphere2D;
+typedef struct rm_circle {
+    rm_point2D center;
+    float radius;
+} rm_circle;
 
-typedef struct lineSegment3D {
-    point3D start;
-    point3D end;
-} lineSegment3D;
+typedef struct rm_line3D {
+    rm_v3f direction;
+    rm_point3D point;
+} rm_line3D;
 
-typedef struct line3D {
-    v3 direction;
-    point3D arbitraryPoint;
-} line3D;
+typedef struct rm_triangle3D {
+    rm_point3D a;
+    rm_point3D b;
+    rm_point3D c;
+} rm_triangle3D;
 
-typedef struct triangle3D {
-    point3D a;
-    point3D b;
-    point3D c;
-} triangle3D;
+typedef struct rm_quad3D {
+    rm_point3D a;
+    rm_point3D b;
+    rm_point3D c;
+    rm_point3D d;
+} rm_quad3D;
 
-typedef struct quad3D {
-    point3D a;
-    point3D b;
-    point3D c;
-    point3D d;
-} quad3D;
+typedef struct rm_plane {
+    rm_v3f normal;
+    rm_point3D point;
+} rm_plane;
 
-typedef struct plane {
-    v3 normal;
-    point3D arbitraryPoint;
-} plane;
+typedef struct rm_AABB3D {
+    rm_point3D min;
+    rm_point3D max;
+} rm_AABB3D;
 
-typedef struct AABB3D {
-    point3D min;
-    point3D max;
-} AABB3D;
+typedef struct rm_sphere {
+    rm_point3D center;
+    float radius;
+} rm_sphere;
 
-typedef struct sphere3D {
-    point3D center;
-    f32 radius;
-} sphere3D;
-
-#define MTHLIB_INFINITY ((f32)(1e+300)*(1e+300))
-#define MTHLIB_NAN (((f32)(1e+300)*(1e+300))*(0.0f))
-#define MTHLIB_U32_MAX 4294967295
-#define MTHLIB_PI 3.141592653589793
-#define MTHLIB_DEGREE_IN_RAD (MTHLIB_PI/180)
-#define MTHLIB_SQRT_2 1.414213562373095
-#define MTHLIB_SQRT_3 1.732050807568877
-#define MTHLIB_LOW_PRECISION 0.00001
-#define MTHLIB_HIGH_PRECISION 0.0000000001
-#define MTHLIB_BIAS32 127
-#define MTHLIB_BIAS64 1023
-#define MTHLIB_TRUE 1
-#define MTHLIB_FALSE 0
-#define MTHLIB_INVALID_V2 (v2) {MTHLIB_NAN, MTHLIB_NAN}
-#define MTHLIB_INVALID_V3 (v3) {MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}
-#define MTHLIB_INVALID_V4 (v4) {MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}
-#define MTHLIB_INVALID_2X2MATRIX (mat2x2) \
+#define RMATH_INFINITY ((float)(1e+300)*(1e+300))
+#define RMATH_NAN (((float)(1e+300)*(1e+300))*(0.0f))
+#define RMATH_U32_MAX 4294967295
+#define RMATH_PI 3.141592653589793
+#define RMATH_DEGREE_IN_RAD (RMATH_PI/180)
+#define RMATH_SQRT_2 1.414213562373095
+#define RMATH_SQRT_3 1.732050807568877
+#define RMATH_LOW_PRECISION 0.00001
+#define RMATH_HIGH_PRECISION 0.0000000001
+#define RMATH_BIAS32 127
+#define RMATH_BIAS64 1023
+#define RMATH_TRUE 1
+#define RMATH_FALSE 0
+#define RMATH_INVALID_V2 (rm_v2f) {RMATH_NAN, RMATH_NAN}
+#define RMATH_INVALID_V3 (rm_v3f) {RMATH_NAN, RMATH_NAN, RMATH_NAN}
+#define RMATH_INVALID_V4 (rm_v4f) {RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN}
+#define RMATH_INVALID_2X2MATRIX (rm_mat2f) \
                                 {.elem = \
-                                {MTHLIB_NAN, MTHLIB_NAN, \
-                                 MTHLIB_NAN, MTHLIB_NAN}}
-#define MTHLIB_INVALID_3X3MATRIX (mat3x3) \
+                                {RMATH_NAN, RMATH_NAN, \
+                                 RMATH_NAN, RMATH_NAN}}
+#define RMATH_INVALID_3X3MATRIX (rm_mat3f) \
                                 {.elem = \
-                                {MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
-                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
-                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}}
-#define MTHLIB_INVALID_4X4MATRIX (mat4x4) \
+                                {RMATH_NAN, RMATH_NAN, RMATH_NAN, \
+                                 RMATH_NAN, RMATH_NAN, RMATH_NAN, \
+                                 RMATH_NAN, RMATH_NAN, RMATH_NAN}}
+#define RMATH_INVALID_4X4MATRIX (rm_mat4f) \
                                 {.elem = \
-                                {MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
-                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
-                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, \
-                                 MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN, MTHLIB_NAN}}
+                                {RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN, \
+                                 RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN, \
+                                 RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN, \
+                                 RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN}}
 
-f64 GetPlatformTime();
+static double _rm_get_platform_time_for_rng(void);
 
 // Vector Operations
 
-v2 AddV2(v2 u, v2 v);
-v2 SubtractV2(v2 u, v2 v);
-v2 ScaleV2(v2 u, f32 scalar);
-f64 DotV2(v2 u, v2 v);
-f64 NormV2(v2 u);
-v2 UnitV2(v2 u);
-b8 CompareV2(v2 u, v2 v, f32 errorMargin);
+rm_v2f rm_add_v2f(rm_v2f u, rm_v2f v);
+rm_v2f rm_sub_v2f(rm_v2f u, rm_v2f v);
+rm_v2f rm_scale_v2f(rm_v2f u, float scalar);
+float rm_dot_v2f(rm_v2f u, rm_v2f v);
+float rm_mag_v2f(rm_v2f u);
+rm_v2f rm_unit_v2f(rm_v2f u);
+int rm_compare_v2f(rm_v2f u, rm_v2f v, float errorMargin);
 
-v3 AddV3(v3 u, v3 v);
-v3 SubtractV3(v3 u, v3 v);
-v3 ScaleV3(v3 u, f32 scalar);
-f64 DotV3(v3 u, v3 v);
-v3 CrossV3(v3 u, v3 v);
-f64 NormV3(v3 u);
-v3 UnitV3(v3 u);
-b8 CompareV3(v3 u, v3 v, f32 errorMargin);
-v2 ConvertV3ToV2(v3 u);
-f64 ScalarTripleProduct(v3 a, v3 b, v3 c);
+rm_v3f rm_add_v3f(rm_v3f u, rm_v3f v);
+rm_v3f rm_sub_v3f(rm_v3f u, rm_v3f v);
+rm_v3f rm_scale_v3f(rm_v3f u, float scalar);
+float rm_dot_v3f(rm_v3f u, rm_v3f v);
+rm_v3f rm_cross_v3f(rm_v3f u, rm_v3f v);
+float rm_mag_v3f(rm_v3f u);
+rm_v3f rm_unit_v3f(rm_v3f u);
+int rm_compare_v3f(rm_v3f u, rm_v3f v, float errorMargin);
+rm_v2f rm_convert_v3f_to_v2f(rm_v3f u);
+float rm_mixed_product_v3f(rm_v3f a, rm_v3f b, rm_v3f c);
 
-v4 AddV4(v4 u, v4 v);
-v4 SubtractV4(v4 u, v4 v);
-v4 ScaleV4(v4 u, f32 scalar);
-f64 DotV4(v4 u, v4 v);
-f64 NormV4(v4 u);
-v4 UnitV4(v4 u);
-b8 CompareV4(v4 u, v4 v, f32 errorMargin);
-v3 ConvertV4ToV3(v4 u);
+rm_v4f rm_add_v4f(rm_v4f u, rm_v4f v);
+rm_v4f rm_sub_v4f(rm_v4f u, rm_v4f v);
+rm_v4f rm_scale_v4f(rm_v4f u, float scalar);
+float rm_dot_v4f(rm_v4f u, rm_v4f v);
+float rm_mag_v4f(rm_v4f u);
+rm_v4f rm_unit_v4f(rm_v4f u);
+int rm_compare_v4f(rm_v4f u, rm_v4f v, float errorMargin);
+rm_v3f rm_convert_v4f_to_v3f(rm_v4f u);
 
 //Matrix Operations
 
-mat2x2 AddMatrix2x2(mat2x2 m1, mat2x2 m2);
-mat2x2 SubMatrix2x2(mat2x2 m1, mat2x2 m2);
-mat2x2 ScalarMultMatrix2x2(f64 scalar, mat2x2 m1);
-mat2x2 MultMatrix2x2(mat2x2 m1, mat2x2 m2);
-f32 DetMatrix2x2(mat2x2 m1);
-mat2x2 TransposeMatrix2x2(mat2x2 m1);
-mat2x2 InverseMatrix2x2(mat2x2 m1);
-v2 MultV2ByMatrix2x2(v2 u, mat2x2 m1);
-mat2x2 CreateIdentity2x2();
-b8 CompareMat2x2(mat2x2 m1, mat2x2 m2, f32 errorMargin);
+rm_mat2f rm_add_mat2f(rm_mat2f m1, rm_mat2f m2);
+rm_mat2f rm_sub_mat2f(rm_mat2f m1, rm_mat2f m2);
+rm_mat2f rm_scale_mat2f(float scalar, rm_mat2f m1);
+rm_mat2f rm_mult_mat2f(rm_mat2f m1, rm_mat2f m2);
+float rm_det_mat2f(rm_mat2f m1);
+rm_mat2f rm_transpose_mat2f(rm_mat2f m1);
+rm_mat2f rm_inverse_mat2f(rm_mat2f m1);
+rm_v2f rm_mult_mat2f_v2f(rm_mat2f m1, rm_v2f u);
+rm_mat2f rm_identity_mat2f(void);
+int rm_compare_mat2f(rm_mat2f m1, rm_mat2f m2, float errorMargin);
 
-mat3x3 AddMatrix3x3(mat3x3 m1, mat3x3 m2);
-mat3x3 SubMatrix3x3(mat3x3 m1, mat3x3 m2);
-mat3x3 ScalarMultMatrix3x3(f64 scalar, mat3x3 m1);
-mat3x3 MultMatrix3x3(mat3x3 m1, mat3x3 m2);
-f32 DetMatrix3x3(mat3x3 m1);
-mat3x3 TransposeMatrix3x3(mat3x3 m1);
-mat3x3 InverseMatrix3x3(mat3x3 m1);
-v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1);
-mat3x3 CreateIdentity3x3();
-b8 CompareMat3x3(mat3x3 m1, mat3x3 m2, f32 errorMargin);
+rm_mat3f rm_add_mat3f(rm_mat3f m1, rm_mat3f m2);
+rm_mat3f rm_sub_mat3f(rm_mat3f m1, rm_mat3f m2);
+rm_mat3f rm_scale_mat3f(float scalar, rm_mat3f m1);
+rm_mat3f rm_mult_mat3f(rm_mat3f m1, rm_mat3f m2);
+float rm_det_mat3f(rm_mat3f m1);
+rm_mat3f rm_transpose_mat3f(rm_mat3f m1);
+rm_mat3f rm_inverse_mat3f(rm_mat3f m1);
+rm_v3f rm_mult_mat3f_v3f(rm_v3f u, rm_mat3f m1);
+rm_mat3f rm_identity_mat3f(void);
+int rm_compare_mat3f(rm_mat3f m1, rm_mat3f m2, float errorMargin);
 
-mat4x4 AddMatrix4x4(mat4x4 m1, mat4x4 m2);
-mat4x4 SubMatrix4x4(mat4x4 m1, mat4x4 m2);
-mat4x4 ScalarMultMatrix4x4(f64 scalar, mat4x4 m1);
-mat4x4 MultMatrix4x4(mat4x4 m1, mat4x4 m2);
-f32 DetMatrix4x4(mat4x4 m1);
-mat4x4 TransposeMatrix4x4(mat4x4 m1);
-mat4x4 InverseMatrix4x4(mat4x4 m1);
-v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1);
-mat4x4 CreateIdentity4x4();
-b8 CompareMat4x4(mat4x4 m1, mat4x4 m2, f32 errorMargin);
+rm_mat4f rm_add_mat4f(rm_mat4f m1, rm_mat4f m2);
+rm_mat4f rm_sub_mat4f(rm_mat4f m1, rm_mat4f m2);
+rm_mat4f rm_scale_mat4f(float scalar, rm_mat4f m1);
+rm_mat4f rm_mult_mat4f(rm_mat4f m1, rm_mat4f m2);
+float rm_det_mat4f(rm_mat4f m1);
+rm_mat4f rm_transpose_mat4f(rm_mat4f m1);
+rm_mat4f rm_inverse_mat4f(rm_mat4f m1);
+rm_v4f rm_mult_mat4f_v4f(rm_v4f u, rm_mat4f m1);
+rm_mat4f rm_identity_mat4f(void);
+int rm_compare_mat4f(rm_mat4f m1, rm_mat4f m2, float errorMargin);
 
 //Trig Functions
 
-f32 Sin32(f32 angleInRadians);
-f32 Cos32(f32 angleInRadians);
-f32 Tg32(f32 angleInRadians);
-f32 Cosec32(f32 angleInRadians);
-f32 Sec32(f32 angleInRadians);
-f32 Cotg32(f32 angleInRadians);
-f64 Sin64(f64 angleInRadians);
-f64 Cos64(f64 angleInRadians);
-f64 Tg64(f64 angleInRadians);
-f64 Cosec64(f64 angleInRadians);
-f64 Sec64(f64 angleInRadians);
-f64 Cotg64(f64 angleInRadians);
+float rm_sin32(float rad);
+float rm_cos32(float rad);
+float rm_tg32(float rad);
+float rm_cosec32(float rad);
+float rm_sec32(float rad);
+float rm_cotg32(float rad);
+double rm_sin64(double rad);
+double rm_cos64(double rad);
+double rm_tg64(double rad);
+double rm_cosec64(double rad);
+double rm_sec64(double rad);
+double rm_cotg64(double rad);
 
 //Other convenient functions
 
-b8 Compare32(f32 x, f32 y, f32 errorMargin);
-f32 DegreesToRadians32(f32 degrees);
-f32 RadiansToDegrees32(f32 radians);
-f32 Sqrt32(f32 x);
-f32	Abs32(f32 x);
-f32 Clamp32(f32 min, f32 max, f32 value);
-f32	Max32(f32 a, f32 b);
-f32	Min32(f32 a, f32 b);
+int rm_compare32(float x, float y, float errorMargin);
+float rm_deg_to_rad32(float deg);
+float rm_rad_to_deg32(float rad);
+float rm_sqrt32(float x);
+float rm_abs32(float x);
+float rm_clamp32(float min, float max, float value);
+float rm_max32(float a, float b);
+float rm_min32(float a, float b);
 
 /**
  * 
@@ -304,19 +294,19 @@ f32	Min32(f32 a, f32 b);
  * 
  * */
 
-f32 Mod32(f32 f1, f64 f2, u8 positiveResult);
-i32 Ceil32(f32 x);
-i32 Floor32(f32 x);
-i32 Round32(f32 x);
+float rm_mod32(float f1, float f2, int positiveResult);
+int rm_ceil32(float x);
+int rm_floor32(float x);
+int rm_round32(float x);
 
-b8 Compare64(f64 x, f64 y, f64 errorMargin);
-f64 DegreesToRadians64(f64 degrees);
-f64 RadiansToDegrees64(f64 radians);
-f64	Sqrt64(f64 x);
-f64	Abs64(f64 x);
-f64 Clamp64(f64 min, f64 max, f64 value);
-f64	Max64(f64 a, f64 b);
-f64	Min64(f64 a, f64 b);
+int rm_compare64(double x, double y, double errorMargin);
+double rm_deg_to_rad64(double deg);
+double rm_rad_to_deg64(double rad);
+double rm_sqrt64(double x);
+double rm_abs64(double x);
+double rm_clamp64(double min, double max, double value);
+double rm_max64(double a, double b);
+double rm_min64(double a, double b);
 
 /**
  * 
@@ -326,39 +316,39 @@ f64	Min64(f64 a, f64 b);
  * 
  * */
 
-f64 Mod64(f64 f1, f64 f2, u8 positiveResult);
-i64 Ceil64(f64 x);
-i64 Floor64(f64 x);
-i64 Round64(f64 x);
-i8 Sign(f64 x);
+double rm_mod64(double f1, double f2, int positiveResult);
+long int rm_ceil64(double x);
+long int rm_floor64(double x);
+long int rm_round64(double x);
+int rm_sign(double x);
 
 //RANDOM FUNCTIONS
 
-u32 RandomU32(void);
-u32 RandomU32InInterval(u32 min, u32 max);
-b8 RandomBool(void);
-i8 RandomSign(void);
-f32 Random32(void);                 // returns f32 from 0.0f to 1.0f
-v2 RandomV2(void);                  // elements are from 0.0f to 1.0f
-v3 RandomV3(void);                  // elements are from 0.0f to 1.0f
-v4 RandomV4(void);                  // elements are from 0.0f to 1.0f
-mat2x2 RandomMat2x2(void);          // elements are from 0.0f to 1.0f
-mat3x3 RandomMat3x3(void);          // elements are from 0.0f to 1.0f
-mat4x4 RandomMat4x4(void);          // elements are from 0.0f to 1.0f
+unsigned int rm_random_u32(void);
+unsigned int rm_random_u32_in_interval(unsigned int min, unsigned int max);
+int rm_random_bool(void);
+int rm_random_sign(void);
+float rm_random_f(void);              // returns float from 0.0f to 1.0f
+rm_v2f rm_random_v2f(void);           // elements are from 0.0f to 1.0f
+rm_v3f rm_random_v3f(void);           // elements are from 0.0f to 1.0f
+rm_v4f rm_random_v4f(void);           // elements are from 0.0f to 1.0f
+rm_mat2f rm_random_mat2f(void);       // elements are from 0.0f to 1.0f
+rm_mat3f rm_random_mat3f(void);       // elements are from 0.0f to 1.0f
+rm_mat4f rm_random_mat4f(void);       // elements are from 0.0f to 1.0f
 
 //GRAPHICS FUNCTIONS
 
-mat3x3 CreateTranslationMatrix2D(v2 posDelta);
-mat3x3 CreateScaleMatrixWithSetOrigin2D(v2 scale, v2 origin);
-mat3x3 CreateScaleMatrix2D(v2 scale);
-mat3x3 CreateRotationAroundPointMatrix2D(f32 angleInRadians, v2 pos);
-mat3x3 CreateRotationMatrix2D(f32 angleInRadians);
+rm_mat3f rm_translation_2D(rm_v2f posDelta);
+rm_mat3f rm_scaling_2D_set_origin(rm_v2f scale, rm_v2f origin);
+rm_mat3f rm_scaling_2D(rm_v2f scale);
+rm_mat3f rm_rotation_2D_around_point(float rad, rm_v2f pos);
+rm_mat3f rm_rotation_2D(float rad);
 
-mat4x4 CreateTranslationMatrix3D(v3 posDelta);
-mat4x4 CreateScaleMatrix3D(v3 scale);
-mat4x4 CreateEulerRotationInXMatrix3D(f32 angleInRadians);
-mat4x4 CreateEulerRotationInYMatrix3D(f32 angleInRadians);
-mat4x4 CreateEulerRotationInZMatrix3D(f32 angleInRadians);
+rm_mat4f rm_translation_3D(rm_v3f posDelta);
+rm_mat4f rm_scaling_3D(rm_v3f scale);
+rm_mat4f rm_euler_rotationX_3D(float rad);
+rm_mat4f rm_euler_rotationY_3D(float rad);
+rm_mat4f rm_euler_rotationZ_3D(float rad);
 
 /**
  * 
@@ -366,52 +356,52 @@ mat4x4 CreateEulerRotationInZMatrix3D(f32 angleInRadians);
  *      (AXIS HIERARCHY IS X => Y => Z, Z IS THE MOST SIGNIFICANT)
  * 
  * */
-mat4x4 CreateEulerRotationInXYZMatrix3D(v3 anglesInRadians);
-mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n);
-mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n);
+rm_mat4f rm_euler_rotationXYZ_3D(rm_v3f rads);
+rm_mat4f rm_parallel_projection_3D(float l, float r, float t, float b, float f, float n);
+rm_mat4f rm_perspective_projection_3D(float fovY, float aspectRatio, float f, float n);
 
 // GEOMETRY FUNCTIONS
 
-f32 DistanceBetweenPoints2D(point2D p, point2D q);
-f32 DistanceBetweenPoints3D(point3D p, point3D q);
-f32 DistanceBetweenPointAndLine2D(point2D p, line2D line);
-f32 DistanceBetweenLines2D(line2D line1, line2D line2);
-f32 DistanceBetweenPointAndLine3D(point3D p, line3D line);
-f32 DistanceBetweenLines3D(line3D line1, line3D line2);
-f32 DistanceBetweenPointAndPlane(point3D p, plane pl);
-f32 DistanceBetweenLineAndPlane(line3D line, plane pl);
-f32 DistanceBetweenPlanes(plane pl1, plane pl2);
+float rm_distance_points2D(rm_point2D p, rm_point2D q);
+float rm_distance_points3D(rm_point3D p, rm_point3D q);
+float rm_distance_point_line2D(rm_point2D p, rm_line2D line);
+float rm_distance_lines2D(rm_line2D line1, rm_line2D line2);
+float rm_distance_point_Line3D(rm_point3D p, rm_line3D line);
+float rm_distance_lines3D(rm_line3D line1, rm_line3D line2);
+float rm_distance_point_plane(rm_point3D p, rm_plane pl);
+float rm_distance_line_plane(rm_line3D line, rm_plane pl);
+float rm_distance_planes(rm_plane pl1, rm_plane pl2);
 
-b8 ParallelLines2D(line2D l1, line2D l2);
-b8 ParallelLines3D(line3D l1, line3D l2);
-b8 IntersectingLines2D(line2D l1, line2D l2);
-b8 IntersectingLines3D(line3D l1, line3D l2);
-b8 SkewLines(line3D l1, line3D l2);
+int rm_parallel_lines2D(rm_line2D l1, rm_line2D l2);
+int rm_parallel_lines3D(rm_line3D l1, rm_line3D l2);
+int rm_intersecting_lines2D(rm_line2D l1, rm_line2D l2);
+int rm_intersecting_lines3D(rm_line3D l1, rm_line3D l2);
+int rm_skew_lines(rm_line3D l1, rm_line3D l2);
 
-b8 CollisionAABB2D(AABB2D r1, AABB2D r2);
-b8 CollisionPointAndAABB2D(point2D p, AABB2D r);
-b8 CollisionPointAndSphere2D(point2D p, sphere2D s);
-b8 CollisionSphere2D(sphere2D s1, sphere2D s2);
-b8 CollisionAABB3D(AABB3D r1, AABB3D r2);
-b8 CollisionPointAndAABB3D(point3D p, AABB3D r);
-b8 CollisionPointAndSphere3D(point3D p, sphere3D s);
-b8 CollisionSphere3D(sphere3D s1, sphere3D s2);
+int rm_collision_AABB2D(rm_AABB2D r1, rm_AABB2D r2);
+int rm_collision_point_AABB2D(rm_point2D p, rm_AABB2D r);
+int rm_collision_point_circle(rm_point2D p, rm_circle s);
+int rm_collision_circles(rm_circle s1, rm_circle s2);
+int rm_collision_AABB3D(rm_AABB3D r1, rm_AABB3D r2);
+int rm_collision_point_AABB3D(rm_point3D p, rm_AABB3D r);
+int rm_collision_point_sphere(rm_point3D p, rm_sphere s);
+int rm_collision_spheres(rm_sphere s1, rm_sphere s2);
 
-f32 AreaTriangle2D(triangle2D triangle);
-f32 AreaSphere2D(sphere2D sphere);
-f32 AreaAABB2D(AABB2D aabb);
-f32 AreaQuad2D(quad2D quad);
-f32 PerimeterSphere2D(sphere2D sphere);
-f32 PerimeterAABB2D(AABB2D aabb);
-f32 PerimeterQuad2D(quad2D quad);
-f32 PerimeterTriangle2D(triangle2D triangle);
-f32 AreaTriangle3D(triangle3D triangle);
-f32 AreaQuad3D(quad3D quad);
-f32 VolumeSphere3D(sphere3D sphere);
-f32 VolumeAABB3D(AABB3D aabb);
-f32 PerimeterTriangle3D(triangle3D triangle);
-f32 SurfaceAreaSphere3D(sphere3D sphere);
-f32 SurfaceAreaAABB3D(AABB3D aabb);
+float rm_area_triangle2D(rm_triangle2D triangle);
+float rm_area_circle(rm_circle sphere);
+float rm_area_AABB2D(rm_AABB2D aabb);
+float rm_area_Quad2D(rm_quad2D quad);
+float rm_perimeter_circle(rm_circle circle);
+float rm_perimeter_AABB2D(rm_AABB2D aabb);
+float rm_perimeter_quad2D(rm_quad2D quad);
+float rm_perimeter_triangle2D(rm_triangle2D triangle);
+float rm_area_triangle3D(rm_triangle3D triangle);
+float rm_area_quad3D(rm_quad3D quad);
+float rm_volume_sphere(rm_sphere sphere);
+float rm_volume_AABB3D(rm_AABB3D aabb);
+float rm_perimeter_triangle3D(rm_triangle3D triangle);
+float rm_surface_area_sphere(rm_sphere sphere);
+float rm_surface_area_AABB3D(rm_AABB3D aabb);
 
 #endif // RMATHLIB_H
 
@@ -419,19 +409,19 @@ f32 SurfaceAreaAABB3D(AABB3D aabb);
 #ifdef RMATHLIB_IMPLEMENTATION
 
 //GLOBALS
-static b8 seeded = MTHLIB_FALSE;
-static u32 random_seed = 0;
+static int seeded = RMATH_FALSE;
+static unsigned int random_seed = 0;
 
 //Checking which OS we're running on for absolute time query
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 
 #include <windows.h>
 
-static b8 systemFrequencySet = MTHLIB_FALSE;
-static f64 systemFrequency = 0;
+static int systemFrequencySet = RMATH_FALSE;
+static double systemFrequency = 0;
 
-f64 GetPlatformTime(){
-    if(systemFrequencySet == MTHLIB_FALSE){
+static double _rm_get_platform_time_for_rng(void){
+    if(systemFrequencySet == RMATH_FALSE){
         LARGE_INTEGER t1;
         QueryPerformanceFrequency(&t1);   
         systemFrequency = 1.0 / t1.QuadPart;
@@ -440,7 +430,7 @@ f64 GetPlatformTime(){
     LARGE_INTEGER t2;
     QueryPerformanceCounter(&t2);
     
-    return (f64)t2.QuadPart * systemFrequency;
+    return (double)t2.QuadPart * systemFrequency;
 }
 
 #elif defined(__linux__) || defined(__gnu_linux__)
@@ -449,7 +439,7 @@ f64 GetPlatformTime(){
 #define _POSIX_C_SOURCE 199309L
 #include <time.h>
 
-f64 GetPlatformTime(){
+double rm_get_platform_time_for_rng(void){
     struct timespec t;
     clock_gettime(CLOCK_MONOTONIC, &t);
     return t.tv_sec + (t.tv_nsec * 0.000000001);
@@ -459,87 +449,87 @@ f64 GetPlatformTime(){
 
 //V2 IMPLEMENTATIONS
 
-v2 AddV2(v2 u, v2 v)                { return (v2){u.x + v.x, u.y + v.y}; }
-v2 SubtractV2(v2 u, v2 v)           { return (v2){u.x - v.x, u.y - v.y}; }
-v2 ScaleV2(v2 u, f32 scalar)        { return (v2){scalar*u.x, scalar*u.y}; }
-f64 DotV2(v2 u, v2 v)               { return (u.x * v.x) + (u.y * v.y); }
-f64 NormV2(v2 u)                    { return Sqrt64((u.x*u.x) + (u.y*u.y)); }
-v2 UnitV2(v2 u){ 
-    f64 vectorNorm = NormV2(u);
-    if(vectorNorm == 0.0f) return MTHLIB_INVALID_V2;
-    return (v2){ u.x / vectorNorm, u.y / vectorNorm};
+rm_v2f rm_add_v2f(rm_v2f u, rm_v2f v)       { return (rm_v2f){u.x + v.x, u.y + v.y}; }
+rm_v2f rm_sub_v2f(rm_v2f u, rm_v2f v)       { return (rm_v2f){u.x - v.x, u.y - v.y}; }
+rm_v2f rm_scale_v2f(rm_v2f u, float scalar) { return (rm_v2f){scalar*u.x, scalar*u.y}; }
+float rm_dot_v2f(rm_v2f u, rm_v2f v)        { return (u.x * v.x) + (u.y * v.y); }
+float rm_mag_v2f(rm_v2f u)                  { return rm_sqrt64((u.x*u.x) + (u.y*u.y)); }
+rm_v2f rm_unit_v2f(rm_v2f u){ 
+    double mag = rm_mag_v2f(u);
+    if(mag == 0.0f) return RMATH_INVALID_V2;
+    return (rm_v2f){ u.x / mag, u.y / mag};
 }
-b8 CompareV2(v2 u, v2 v, f32 errorMargin){
-    return Compare32(u.x, v.x, errorMargin) && 
-           Compare32(u.y, v.y, errorMargin);
+int rm_compare_v2f(rm_v2f u, rm_v2f v, float errorMargin){
+    return rm_compare32(u.x, v.x, errorMargin) && 
+           rm_compare32(u.y, v.y, errorMargin);
 }
 
 //V3 IMPLEMENTATIONS
 
-v3 AddV3(v3 u, v3 v)                { return (v3){u.x + v.x, u.y + v.y, u.z + v.z}; }
-v3 SubtractV3(v3 u, v3 v)           { return (v3){u.x - v.x, u.y - v.y, u.z - v.z}; }
-v3 ScaleV3(v3 u, f32 scalar)        { return (v3){scalar*u.x, scalar*u.y, scalar*u.z}; }
-f64 DotV3(v3 u, v3 v)               { return (u.x * v.x) + (u.y * v.y) + (u.z * v.z); }
-v3 CrossV3(v3 u, v3 v)              { return (v3){ (u.y*v.z - u.z*v.y), -(u.x*v.z - u.z*v.x), (u.x*v.y - v.x*u.y)}; }
-f64 NormV3(v3 u)                    { return Sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z)); }
-v3 UnitV3(v3 u){
-    f64 vectorNorm = NormV3(u);
-    if(vectorNorm == 0.0f) return MTHLIB_INVALID_V3;
-    return (v3){ u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm};
+rm_v3f rm_add_v3f(rm_v3f u, rm_v3f v)               { return (rm_v3f){u.x + v.x, u.y + v.y, u.z + v.z}; }
+rm_v3f rm_sub_v3f(rm_v3f u, rm_v3f v)               { return (rm_v3f){u.x - v.x, u.y - v.y, u.z - v.z}; }
+rm_v3f rm_scale_v3f(rm_v3f u, float scalar)         { return (rm_v3f){scalar*u.x, scalar*u.y, scalar*u.z}; }
+float rm_dot_v3f(rm_v3f u, rm_v3f v)                { return (u.x * v.x) + (u.y * v.y) + (u.z * v.z); }
+rm_v3f rm_cross_v3f(rm_v3f u, rm_v3f v)             { return (rm_v3f){ (u.y*v.z - u.z*v.y), -(u.x*v.z - u.z*v.x), (u.x*v.y - v.x*u.y)}; }
+float rm_mag_v3f(rm_v3f u)                          { return rm_sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z)); }
+rm_v3f rm_unit_v3f(rm_v3f u) {
+    double mag = rm_mag_v3f(u);
+    if(mag == 0.0f) return RMATH_INVALID_V3;
+    return (rm_v3f){ u.x / mag, u.y / mag, u.z / mag};
 }
-b8 CompareV3(v3 u, v3 v, f32 errorMargin){
-    return Compare32(u.x, v.x, errorMargin) && 
-           Compare32(u.y, v.y, errorMargin) && 
-           Compare32(u.z, v.z, errorMargin);
+int rm_compare_v3f(rm_v3f u, rm_v3f v, float errorMargin) {
+    return rm_compare32(u.x, v.x, errorMargin) && 
+           rm_compare32(u.y, v.y, errorMargin) && 
+           rm_compare32(u.z, v.z, errorMargin);
 }
-v2 ConvertV3ToV2(v3 u)              { return (v2){ u.x, u.y }; }
-
-f64 ScalarTripleProduct(v3 a, v3 b, v3 c) { return DotV3(CrossV3(a, b), c); }
+rm_v2f rm_convert_v3f_to_v2f(rm_v3f u)              { return (rm_v2f){ u.x, u.y }; }
+float rm_mixed_product_v3f(rm_v3f a, rm_v3f b, rm_v3f c) { return rm_dot_v3f(rm_cross_v3f(a, b), c); }
 
 //V4 IMPLEMENTATIONS
 
-v4 AddV4(v4 u, v4 v)                { return (v4){u.x + v.x, u.y + v.y, u.z + v.z, u.w + v.w}; }
-v4 SubtractV4(v4 u, v4 v)           { return (v4){u.x - v.x, u.y - v.y, u.z - v.z, u.w - v.w}; }
-v4 ScaleV4(v4 u, f32 scalar)        { return (v4){scalar*u.x, scalar*u.y, scalar*u.z, scalar*u.w}; }
-f64 DotV4(v4 u, v4 v)               { return u.x*v.x + u.y*v.y + u.z*v.z + u.w*v.w; }
-f64 NormV4(v4 u)                    { return Sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z) + (u.w*u.w)); }
-v4 UnitV4(v4 u) {
-    f64 vectorNorm = NormV4(u);
-    if(vectorNorm == 0) return MTHLIB_INVALID_V4;
-    return (v4){u.x / vectorNorm, u.y / vectorNorm, u.z / vectorNorm, u.w / vectorNorm};
+rm_v4f rm_add_v4f(rm_v4f u, rm_v4f v)       { return (rm_v4f){u.x + v.x, u.y + v.y, u.z + v.z, u.w + v.w}; }
+rm_v4f rm_sub_v4f(rm_v4f u, rm_v4f v)       { return (rm_v4f){u.x - v.x, u.y - v.y, u.z - v.z, u.w - v.w}; }
+rm_v4f rm_scale_v4f(rm_v4f u, float scalar) { return (rm_v4f){scalar*u.x, scalar*u.y, scalar*u.z, scalar*u.w}; }
+float rm_dot_v4f(rm_v4f u, rm_v4f v)        { return u.x*v.x + u.y*v.y + u.z*v.z + u.w*v.w; }
+float rm_mag_v4f(rm_v4f u)                  { return rm_sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z) + (u.w*u.w)); }
+rm_v4f rm_unit_v4f(rm_v4f u) {
+    double mag = rm_mag_v4f(u);
+    if(mag == 0) return RMATH_INVALID_V4;
+    return (rm_v4f){u.x / mag, u.y / mag, u.z / mag, u.w / mag};
 }
-b8 CompareV4(v4 u, v4 v, f32 errorMargin){
-    return Compare32(u.x, v.x, errorMargin) && 
-           Compare32(u.y, v.y, errorMargin) && 
-           Compare32(u.z, v.z, errorMargin) && 
-           Compare32(u.w, v.w, errorMargin);
+int rm_compare_v4f(rm_v4f u, rm_v4f v, float errorMargin) {
+    return rm_compare32(u.x, v.x, errorMargin) && 
+           rm_compare32(u.y, v.y, errorMargin) && 
+           rm_compare32(u.z, v.z, errorMargin) && 
+           rm_compare32(u.w, v.w, errorMargin);
 }
-v3 ConvertV4ToV3(v4 u)              { return (v3){ u.x, u.y, u.z };}
+rm_v3f rm_convert_v4f_to_v3f(rm_v4f u) { return (rm_v3f){ u.x, u.y, u.z };}
 
 //2x2 MATRIX SUPPORT
-mat2x2 AddMatrix2x2(mat2x2 m1, mat2x2 m2){
-    mat2x2 output = { 0 };
-    for(u8 i = 0; i < 4; i++)
+
+rm_mat2f rm_add_mat2f(rm_mat2f m1, rm_mat2f m2){
+    rm_mat2f output = { 0 };
+    for(int i = 0; i < 4; i++)
         output.elem[i] = m1.elem[i] + m2.elem[i];
     return output;
 }
 
-mat2x2 SubMatrix2x2(mat2x2 m1, mat2x2 m2){
-    mat2x2 output = { 0 };
-    for(u8 i = 0; i < 4; i++)
+rm_mat2f rm_sub_mat2f(rm_mat2f m1, rm_mat2f m2){
+    rm_mat2f output = { 0 };
+    for(int i = 0; i < 4; i++)
         output.elem[i] = m1.elem[i] - m2.elem[i];
     return output;
 }
 
-mat2x2 ScalarMultMatrix2x2(f64 scalar, mat2x2 m1){
-    mat2x2 output = {0};
-    for(u8 i = 0; i < 4; i++)
+rm_mat2f rm_scale_mat2f(float scalar, rm_mat2f m1){
+    rm_mat2f output = {0};
+    for(int i = 0; i < 4; i++)
         output.elem[i] = scalar*m1.elem[i];
     return output;
 }
 
-mat2x2 MultMatrix2x2(mat2x2 m1, mat2x2 m2){
-    mat2x2 output = { 0 };
+rm_mat2f rm_mult_mat2f(rm_mat2f m1, rm_mat2f m2){
+    rm_mat2f output = {0};
     output.elem[0] = m1.elem[0]*m2.elem[0] + m1.elem[1]*m2.elem[2];
     output.elem[1] = m1.elem[0]*m2.elem[1] + m1.elem[1]*m2.elem[3];
     output.elem[2] = m1.elem[2]*m2.elem[0] + m1.elem[3]*m2.elem[2];
@@ -547,13 +537,13 @@ mat2x2 MultMatrix2x2(mat2x2 m1, mat2x2 m2){
     return output;
 }
 
-f32 DetMatrix2x2(mat2x2 m1){
+float rm_det_mat2f(rm_mat2f m1){
     return m1.elem[0]*m1.elem[3] - 
            m1.elem[1]*m1.elem[2];
 }
 
-mat2x2 TransposeMatrix2x2(mat2x2 m1){
-    mat2x2 output = { 0 };
+rm_mat2f rm_transpose_mat2f(rm_mat2f m1){
+    rm_mat2f output = { 0 };
     output.elem[0] = m1.elem[0];
     output.elem[1] = m1.elem[2];
     output.elem[2] = m1.elem[1];
@@ -561,26 +551,26 @@ mat2x2 TransposeMatrix2x2(mat2x2 m1){
     return output;
 }
 
-mat2x2 InverseMatrix2x2(mat2x2 m1){
-    f64 det = DetMatrix2x2(m1);
-    if(det == 0) return MTHLIB_INVALID_2X2MATRIX;
+rm_mat2f rm_inverse_mat2f(rm_mat2f m1){
+    double det = rm_det_mat2f(m1);
+    if(det == 0) return RMATH_INVALID_2X2MATRIX;
 
-    mat2x2 adjugate = { 0 };
+    rm_mat2f adjugate = { 0 };
     adjugate.elem[0] = m1.elem[3];
     adjugate.elem[1] = -m1.elem[1];
     adjugate.elem[2] = -m1.elem[2];
     adjugate.elem[3] = m1.elem[0];
 
-    return ScalarMultMatrix2x2(1/det, adjugate);
+    return rm_scale_mat2f(1/det, adjugate);
 }
 
-v2 MultV2ByMatrix2x2(v2 u, mat2x2 m1){
-    return (v2){u.x * m1.elem[0] + u.y * m1.elem[2], 
-                u.x * m1.elem[1] + u.y * m1.elem[3]};
+rm_v2f rm_mult_mat2f_v2f(rm_mat2f m1, rm_v2f u){
+    return (rm_v2f){u.x * m1.elem[0] + u.y * m1.elem[2], 
+                    u.x * m1.elem[1] + u.y * m1.elem[3]};
 }
 
-mat2x2 CreateIdentity2x2(){
-    mat2x2 output = { 0 };
+rm_mat2f rm_identity_mat2f(void){
+    rm_mat2f output = { 0 };
     
     output.elem[0] = 1.0;
     output.elem[3] = 1.0;
@@ -588,36 +578,37 @@ mat2x2 CreateIdentity2x2(){
     return output;
 }
 
-b8 CompareMat2x2(mat2x2 m1, mat2x2 m2, f32 errorMargin){
-    for(i32 i = 0; i < 4; i++)
-        if(!Compare32(m1.elem[i], m2.elem[i], errorMargin)) return MTHLIB_FALSE;
-    return MTHLIB_TRUE;
+int rm_compare_mat2f(rm_mat2f m1, rm_mat2f m2, float errorMargin){
+    for(int i = 0; i < 4; i++)
+        if(!rm_compare32(m1.elem[i], m2.elem[i], errorMargin)) return RMATH_FALSE;
+    return RMATH_TRUE;
 }
 
 //3x3 MATRIX SUPPORT
-mat3x3 AddMatrix3x3(mat3x3 m1, mat3x3 m2){
-    mat3x3 output = {0};
-    for(u8 i = 0; i < 9; i++)
+
+rm_mat3f rm_add_mat3f(rm_mat3f m1, rm_mat3f m2){
+    rm_mat3f output = {0};
+    for(int i = 0; i < 9; i++)
         output.elem[i] = m1.elem[i] + m2.elem[i];
     return output;
 }
 
-mat3x3 SubMatrix3x3(mat3x3 m1, mat3x3 m2){
-    mat3x3 output = {0};
-    for(u8 i = 0; i < 9; i++)
+rm_mat3f rm_sub_mat3f(rm_mat3f m1, rm_mat3f m2){
+    rm_mat3f output = {0};
+    for(int i = 0; i < 9; i++)
         output.elem[i] = m1.elem[i] - m2.elem[i];
     return output;
 }
 
-mat3x3 ScalarMultMatrix3x3(f64 scalar, mat3x3 m1){
-    mat3x3 output = {0};
-    for(u8 i = 0; i < 9; i++)
+rm_mat3f rm_scale_mat3f(float scalar, rm_mat3f m1){
+    rm_mat3f output = {0};
+    for(int i = 0; i < 9; i++)
         output.elem[i] = scalar*m1.elem[i];
     return output;
 }
 
-mat3x3 MultMatrix3x3(mat3x3 m1, mat3x3 m2){
-    mat3x3 output = { 0 };
+rm_mat3f rm_mult_mat3f(rm_mat3f m1, rm_mat3f m2){
+    rm_mat3f output = { 0 };
 
     output.elem[0] = m1.elem[0]*m2.elem[0] + m1.elem[1]*m2.elem[3] + m1.elem[2]*m2.elem[6];
     output.elem[1] = m1.elem[0]*m2.elem[1] + m1.elem[1]*m2.elem[4] + m1.elem[2]*m2.elem[7];
@@ -632,7 +623,7 @@ mat3x3 MultMatrix3x3(mat3x3 m1, mat3x3 m2){
     return output;
 }
 
-f32 DetMatrix3x3(mat3x3 m1){
+float rm_det_mat3f(rm_mat3f m1){
     return m1.elem[0]*m1.elem[4]*m1.elem[8] + 
            m1.elem[1]*m1.elem[5]*m1.elem[6] + 
            m1.elem[2]*m1.elem[3]*m1.elem[7] -
@@ -641,8 +632,8 @@ f32 DetMatrix3x3(mat3x3 m1){
            m1.elem[8]*m1.elem[3]*m1.elem[1];
 }
 
-mat3x3 TransposeMatrix3x3(mat3x3 m1){
-    mat3x3 output = { 0 };
+rm_mat3f rm_transpose_mat3f(rm_mat3f m1){
+    rm_mat3f output = { 0 };
     output.elem[0] = m1.elem[0];
     output.elem[1] = m1.elem[3];
     output.elem[2] = m1.elem[6];
@@ -655,37 +646,37 @@ mat3x3 TransposeMatrix3x3(mat3x3 m1){
     return output;
 }
 
-mat3x3 InverseMatrix3x3(mat3x3 m1){
-    f64 det = DetMatrix3x3(m1);
-    if(det == 0) return MTHLIB_INVALID_3X3MATRIX;
+rm_mat3f rm_inverse_mat3f(rm_mat3f m1){
+    double det = rm_det_mat3f(m1);
+    if(det == 0) return RMATH_INVALID_3X3MATRIX;
 
-    mat3x3 t = TransposeMatrix3x3(m1);
+    rm_mat3f t = rm_transpose_mat3f(m1);
 
-    f64 det00 = DetMatrix2x2((mat2x2){.elem = {t.elem[4], t.elem[5], t.elem[7], t.elem[8]}});
-    f64 det01 = DetMatrix2x2((mat2x2){.elem = {t.elem[3], t.elem[5], t.elem[6], t.elem[8]}});
-    f64 det02 = DetMatrix2x2((mat2x2){.elem = {t.elem[3], t.elem[4], t.elem[6], t.elem[7]}});
-    f64 det10 = DetMatrix2x2((mat2x2){.elem = {t.elem[1], t.elem[2], t.elem[7], t.elem[8]}});
-    f64 det11 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[2], t.elem[6], t.elem[8]}});
-    f64 det12 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[1], t.elem[6], t.elem[7]}});
-    f64 det20 = DetMatrix2x2((mat2x2){.elem = {t.elem[1], t.elem[2], t.elem[4], t.elem[5]}});
-    f64 det21 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[2], t.elem[3], t.elem[5]}});
-    f64 det22 = DetMatrix2x2((mat2x2){.elem = {t.elem[0], t.elem[1], t.elem[3], t.elem[4]}});
+    double det00 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[4], t.elem[5], t.elem[7], t.elem[8]}});
+    double det01 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[3], t.elem[5], t.elem[6], t.elem[8]}});
+    double det02 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[3], t.elem[4], t.elem[6], t.elem[7]}});
+    double det10 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[1], t.elem[2], t.elem[7], t.elem[8]}});
+    double det11 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[0], t.elem[2], t.elem[6], t.elem[8]}});
+    double det12 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[0], t.elem[1], t.elem[6], t.elem[7]}});
+    double det20 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[1], t.elem[2], t.elem[4], t.elem[5]}});
+    double det21 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[0], t.elem[2], t.elem[3], t.elem[5]}});
+    double det22 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[0], t.elem[1], t.elem[3], t.elem[4]}});
 
-    mat3x3 adjugate = {.elem = {det00, -det01, det02, 
-                                -det10, det11, -det12, 
-                                det20, -det21, det22}};
+    rm_mat3f adjugate = {.elem = {det00, -det01,  det02, 
+                               -det10,  det11, -det12, 
+                                det20, -det21,  det22}};
 
-    return ScalarMultMatrix3x3(1/det, adjugate);
+    return rm_scale_mat3f(1/det, adjugate);
 }
 
-v3 MultV3ByMatrix3x3(v3 u, mat3x3 m1){
-    return (v3){ u.x * m1.elem[0] + u.y * m1.elem[3] + u.z * m1.elem[6],
-                 u.x * m1.elem[1] + u.y * m1.elem[4] + u.z * m1.elem[7],
-                 u.x * m1.elem[2] + u.y * m1.elem[5] + u.z * m1.elem[8]};
+rm_v3f rm_mult_mat3f_v3f(rm_v3f u, rm_mat3f m1){
+    return (rm_v3f){u.x * m1.elem[0] + u.y * m1.elem[3] + u.z * m1.elem[6],
+                    u.x * m1.elem[1] + u.y * m1.elem[4] + u.z * m1.elem[7],
+                    u.x * m1.elem[2] + u.y * m1.elem[5] + u.z * m1.elem[8]};
 }
 
-mat3x3 CreateIdentity3x3(){
-    mat3x3 output = { 0 };
+rm_mat3f rm_identity_mat3f(void){
+    rm_mat3f output = { 0 };
 
     output.elem[0] = 1.0f;
     output.elem[4] = 1.0f;
@@ -694,36 +685,37 @@ mat3x3 CreateIdentity3x3(){
     return output;
 }
 
-b8 CompareMat3x3(mat3x3 m1, mat3x3 m2, f32 errorMargin){
-    for(i32 i = 0; i < 9; i++)
-        if(!Compare32(m1.elem[i], m2.elem[i], errorMargin)) return MTHLIB_FALSE;
-    return MTHLIB_TRUE;
+int rm_compare_mat3f(rm_mat3f m1, rm_mat3f m2, float errorMargin){
+    for(int i = 0; i < 9; i++)
+        if(!rm_compare32(m1.elem[i], m2.elem[i], errorMargin)) return RMATH_FALSE;
+    return RMATH_TRUE;
 }
 
 //4x4 MATRIX SUPPORT
-mat4x4 AddMatrix4x4(mat4x4 m1, mat4x4 m2){
-    mat4x4 output = {0};
-    for(u8 i = 0; i < 16; i++)
+
+rm_mat4f rm_add_mat4f(rm_mat4f m1, rm_mat4f m2){
+    rm_mat4f output = {0};
+    for(int i = 0; i < 16; i++)
         output.elem[i] = m1.elem[i] + m2.elem[i];
     return output;
 }
 
-mat4x4 SubMatrix4x4(mat4x4 m1, mat4x4 m2){
-    mat4x4 output = {0};
-    for(u8 i = 0; i < 16; i++)
+rm_mat4f rm_sub_mat4f(rm_mat4f m1, rm_mat4f m2){
+    rm_mat4f output = {0};
+    for(int i = 0; i < 16; i++)
         output.elem[i] = m1.elem[i] - m2.elem[i];
     return output;
 }
 
-mat4x4 ScalarMultMatrix4x4(f64 scalar, mat4x4 m1){
-    mat4x4 output = {0};
-    for(u8 i = 0; i < 16; i++)
+rm_mat4f rm_scale_mat4f(float scalar, rm_mat4f m1){
+    rm_mat4f output = {0};
+    for(int i = 0; i < 16; i++)
         output.elem[i] = scalar*m1.elem[i];
     return output;
 }
 
-mat4x4 MultMatrix4x4(mat4x4 m1, mat4x4 m2){
-    mat4x4 output = { 0 };
+rm_mat4f rm_mult_mat4f(rm_mat4f m1, rm_mat4f m2){
+    rm_mat4f output = { 0 };
 
     output.elem[0] = m1.elem[0]*m2.elem[0] + m1.elem[1]*m2.elem[4] + m1.elem[2]*m2.elem[8] + m1.elem[3]*m2.elem[12];
     output.elem[1] = m1.elem[0]*m2.elem[1] + m1.elem[1]*m2.elem[5] + m1.elem[2]*m2.elem[9] + m1.elem[3]*m2.elem[13];
@@ -745,7 +737,7 @@ mat4x4 MultMatrix4x4(mat4x4 m1, mat4x4 m2){
     return output;
 }
 
-f32 DetMatrix4x4(mat4x4 m1){
+float rm_det_mat4f(rm_mat4f m1){
     return m1.elem[0]*m1.elem[5]*m1.elem[10]*m1.elem[15] + 
            m1.elem[0]*m1.elem[9]*m1.elem[14]*m1.elem[7] + 
            m1.elem[0]*m1.elem[13]*m1.elem[6]*m1.elem[11] - 
@@ -772,8 +764,8 @@ f32 DetMatrix4x4(mat4x4 m1){
            m1.elem[4]*m1.elem[13]*m1.elem[10]*m1.elem[3];
 }
 
-mat4x4 TransposeMatrix4x4(mat4x4 m1){
-    mat4x4 output = { 0 };
+rm_mat4f rm_transpose_mat4f(rm_mat4f m1){
+    rm_mat4f output = { 0 };
 
     output.elem[0] = m1.elem[0];
     output.elem[1] = m1.elem[4];
@@ -795,78 +787,78 @@ mat4x4 TransposeMatrix4x4(mat4x4 m1){
     return output;
 }
 
-mat4x4 InverseMatrix4x4(mat4x4 m1){
-    f32 det = DetMatrix4x4(m1);
-    if(det == 0) return MTHLIB_INVALID_4X4MATRIX;
+rm_mat4f rm_inverse_mat4f(rm_mat4f m1){
+    float det = rm_det_mat4f(m1);
+    if(det == 0) return RMATH_INVALID_4X4MATRIX;
 
-    mat4x4 t = TransposeMatrix4x4(m1);
+    rm_mat4f t = rm_transpose_mat4f(m1);
 
-    f32 det00 = DetMatrix3x3((mat3x3){.elem = {t.elem[5], t.elem[6], t.elem[7],
+    float det00 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[5], t.elem[6], t.elem[7],
                                                t.elem[9], t.elem[10], t.elem[11],
                                                t.elem[13], t.elem[14], t.elem[15]}});
-    f32 det01 = -DetMatrix3x3((mat3x3){.elem = {t.elem[4], t.elem[6], t.elem[7],
+    float det01 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[4], t.elem[6], t.elem[7],
                                                t.elem[8], t.elem[10], t.elem[11],
                                                t.elem[12], t.elem[14], t.elem[15]}});
-    f32 det02 = DetMatrix3x3((mat3x3){.elem = {t.elem[4], t.elem[5], t.elem[7],
+    float det02 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[4], t.elem[5], t.elem[7],
                                                t.elem[8], t.elem[9], t.elem[11],
                                                t.elem[12], t.elem[13], t.elem[15]}});
-    f32 det03 = -DetMatrix3x3((mat3x3){.elem = {t.elem[4], t.elem[5], t.elem[6],
+    float det03 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[4], t.elem[5], t.elem[6],
                                                t.elem[8], t.elem[9], t.elem[10],
                                                t.elem[12], t.elem[13], t.elem[14]}});
-    f32 det10 = -DetMatrix3x3((mat3x3){.elem = {t.elem[1], t.elem[2], t.elem[3],
+    float det10 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[1], t.elem[2], t.elem[3],
                                                t.elem[9], t.elem[10], t.elem[11],
                                                t.elem[13], t.elem[14], t.elem[15]}});
-    f32 det11 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[2], t.elem[3],
+    float det11 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[2], t.elem[3],
                                                t.elem[8], t.elem[10], t.elem[11],
                                                t.elem[12], t.elem[14], t.elem[15]}});
-    f32 det12 = -DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[3],
+    float det12 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[3],
                                                t.elem[8], t.elem[9], t.elem[11],
                                                t.elem[12], t.elem[13], t.elem[15]}});
-    f32 det13 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[2],
+    float det13 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[2],
                                                t.elem[8], t.elem[9], t.elem[10],
                                                t.elem[12], t.elem[13], t.elem[14]}});
-    f32 det20 = DetMatrix3x3((mat3x3){.elem = {t.elem[1], t.elem[2], t.elem[3],
+    float det20 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[1], t.elem[2], t.elem[3],
                                                t.elem[5], t.elem[6], t.elem[7],
                                                t.elem[13], t.elem[14], t.elem[15]}});
-    f32 det21 = -DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[2], t.elem[3],
+    float det21 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[2], t.elem[3],
                                                t.elem[4], t.elem[6], t.elem[7],
                                                t.elem[12], t.elem[14], t.elem[15]}});
-    f32 det22 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[3],
+    float det22 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[3],
                                                t.elem[4], t.elem[5], t.elem[7],
                                                t.elem[12], t.elem[13], t.elem[15]}});
-    f32 det23 = -DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[2],
+    float det23 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[2],
                                                t.elem[4], t.elem[5], t.elem[6],
                                                t.elem[12], t.elem[13], t.elem[14]}});
-    f32 det30 = -DetMatrix3x3((mat3x3){.elem = {t.elem[1], t.elem[2], t.elem[3],
+    float det30 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[1], t.elem[2], t.elem[3],
                                                t.elem[5], t.elem[6], t.elem[7],
                                                t.elem[9], t.elem[10], t.elem[11]}});
-    f32 det31 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[2], t.elem[3],
+    float det31 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[2], t.elem[3],
                                                t.elem[4], t.elem[6], t.elem[7],
                                                t.elem[8], t.elem[10], t.elem[11]}});
-    f32 det32 = -DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[3],
+    float det32 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[3],
                                                t.elem[4], t.elem[5], t.elem[7],
                                                t.elem[8], t.elem[9], t.elem[11]}});
-    f32 det33 = DetMatrix3x3((mat3x3){.elem = {t.elem[0], t.elem[1], t.elem[2],
+    float det33 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[2],
                                                t.elem[4], t.elem[5], t.elem[6],
                                                t.elem[8], t.elem[9], t.elem[10]}});
 
-    mat4x4 adjugate = {.elem = { det00, det01, det02, det03, 
+    rm_mat4f adjugate = {.elem = { det00, det01, det02, det03, 
                                  det10, det11, det12, det13,
                                  det20, det21, det22, det23, 
                                  det30, det31, det32, det33}};
     
-    return ScalarMultMatrix4x4(1/det, adjugate);
+    return rm_scale_mat4f(1/det, adjugate);
 }
 
-v4 MultV4ByMatrix4x4(v4 u, mat4x4 m1){
-    return (v4) { u.x * m1.elem[0] + u.y * m1.elem[4] + u.z * m1.elem[8] + u.w * m1.elem[12],
-                  u.x * m1.elem[1] + u.y * m1.elem[5] + u.z * m1.elem[9] + u.w * m1.elem[13],
-                  u.x * m1.elem[2] + u.y * m1.elem[6] + u.z * m1.elem[10] + u.w * m1.elem[14],
-                  u.x * m1.elem[3] + u.y * m1.elem[7] + u.z * m1.elem[11] + u.w * m1.elem[15]};
+rm_v4f rm_mult_mat4f_v4f(rm_v4f u, rm_mat4f m1){
+    return (rm_v4f) { u.x * m1.elem[0] + u.y * m1.elem[4] + u.z * m1.elem[8] + u.w * m1.elem[12],
+                      u.x * m1.elem[1] + u.y * m1.elem[5] + u.z * m1.elem[9] + u.w * m1.elem[13],
+                      u.x * m1.elem[2] + u.y * m1.elem[6] + u.z * m1.elem[10] + u.w * m1.elem[14],
+                      u.x * m1.elem[3] + u.y * m1.elem[7] + u.z * m1.elem[11] + u.w * m1.elem[15]};
 }
 
-mat4x4 CreateIdentity4x4(){
-    mat4x4 output = { 0 };
+rm_mat4f rm_identity_mat4f(void){
+    rm_mat4f output = { 0 };
 
     output.elem[0] = 1.0;
     output.elem[5] = 1.0;
@@ -876,86 +868,86 @@ mat4x4 CreateIdentity4x4(){
     return output;
 }
 
-b8 CompareMat4x4(mat4x4 m1, mat4x4 m2, f32 errorMargin){
-    for(i32 i = 0; i < 16; i++)
-        if(!Compare32(m1.elem[i], m2.elem[i], errorMargin)) return MTHLIB_FALSE;
-    return MTHLIB_TRUE;
+int rm_compare_mat4f(rm_mat4f m1, rm_mat4f m2, float errorMargin){
+    for(int i = 0; i < 16; i++)
+        if(!rm_compare32(m1.elem[i], m2.elem[i], errorMargin)) return RMATH_FALSE;
+    return RMATH_TRUE;
 }
 
 //TRIG FUNCTIONS IMPLEMENTATIONS
-static f64 static_Sin64(f64 angle){
+static double _rm_sin64(double angle){
     //McLaurin's Series with Horner's Scheme
-    f64 y = angle*angle;
+    double y = angle*angle;
 
-    f64 if3 = -1.0/6.0;
-    f64 if5 = 1.0/120.0;
-    f64 if7 = -1.0/5040.0;
-    f64 if9 = 1.0/362880.0;
-    f64 if11 = -1.0/39916800.0;
+    double if3 = -1.0/6.0;
+    double if5 = 1.0/120.0;
+    double if7 = -1.0/5040.0;
+    double if9 = 1.0/362880.0;
+    double if11 = -1.0/39916800.0;
 
     return (angle + angle*y*(if3 + y*(if5 + y*(if7 + y*(if9 + y*if11)))));
 }
 
-static f64 static_Cos64(f64 angle){
+static double _rm_cos64(double angle){
     //McLaurin's Series with Horner's Scheme
-    f64 y = angle*angle;
+    double y = angle*angle;
 
-    f64 if2 = -0.5;
-    f64 if4 = 1.0/24.0;
-    f64 if6 = -1.0/720.0;
-    f64 if8 = 1.0/40320.0;
-    f64 if10 = -1.0/3628800.0;
-    f64 if12 = 1.0/479001600.0;
+    double if2 = -0.5;
+    double if4 = 1.0/24.0;
+    double if6 = -1.0/720.0;
+    double if8 = 1.0/40320.0;
+    double if10 = -1.0/3628800.0;
+    double if12 = 1.0/479001600.0;
 
     return (1 + y*(if2 + y*(if4 + y*(if6 + y*(if8 + y*(if10 + y*if12))))));
 }
 
-f32 Sin32(f32 angleInRadians)       { return (f32)Sin64(angleInRadians); }
-f32 Cos32(f32 angleInRadians)       { return (f32)Cos64(angleInRadians); }
-f32 Tg32(f32 angleInRadians)        { return (f32)Tg64(angleInRadians); }
-f32 Cosec32(f32 angleInRadians)     { return (f32)Cosec64(angleInRadians); }
-f32 Sec32(f32 angleInRadians)       { return (f32)Sec64(angleInRadians); }
-f32 Cotg32(f32 angleInRadians)      { return (f32)Cotg64(angleInRadians); }
+float rm_sin32(float rad)       { return (float)rm_sin64(rad); }
+float rm_cos32(float rad)       { return (float)rm_cos64(rad); }
+float rm_tg32(float rad)        { return (float)rm_tg64(rad); }
+float rm_cosec32(float rad)     { return (float)rm_cosec64(rad); }
+float rm_sec32(float rad)       { return (float)rm_sec64(rad); }
+float rm_cotg32(float rad)      { return (float)rm_cotg64(rad); }
 
-f64 Sin64(f64 angleInRadians){
-    //For precision purposes I want to make sure that angleInRadians is in a good interval
+double rm_sin64(double rad) {
+    //For precision purposes I want to make sure that rad is in a good interval
     //This interval for us is going to be [-PI/4, PI/4]
-    //(the bigger angleInRadians, the less precise our calculations are)
-    f64 angle = Mod64(angleInRadians, 2*MTHLIB_PI, MTHLIB_TRUE);
+    //(the bigger rad, the less precise our calculations are)
+    double angle = rm_mod64(rad, 2*RMATH_PI, RMATH_TRUE);
     
-    if ((MTHLIB_PI < angle) && (angle < 2*MTHLIB_PI)) angle = -(2*MTHLIB_PI - angle);
+    if ((RMATH_PI < angle) && (angle < 2*RMATH_PI)) angle = -(2*RMATH_PI - angle);
 
-    if((-MTHLIB_PI/4 <= angle) && (angle <= MTHLIB_PI/4)){
-        return static_Sin64(angle);
-    }else if((MTHLIB_PI/4 < angle) && (angle <= 3*MTHLIB_PI/4)){
-        return static_Cos64(angle - MTHLIB_PI/2);
-    }else if((3*MTHLIB_PI/4 < angle) && (angle <= MTHLIB_PI)){
-        return static_Sin64(angle - MTHLIB_PI)*(-1);
-    }else if((-3*MTHLIB_PI/4 < angle) && (angle < -MTHLIB_PI/4)){
-        return static_Cos64(MTHLIB_PI/2 + angle)*(-1);
+    if((-RMATH_PI/4 <= angle) && (angle <= RMATH_PI/4)){
+        return _rm_sin64(angle);
+    }else if((RMATH_PI/4 < angle) && (angle <= 3*RMATH_PI/4)){
+        return _rm_cos64(angle - RMATH_PI/2);
+    }else if((3*RMATH_PI/4 < angle) && (angle <= RMATH_PI)){
+        return _rm_sin64(angle - RMATH_PI)*(-1);
+    }else if((-3*RMATH_PI/4 < angle) && (angle < -RMATH_PI/4)){
+        return _rm_cos64(RMATH_PI/2 + angle)*(-1);
     }
 
-    return static_Sin64(MTHLIB_PI + angle)*(-1);
+    return _rm_sin64(RMATH_PI + angle)*(-1);
 }
 
-f64 Cos64(f64 angleInRadians){
-    //For precision purposes I want to make sure that angleInRadians is in a good interval
+double rm_cos64(double rad) {
+    //For precision purposes I want to make sure that rad is in a good interval
     //This interval for us is going to be [-PI/4, PI/4]
-    //(the bigger angleInRadians, the less precise our calculations are)
-    f64 angle = Mod64(angleInRadians, 2*MTHLIB_PI, MTHLIB_TRUE);
+    //(the bigger rad, the less precise our calculations are)
+    double angle = rm_mod64(rad, 2*RMATH_PI, RMATH_TRUE);
     
-    if ((MTHLIB_PI < angle) && (angle < 2*MTHLIB_PI)) angle = -(2*MTHLIB_PI - angle);
+    if ((RMATH_PI < angle) && (angle < 2*RMATH_PI)) angle = -(2*RMATH_PI - angle);
 
-    if((-MTHLIB_PI/4 <= angle) && (angle <= MTHLIB_PI/4)){
-        return static_Cos64(angle);
-    }else if((MTHLIB_PI/4 < angle) && (angle <= 3*MTHLIB_PI/4)){
-        return static_Sin64(angle - MTHLIB_PI/2)*(-1);
-    }else if((-MTHLIB_PI/4 > angle) && (angle >= -3*MTHLIB_PI/4)){
-        return static_Sin64(angle + MTHLIB_PI/2);
-    }else if((3*MTHLIB_PI/4 < angle) && (angle <= MTHLIB_PI)){
-        return static_Cos64(angle - MTHLIB_PI)*(-1);
+    if((-RMATH_PI/4 <= angle) && (angle <= RMATH_PI/4)){
+        return _rm_cos64(angle);
+    }else if((RMATH_PI/4 < angle) && (angle <= 3*RMATH_PI/4)){
+        return _rm_sin64(angle - RMATH_PI/2)*(-1);
+    }else if((-RMATH_PI/4 > angle) && (angle >= -3*RMATH_PI/4)){
+        return _rm_sin64(angle + RMATH_PI/2);
+    }else if((3*RMATH_PI/4 < angle) && (angle <= RMATH_PI)){
+        return _rm_cos64(angle - RMATH_PI)*(-1);
     }
-    return static_Cos64(angle + MTHLIB_PI)*(-1);
+    return _rm_cos64(angle + RMATH_PI)*(-1);
 }
 
 //Unfortunetely I couldn't get it to be as precise as Sin and Cos.
@@ -963,55 +955,55 @@ f64 Cos64(f64 angleInRadians){
 //      simples problems at least, We are getting error in the 6+th decimal place
 //All the series expansions I tried are only good for very limited intervals of angles 
 //      (Which I definetely don't want)
-f64 Tg64(f64 angleInRadians){
-    f64 s = Sin64(angleInRadians);
-    f64 c = Cos64(angleInRadians);
-    if(c == 0.0f) return MTHLIB_INFINITY;
+double rm_tg64(double rad) {
+    double s = rm_sin64(rad);
+    double c = rm_cos64(rad);
+    if(c == 0.0f) return RMATH_INFINITY;
     return s / c;
 }
 
-f64 Cosec64(f64 angleInRadians){
-    f64 s = Sin64(angleInRadians);
-    if(s == 0.0) return MTHLIB_NAN;
+double rm_cosec64(double rad) {
+    double s = rm_sin64(rad);
+    if(s == 0.0) return RMATH_NAN;
     return 1 / s;
 }
 
-f64 Sec64(f64 angleInRadians){
-    f64 c = Cos64(angleInRadians);
-    if(c == 0.0) return MTHLIB_NAN;
+double rm_sec64(double rad) {
+    double c = rm_cos64(rad);
+    if(c == 0.0) return RMATH_NAN;
     return 1.0 / c;
 }
 
-f64 Cotg64(f64 angleInRadians){
-    f64 t = Tg64(angleInRadians);
-    if(t == 0.0) return MTHLIB_NAN;
+double rm_cotg64(double rad) {
+    double t = rm_tg64(rad);
+    if(t == 0.0) return RMATH_NAN;
     return 1.0 / t;
 }
 
 //CONVENIENT FUNCTIONS IMPLEMENTATIONS
 
 //This is for the implementation of static_Sqrt64
-typedef union unionF64{
-    f64 n;
+typedef union _rm_union_double{
+    double n;
     struct{
-        u64 mantissa : 52;
-        u64 exponent : 11;
-        u64 sign     : 1;
+        unsigned long long mantissa : 52;
+        unsigned long long exponent : 11;
+        unsigned long long sign     : 1;
     }bits;
-} unionF64;
+} _rm_union_double;
 
-static f64 static_Sqrt64(unionF64 x){
+static double _rm_sqrt64(_rm_union_double x){
     //The number we want to know the square root of
-    f64 arg = x.n;
+    double arg = x.n;
 
     //We are extracting the exponent part of the floating point number (We are also getting rid of the BIAS)
-    i64 e = x.bits.exponent - MTHLIB_BIAS64;
+    int e = x.bits.exponent - RMATH_BIAS64;
     
     //This is going to be the number (1 + f) which is the mantissa plus 1. 
     //This is useful to get a great initial guess for the Newton-Raphson algorithm. 
-    f64 f = 0;
+    double f = 0;
 
-    f64 rest = 1;
+    double rest = 1;
     
     if(e > 0){
         f = arg / (2 << (e - 1));
@@ -1020,7 +1012,7 @@ static f64 static_Sqrt64(unionF64 x){
         if((e & 1) == 0){
             rest = 1 << (e/2);
         }else{
-            rest = MTHLIB_SQRT_2*(1 << ((e-1)/2));
+            rest = RMATH_SQRT_2*(1 << ((e-1)/2));
         }
     }
     else if(e < 0){
@@ -1030,7 +1022,7 @@ static f64 static_Sqrt64(unionF64 x){
         if((e & 1) == 0){
             rest = 1 / (1 << (-e/2));
         }else{
-            rest = (MTHLIB_SQRT_2 / 2)*(1.0 / (1 << -((e+1)/2)));
+            rest = (RMATH_SQRT_2 / 2)*(1.0 / (1 << -((e+1)/2)));
         }
     }
     //This is for the case where the input argument is already in the correct scientific notation
@@ -1040,117 +1032,114 @@ static f64 static_Sqrt64(unionF64 x){
     }
 
     //Newton Raphson Algorithm
-    f64 xk = ((f - 1) / 2) + 1;
-    f64 xk1 = (xk + (f/xk))/2;
-    f64 error = Abs64(xk1 - xk);
+    double xk = ((f - 1) / 2) + 1;
+    double xk1 = (xk + (f/xk))/2;
+    double error = rm_abs64(xk1 - xk);
 
-    while (error > MTHLIB_HIGH_PRECISION){
+    while (error > RMATH_HIGH_PRECISION){
         xk = xk1;
         xk1 = (xk + (f/xk))/2;
-        error = Abs64(xk1 - xk);
+        error = rm_abs64(xk1 - xk);
     }
 
     return xk1*rest;
 }
 
-b8 Compare32(f32 x, f32 y, f32 errorMargin) {
-    return (Abs32(x - y) < errorMargin);
+int rm_compare32(float x, float y, float errorMargin)       { return (rm_abs32(x - y) < errorMargin); }
+float rm_deg_to_rad32(float deg)                            { return (float)rm_deg_to_rad64(deg); }
+float rm_rad_to_deg32(float rad)                            { return (float)rm_rad_to_deg64(rad); }
+float rm_sqrt32(float x)                                    { return (float)rm_sqrt64(x); }
+float rm_abs32(float x)                                     { return (float)rm_abs64(x); }
+float rm_clamp32(float min, float max, float value)         { return (float)rm_clamp64(min, max, value); }
+float rm_max32(float a, float b)                            { return (float)rm_max64(a, b); }
+float rm_min32(float a, float b)                            { return (float)rm_min64(a, b); }
+float rm_mod32(float f1, float f2, int positiveResult)      { return (float)rm_mod64(f1, f2, positiveResult); }
+int rm_ceil32(float x)                                      { return (float)rm_ceil64(x); }
+int rm_floor32(float x)                                     { return (int)rm_floor64(x); }
+int rm_round32(float x)                                     { return (int)rm_round64(x); }
+
+int rm_compare64(double x, double y, double errorMargin){
+    return (rm_abs64(x - y) < errorMargin);
 }
 
-f32 DegreesToRadians32(f32 degrees)             { return (f32)DegreesToRadians64(degrees); }
-f32 RadiansToDegrees32(f32 radians)             { return (f32)RadiansToDegrees64(radians); }
-f32 Sqrt32(f32 x)                               { return (f32)Sqrt64(x); }
-f32 Abs32(f32 x)                                { return (f32)Abs64(x); }
-f32 Clamp32(f32 min, f32 max, f32 value)        { return (f32)Clamp64(min, max, value); }
-f32 Max32(f32 a, f32 b)                         { return (f32)Max64(a, b); }
-f32 Min32(f32 a, f32 b)                         { return (f32)Min64(a, b); }
-f32 Mod32(f32 f1, f64 f2, u8 positiveResult)    { return (f32)Mod64(f1, f2, positiveResult); }
-i32 Ceil32(f32 x)                               { return (f32)Ceil64(x); }
-i32 Floor32(f32 x)                              { return (i32)Floor64(x); }
-i32 Round32(f32 x)                              { return (i32)Round64(x); }
-
-b8 Compare64(f64 x, f64 y, f64 errorMargin){
-    return (Abs64(x - y) < errorMargin);
+double rm_deg_to_rad64(double deg){
+    return deg*RMATH_DEGREE_IN_RAD;
 }
 
-f64 DegreesToRadians64(f64 degrees){ 
-    return degrees*MTHLIB_DEGREE_IN_RAD;
+double rm_rad_to_deg64(double rad){
+    return rad*(180/RMATH_PI);
 }
 
-f64 RadiansToDegrees64(f64 radians){ 
-    return radians*(180/MTHLIB_PI);
-}
-
-f64 Sqrt64(f64 x){
+double rm_sqrt64(double x){
     if(x == 0.0f || x == 1.0f) return x;
-    if(x < 0.0f) return MTHLIB_NAN;
+    if(x < 0.0f) return RMATH_NAN;
 
-    unionF64 x_union = {.n = x};
+    _rm_union_double x_union = {.n = x};
 
-    return static_Sqrt64(x_union);
+    return _rm_sqrt64(x_union);
 }
 
-f64 Abs64(f64 x){
+double rm_abs64(double x){
     if(x < 0) return -x;
     return x;
 }
 
-f64 Clamp64(f64 min, f64 max, f64 value){
+double rm_clamp64(double min, double max, double value){
     if(value < min) return min;
     if(value > max) return max;
     return value;
 }
 
-f64 Max64(f64 a, f64 b){
+double rm_max64(double a, double b){
     if(a > b) return a;
     return b;
 }
 
-f64 Min64(f64 a, f64 b){
+double rm_min64(double a, double b){
     if(a < b) return a;
     return b;
 }
 
-f64 Mod64(f64 f1, f64 f2, u8 positiveResult) {
-    f64 result = f1 - (i64)(f1 / f2) * f2;
+double rm_mod64(double f1, double f2, int positiveResult){
+    double result = f1 - (int)(f1 / f2) * f2;
     if(positiveResult && result < 0) return (f2 + result);
     return result;
 }
 
-i64 Ceil64(f64 x){
-    if(x < 0) return (i64)x;
+long int rm_ceil64(double x){
+    if(x < 0) return (int)x;
 
-    i64 i_x = (i64)x;
-    if(x == (f64) i_x) return i_x;
+    int i_x = (int)x;
+    if(x == (double) i_x) return i_x;
     return i_x + 1;
 }
 
-i64 Floor64(f64 x){
-    i64 n = (i64)x;
-    f64 d = (f64)n;
-    if (d == x || x >= 0) return (i64)d;
-    return (i64)d - 1;
+long int rm_floor64(double x){
+    int n = (int)x;
+    double d = (double)n;
+    if (d == x || x >= 0) return (int)d;
+    return (int)d - 1;
 }
 
-i64 Round64(f64 x){
-    if(x < 0) return (i64) (x - 0.5f);
-    return (i64) (x + 0.5f);
+long int rm_round64(double x){
+    if(x < 0) return (int) (x - 0.5f);
+    return (int) (x + 0.5f);
 }
 
-i8 Sign(f64 x){
+int rm_sign(double x){
     if(x < 0) return -1;
     return 1;
 }
 
 //RANDOM IMPLEMENTATIONS
 
-static void static_SetSeed(){
-    random_seed = (u32)GetPlatformTime();
-    seeded = MTHLIB_TRUE;
+static void _rm_set_rng_seed(void){
+    random_seed = (unsigned int)_rm_get_platform_time_for_rng();
+    seeded = RMATH_TRUE;
 }
 
-static u32 static_XORShift(){
-    u32 temp = random_seed;
+static unsigned int _rm_rng_xor_shift(void){
+    unsigned int temp = random_seed;
     temp ^= temp << 13;
     temp ^= temp >> 17;
     temp ^= temp << 5;
@@ -1158,87 +1147,87 @@ static u32 static_XORShift(){
     return random_seed;
 }
 
-u32 RandomU32(void){
-    if(seeded == MTHLIB_FALSE) static_SetSeed();
-    return static_XORShift();
+unsigned int rm_random_u32(void){
+    if(seeded == RMATH_FALSE) _rm_set_rng_seed();
+    return _rm_rng_xor_shift();
 }
 
-u32 RandomU32InInterval(u32 min, u32 max){
-    return (RandomU32() % (max - min + 1)) + min;
+unsigned int rm_random_u32_in_interval(unsigned int min, unsigned int max){
+    return (rm_random_u32() % (max - min + 1)) + min;
 }
 
-b8 RandomBool(void){
-    return (RandomU32() & 1) == 0;
+int rm_random_bool(void){
+    return (rm_random_u32() & 1) == 0;
 }
 
-i8 RandomSign(void){
-    return RandomBool() == MTHLIB_FALSE ? 1 : -1;
+int rm_random_sign(void){
+    return rm_random_bool() == RMATH_FALSE ? 1 : -1;
 }
 
-f32 Random32(void){
-    return (f32)RandomU32() / (f32)MTHLIB_U32_MAX;
+float rm_random_f(void){
+    return (float)rm_random_u32() / (float)RMATH_U32_MAX;
 }
 
-v2 RandomV2(void){
-    return (v2){RandomSign() * Random32(), 
-                RandomSign() * Random32()};
+rm_v2f rm_random_v2f(void){
+    return (rm_v2f){rm_random_sign() * rm_random_f(), 
+                    rm_random_sign() * rm_random_f()};
 }
 
-v3 RandomV3(void){
-    return (v3){RandomSign() * Random32(),
-                RandomSign() * Random32(),
-                RandomSign() * Random32()};
+rm_v3f rm_random_v3f(void){
+    return (rm_v3f){rm_random_sign() * rm_random_f(),
+                    rm_random_sign() * rm_random_f(),
+                    rm_random_sign() * rm_random_f()};
 }
 
-v4 RandomV4(void){
-    return (v4){RandomSign() * Random32(),
-                RandomSign() * Random32(),
-                RandomSign() * Random32(),
-                RandomSign() * Random32()};
+rm_v4f rm_random_v4f(void){
+    return (rm_v4f){rm_random_sign() * rm_random_f(),
+                    rm_random_sign() * rm_random_f(),
+                    rm_random_sign() * rm_random_f(),
+                    rm_random_sign() * rm_random_f()};
 }
 
-mat2x2 RandomMat2x2(void){
-    return (mat2x2){.elem = {RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32()}};
+rm_mat2f rm_random_mat2f(void){
+    return (rm_mat2f){.elem = {rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f()}};
 }
 
-mat3x3 RandomMat3x3(void){
-    return (mat3x3){.elem = {RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32()}};
+rm_mat3f rm_random_mat3f(void){
+    return (rm_mat3f){.elem = {rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f(),
+                             rm_random_sign() * rm_random_f()}};
 }
 
-mat4x4 RandomMat4x4(void){
-    return (mat4x4){.elem = {RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32(),
-                             RandomSign() * Random32()}};
+rm_mat4f rm_random_mat4f(void){
+    return (rm_mat4f){.elem = {rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f(),
+                               rm_random_sign() * rm_random_f()}};
 }
 
 //GRAPHICS IMPLEMENTATIONS
 
-mat3x3 CreateTranslationMatrix2D(v2 posDelta){
-    mat3x3 output = CreateIdentity3x3();
+rm_mat3f rm_translation_2D(rm_v2f posDelta){
+    rm_mat3f output = rm_identity_mat3f();
 
     output.elem[2] = posDelta.x;
     output.elem[5] = posDelta.y;
@@ -1246,8 +1235,8 @@ mat3x3 CreateTranslationMatrix2D(v2 posDelta){
     return output;
 }
 
-mat3x3 CreateScaleMatrixWithSetOrigin2D(v2 scale, v2 origin){
-    mat3x3 output = CreateIdentity3x3();
+rm_mat3f rm_scaling_2D_set_origin(rm_v2f scale, rm_v2f origin){
+    rm_mat3f output = rm_identity_mat3f();
 
     output.elem[0] = scale.x;
     output.elem[2] = origin.x - origin.x*scale.x;
@@ -1257,15 +1246,15 @@ mat3x3 CreateScaleMatrixWithSetOrigin2D(v2 scale, v2 origin){
     return output;
 }
 
-mat3x3 CreateScaleMatrix2D(v2 scale){
-    return CreateScaleMatrixWithSetOrigin2D(scale, (v2){ 0, 0 });
+rm_mat3f rm_scaling_2D(rm_v2f scale){
+    return rm_scaling_2D_set_origin(scale, (rm_v2f){ 0, 0 });
 }
 
-mat3x3 CreateRotationAroundPointMatrix2D(f32 angleInRadians, v2 pos){
-    mat3x3 output = CreateIdentity3x3();
+rm_mat3f rm_rotation_2D_around_point(float rad, rm_v2f pos){
+    rm_mat3f output = rm_identity_mat3f();
 
-    f32 s = Sin32(angleInRadians);
-    f32 c = Cos32(angleInRadians);
+    float s = rm_sin32(rad);
+    float c = rm_cos32(rad);
 
     output.elem[0] = c;
     output.elem[1] = -s;
@@ -1277,12 +1266,13 @@ mat3x3 CreateRotationAroundPointMatrix2D(f32 angleInRadians, v2 pos){
     return output;
 }
 
-mat3x3 CreateRotationMatrix2D(f32 angleInRadians){
-    return CreateRotationAroundPointMatrix2D(angleInRadians, (v2){ 0, 0 });
+rm_mat3f rm_rotation_2D(float rad){
+    return rm_rotation_2D_around_point(rad, (rm_v2f){ 0, 0 });
 }
 
-mat4x4 CreateTranslationMatrix3D(v3 posDelta){
-    mat4x4 output = CreateIdentity4x4();
+
+rm_mat4f rm_translation_3D(rm_v3f posDelta){
+    rm_mat4f output = rm_identity_mat4f();
 
     output.elem[3] = posDelta.x;
     output.elem[7] = posDelta.y;
@@ -1291,8 +1281,8 @@ mat4x4 CreateTranslationMatrix3D(v3 posDelta){
     return output;
 }
 
-mat4x4 CreateScaleMatrix3D(v3 scale){
-    mat4x4 output = CreateIdentity4x4();
+rm_mat4f rm_scaling_3D(rm_v3f scale){
+    rm_mat4f output = rm_identity_mat4f();
 
     output.elem[0] = scale.x;
     output.elem[5] = scale.y;
@@ -1301,11 +1291,11 @@ mat4x4 CreateScaleMatrix3D(v3 scale){
     return output;
 }
 
-mat4x4 CreateEulerRotationInXMatrix3D(f32 angleInRadians){
-    mat4x4 output = CreateIdentity4x4();
+rm_mat4f rm_euler_rotationX_3D(float rad){
+    rm_mat4f output = rm_identity_mat4f();
 
-    f32 s = Sin32(angleInRadians);
-    f32 c = Cos32(angleInRadians);
+    float s = rm_sin32(rad);
+    float c = rm_cos32(rad);
 
     output.elem[5] = c;
     output.elem[6] = -s;
@@ -1315,11 +1305,11 @@ mat4x4 CreateEulerRotationInXMatrix3D(f32 angleInRadians){
     return output;
 }
 
-mat4x4 CreateEulerRotationInYMatrix3D(f32 angleInRadians){
-    mat4x4 output = CreateIdentity4x4();
+rm_mat4f rm_euler_rotationY_3D(float rad){
+    rm_mat4f output = rm_identity_mat4f();
 
-    f32 s = Sin32(angleInRadians);
-    f32 c = Cos32(angleInRadians);
+    float s = rm_sin32(rad);
+    float c = rm_cos32(rad);
 
     output.elem[0] = c;
     output.elem[2] = s;
@@ -1329,11 +1319,11 @@ mat4x4 CreateEulerRotationInYMatrix3D(f32 angleInRadians){
     return output;
 }
 
-mat4x4 CreateEulerRotationInZMatrix3D(f32 angleInRadians){
-    mat4x4 output = CreateIdentity4x4();
+rm_mat4f rm_euler_rotationZ_3D(float rad){
+    rm_mat4f output = rm_identity_mat4f();
 
-    f32 s = Sin32(angleInRadians);
-    f32 c = Cos32(angleInRadians);
+    float s = rm_sin32(rad);
+    float c = rm_cos32(rad);
 
     output.elem[0] = c;
     output.elem[1] = -s;
@@ -1343,21 +1333,21 @@ mat4x4 CreateEulerRotationInZMatrix3D(f32 angleInRadians){
     return output;
 }
 
-mat4x4 CreateEulerRotationInXYZMatrix3D(v3 anglesInRadians){
-    mat4x4 output = { 0 };
+rm_mat4f rm_euler_rotationXYZ_3D(rm_v3f rads){
+    rm_mat4f output = { 0 };
 
-    mat4x4 rotationMatrixInX = CreateEulerRotationInXMatrix3D(anglesInRadians.x);
-    mat4x4 rotationMatrixInY = CreateEulerRotationInYMatrix3D(anglesInRadians.y);
-    mat4x4 rotationMatrixInZ = CreateEulerRotationInZMatrix3D(anglesInRadians.z);
+    rm_mat4f rotationMatrixInX = rm_euler_rotationX_3D(rads.x);
+    rm_mat4f rotationMatrixInY = rm_euler_rotationY_3D(rads.y);
+    rm_mat4f rotationMatrixInZ = rm_euler_rotationZ_3D(rads.z);
     
-    output = MultMatrix4x4(rotationMatrixInX, rotationMatrixInY);
-    output = MultMatrix4x4(output, rotationMatrixInZ);
+    output = rm_mult_mat4f(rotationMatrixInX, rotationMatrixInY);
+    output = rm_mult_mat4f(output, rotationMatrixInZ);
 
     return output;
 }
 
-mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n){
-    mat4x4 output = CreateIdentity4x4();
+rm_mat4f rm_parallel_projection_3D(float l, float r, float t, float b, float f, float n){
+    rm_mat4f output = rm_identity_mat4f();
 
     output.elem[0] = 2.0 / (r - l);
     output.elem[5] = 2.0 / (t - b);
@@ -1370,10 +1360,10 @@ mat4x4 CreateParallelProjectionMatrix3D(f32 l, f32 r, f32 t, f32 b, f32 f, f32 n
     return output;
 }
 
-mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32 n){
-    mat4x4 output = { 0 };
+rm_mat4f rm_perspective_projection_3D(float fovY, float aspectRatio, float f, float n){
+    rm_mat4f output = { 0 };
 
-    f32 tg = Tg32(0.5f*fovY);
+    float tg = rm_tg32(0.5f*fovY);
 
     output.elem[0] = (1 / tg) / aspectRatio;
     output.elem[5] = (1 / tg);
@@ -1386,159 +1376,156 @@ mat4x4 CreatePerspectiveProjectionMatrix3D(f32 fovY, f32 aspectRatio, f32 f, f32
 
 // GEOMETRY IMPLEMENTATIONS
 
-f32 DistanceBetweenPoints2D(point2D p, point2D q){
-    return Sqrt32((p.x - q.x)*(p.x - q.x) + (p.y - q.y)*(p.y - q.y));
+float rm_distance_points2D(rm_point2D p, rm_point2D q){
+    return rm_sqrt32((p.x - q.x)*(p.x - q.x) + (p.y - q.y)*(p.y - q.y));
 }
 
-f32 DistanceBetweenPoints3D(point3D p, point3D q){
-    return Sqrt32((p.x - q.x)*(p.x - q.x) + (p.y - q.y)*(p.y - q.y) + (p.z - q.z)*(p.z - q.z));
+float rm_distance_points3D(rm_point3D p, rm_point3D q){
+    return rm_sqrt32((p.x - q.x)*(p.x - q.x) + (p.y - q.y)*(p.y - q.y) + (p.z - q.z)*(p.z - q.z));
 }
 
-f32 DistanceBetweenPointAndLine2D(point2D p, line2D line){
-    v2 vectorAux = SubtractV2(p, line.arbitraryPoint);
-    v2 lineNormal = {line.direction.y, -line.direction.x};
-    return Abs32(DotV2(vectorAux, lineNormal) / NormV2(lineNormal));
+float rm_distance_point_line2D(rm_point2D p, rm_line2D line){
+    rm_v2f vectorAux = rm_sub_v2f(p, line.point);
+    rm_v2f lineNormal = {line.direction.y, -line.direction.x};
+    return rm_abs32(rm_dot_v2f(vectorAux, lineNormal) / rm_mag_v2f(lineNormal));
 }
 
-f32 DistanceBetweenLines2D(line2D line1, line2D line2){
-    if(IntersectingLines2D(line1, line2)){
+float rm_distance_lines2D(rm_line2D line1, rm_line2D line2){
+    if(rm_intersecting_lines2D(line1, line2)){
         return 0;
     }
-    return DistanceBetweenPointAndLine2D(line1.arbitraryPoint, line2);
+    return rm_distance_point_line2D(line1.point, line2);
 }
 
-f32 DistanceBetweenPointAndLine3D(point3D p, line3D line){
-    v3 aux = SubtractV3(p, line.arbitraryPoint);
-    return NormV3(CrossV3(aux, line.direction)) / NormV3(line.direction);
+float rm_distance_point_line3D(rm_point3D p, rm_line3D line){
+    rm_v3f aux = rm_sub_v3f(p, line.point);
+    return rm_mag_v3f(rm_cross_v3f(aux, line.direction)) / rm_mag_v3f(line.direction);
 }
 
-f32 DistanceBetweenLines3D(line3D line1, line3D line2){
-    if(IntersectingLines3D(line1, line2)){
+float rm_distance_lines3D(rm_line3D line1, rm_line3D line2){
+    if(rm_intersecting_lines3D(line1, line2)){
         return 0;
     }
-    if(ParallelLines3D(line1, line2)){
-        return DistanceBetweenPointAndLine3D(line1.arbitraryPoint, line2);
+    if(rm_parallel_lines3D(line1, line2)){
+        return rm_distance_point_line3D(line1.point, line2);
     }
     
-    v3 arbitraryPointSub = SubtractV3(line1.arbitraryPoint, line2.arbitraryPoint);
-    return Abs32(ScalarTripleProduct(line1.direction, line2.direction, arbitraryPointSub)) / NormV3(CrossV3(line1.direction, line2.direction));
+    rm_v3f pointSub = rm_sub_v3f(line1.point, line2.point);
+    return rm_abs32(rm_mixed_product_v3f(line1.direction, line2.direction, pointSub)) / rm_mag_v3f(rm_cross_v3f(line1.direction, line2.direction));
 }
 
-f32 DistanceBetweenPointAndPlane(point3D p, plane pl){
-    v3 arbitraryPointSub = SubtractV3(p, pl.arbitraryPoint);
-    return Abs32(DotV3(arbitraryPointSub, pl.normal)) / NormV3(pl.normal);
+float rm_distance_point_plane(rm_point3D p, rm_plane pl){
+    rm_v3f pointSub = rm_sub_v3f(p, pl.point);
+    return rm_abs32(rm_dot_v3f(pointSub, pl.normal)) / rm_mag_v3f(pl.normal);
 }
 
-f32 DistanceBetweenLineAndPlane(line3D line, plane pl){
+float rm_distance_line_plane(rm_line3D line, rm_plane pl){
     //Check if the line is parallel to the plane
     // Use Compare32() ?
-    if(Compare32(DotV3(line.direction, pl.normal), 0.0f, MTHLIB_LOW_PRECISION)){
-        return DistanceBetweenPointAndPlane(line.arbitraryPoint, pl);
+    if(rm_compare32(rm_dot_v3f(line.direction, pl.normal), 0.0f, RMATH_LOW_PRECISION)){
+        return rm_distance_point_plane(line.point, pl);
     }
     //Here it means that the line is intersecting the plane in one point, since it's not parallel
     return 0;
 }
 
-f32 DistanceBetweenPlanes(plane pl1, plane pl2){
-    line3D normalLine1 = {.direction = pl1.normal, .arbitraryPoint = {0}};
-    line3D normalLine2 = {.direction = pl2.normal, .arbitraryPoint = {0}};
-    if(ParallelLines3D(normalLine1, normalLine2) == MTHLIB_TRUE){
-        return DistanceBetweenPointAndPlane(pl1.arbitraryPoint, pl2);
+float rm_distance_planes(rm_plane pl1, rm_plane pl2){
+    rm_line3D normalLine1 = {.direction = pl1.normal, .point = {0}};
+    rm_line3D normalLine2 = {.direction = pl2.normal, .point = {0}};
+    if(rm_parallel_lines3D(normalLine1, normalLine2) == RMATH_TRUE){
+        return rm_distance_point_plane(pl1.point, pl2);
     }
     //Here it means that planes are intersecting, since they're not parallel
     return 0;
 }
 
-b8 ParallelLines2D(line2D l1, line2D l2){
-    f32 l1dx = l1.direction.x;
-    f32 l1dy = l1.direction.y;
-    f32 l2dx = l2.direction.x;
-    f32 l2dy = l2.direction.y;
+int rm_parallel_lines2D(rm_line2D l1, rm_line2D l2){
+    float l1dx = l1.direction.x;
+    float l1dy = l1.direction.y;
+    float l2dx = l2.direction.x;
+    float l2dy = l2.direction.y;
     
     if((((l1dx == 0) && (l2dx == 0)) && 
         ((l1dy != 0) && (l2dy != 0))) ||
        (((l1dy == 0) && (l2dy == 0)) && 
         ((l1dx != 0) && (l2dx != 0)))){
-        return MTHLIB_TRUE;
+        return RMATH_TRUE;
     }
 
-    if(l2dx != 0.0f && l2dy != 0.0f && Compare32((l1dx / l2dx), (l1dy / l2dy), MTHLIB_LOW_PRECISION)){
-        return MTHLIB_TRUE;
+    if(l2dx != 0.0f && l2dy != 0.0f && rm_compare32((l1dx / l2dx), (l1dy / l2dy), RMATH_LOW_PRECISION)){
+        return RMATH_TRUE;
     }
     
-    return MTHLIB_FALSE;
+    return RMATH_FALSE;
 }
 
-b8 ParallelLines3D(line3D l1, line3D l2){
+int rm_parallel_lines3D(rm_line3D l1, rm_line3D l2){
     //The arbitrary points don't matter, since we only need the direction vectors
     if(l1.direction.x == l2.direction.x){
-        line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.y, l1.direction.z}};
-        line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.y, l2.direction.z}};
-        return ParallelLines2D(aux1, aux2);
+        rm_line2D aux1 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l1.direction.y, l1.direction.z}};
+        rm_line2D aux2 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l2.direction.y, l2.direction.z}};
+        return rm_parallel_lines2D(aux1, aux2);
     }
     if(l1.direction.y == l2.direction.y){
-        line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.x, l1.direction.z}};
-        line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.x, l2.direction.z}};
-        return ParallelLines2D(aux1, aux2);
+        rm_line2D aux1 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l1.direction.x, l1.direction.z}};
+        rm_line2D aux2 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l2.direction.x, l2.direction.z}};
+        return rm_parallel_lines2D(aux1, aux2);
     }
     if(l1.direction.z == l2.direction.z){
-        line2D aux1 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l1.direction.x, l1.direction.y}};
-        line2D aux2 = {.arbitraryPoint = (point2D){0}, .direction = (v2){l2.direction.x, l2.direction.y}};
-        return ParallelLines2D(aux1, aux2);
+        rm_line2D aux1 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l1.direction.x, l1.direction.y}};
+        rm_line2D aux2 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l2.direction.x, l2.direction.y}};
+        return rm_parallel_lines2D(aux1, aux2);
     }
 
     // transitivity
     if(l2.direction.x != 0.0f && l2.direction.y != 0.0f && l2.direction.z != 0.0f){
-        f32 xRatio = l1.direction.x / l2.direction.x;
-        f32 yRatio = l1.direction.y / l2.direction.y;
-        f32 zRatio = l1.direction.z / l2.direction.z;
-        if(Compare32(xRatio, yRatio, MTHLIB_LOW_PRECISION) && 
-            Compare32(yRatio, zRatio, MTHLIB_LOW_PRECISION)){
-            return MTHLIB_TRUE;
+        float xRatio = l1.direction.x / l2.direction.x;
+        float yRatio = l1.direction.y / l2.direction.y;
+        float zRatio = l1.direction.z / l2.direction.z;
+        if(rm_compare32(xRatio, yRatio, RMATH_LOW_PRECISION) && 
+            rm_compare32(yRatio, zRatio, RMATH_LOW_PRECISION)){
+            return RMATH_TRUE;
         }
     }
 
-    return MTHLIB_FALSE;
+    return RMATH_FALSE;
 }
 
-b8 IntersectingLines2D(line2D l1, line2D l2){
-    return !ParallelLines2D(l1, l2);
+int rm_intersecting_lines2D(rm_line2D l1, rm_line2D l2){
+    return !rm_parallel_lines2D(l1, l2);
 }
 
-b8 IntersectingLines3D(line3D l1, line3D l2){
-    v3 directionCross = CrossV3(l1.direction, l2.direction);
-    v3 directionSub = SubtractV3(l1.arbitraryPoint, l2.arbitraryPoint);
-    return !ParallelLines3D(l1, l2) && Compare32(DotV3(directionCross, directionSub), 0.0f, MTHLIB_LOW_PRECISION);
+int rm_intersecting_lines3D(rm_line3D l1, rm_line3D l2){
+    rm_v3f directionCross = rm_cross_v3f(l1.direction, l2.direction);
+    rm_v3f directionSub = rm_sub_v3f(l1.point, l2.point);
+    return !rm_parallel_lines3D(l1, l2) && rm_compare32(rm_dot_v3f(directionCross, directionSub), 0.0f, RMATH_LOW_PRECISION);
 }
 
-// REFACTOR: rename function (change name for consistency)
-b8 SkewLines(line3D l1, line3D l2){
-    return !ParallelLines3D(l1, l2) && !IntersectingLines3D(l1, l2);
+int rm_skew_lines(rm_line3D l1, rm_line3D l2){
+    return !rm_parallel_lines3D(l1, l2) && !rm_intersecting_lines3D(l1, l2);
 }
 
-b8 CollisionAABB2D(AABB2D r1, AABB2D r2){
+int rm_collision_AABB2D(rm_AABB2D r1, rm_AABB2D r2){
     return((r1.min.x < r2.max.x) &&
            (r1.max.x > r2.min.x) &&
            (r1.min.y < r2.max.y) &&
            (r1.max.y > r2.min.y));
 }
 
-// REFACTOR: rename function (it checks if the point is inside the AABB2D or in the bounding line segments)
-b8 CollisionPointAndAABB2D(point2D p, AABB2D r){
+int rm_collision_point_AABB2D(rm_point2D p, rm_AABB2D r){
     return (p.x >= r.min.x && p.x <= r.max.x) &&
            (p.y >= r.min.y && p.y <= r.max.y);
 }
 
-// REFACTOR: rename function (it checks if the point is inside the circle or in the surface)
-b8 CollisionPointAndSphere2D(point2D p, sphere2D s){
-    return DistanceBetweenPoints2D(p, s.center) < s.radius; 
+int rm_collision_point_circle(rm_point2D p, rm_circle s){
+    return rm_distance_points2D(p, s.center) < s.radius;
 }
 
-b8 CollisionSphere2D(sphere2D s1, sphere2D s2){
-    return DistanceBetweenPoints2D(s1.center, s2.center) < (s1.radius + s2.radius);
+int rm_collision_circles(rm_circle s1, rm_circle s2){
+    return rm_distance_points2D(s1.center, s2.center) < (s1.radius + s2.radius);
 }
 
-b8 CollisionAABB3D(AABB3D r1, AABB3D r2){
+int rm_collision_AABB3D(rm_AABB3D r1, rm_AABB3D r2){
     return( (r1.max.x > r2.min.x) &&
             (r1.min.x < r2.max.x) &&
             (r1.max.y > r2.min.y) &&
@@ -1547,113 +1534,113 @@ b8 CollisionAABB3D(AABB3D r1, AABB3D r2){
             (r1.min.z < r2.max.z));
 }
 
-b8 CollisionPointAndAABB3D(point3D p, AABB3D r){
+int rm_collision_point_AABB3D(rm_point3D p, rm_AABB3D r){
     return (p.x >= r.min.x && p.x <= r.max.x) &&
            (p.y >= r.min.y && p.y <= r.max.y) &&
            (p.z >= r.min.z && p.z <= r.max.z);
 }
 
-b8 CollisionPointAndSphere3D(point3D p, sphere3D s){
-    return DistanceBetweenPoints3D(p, s.center) < s.radius;
+int rm_collision_point_sphere(rm_point3D p, rm_sphere s){
+    return rm_distance_points3D(p, s.center) < s.radius;
 }
 
-b8 CollisionSphere3D(sphere3D s1, sphere3D s2){
-    return DistanceBetweenPoints3D(s1.center, s2.center) < (s1.radius + s2.radius);
+int rm_collision_spheres(rm_sphere s1, rm_sphere s2){
+    return rm_distance_points3D(s1.center, s2.center) < (s1.radius + s2.radius);
 }
 
-f32 AreaTriangle2D(triangle2D triangle){
-    mat2x2 output = { 0 };
+float rm_area_triangle2D(rm_triangle2D triangle){
+    rm_mat2f output = { 0 };
 
     output.elem[0] = triangle.a.x - triangle.b.x;
     output.elem[1] = triangle.a.x - triangle.c.x;
     output.elem[2] = triangle.a.y - triangle.b.y;
     output.elem[3] = triangle.a.y - triangle.c.y;
 
-    return Abs32(0.5f*DetMatrix2x2(output));
+    return rm_abs32(0.5f*rm_det_mat2f(output));
 }
 
-f32 AreaSphere2D(sphere2D sphere){
-    return Abs32(MTHLIB_PI*sphere.radius*sphere.radius);
+float rm_area_circle(rm_circle sphere){
+    return rm_abs32(RMATH_PI*sphere.radius*sphere.radius);
 }
 
-f32 AreaAABB2D(AABB2D aabb){
-    return Abs32((aabb.max.x - aabb.min.x)) * Abs32((aabb.max.y - aabb.min.y));
+float rm_area_AABB2D(rm_AABB2D aabb){
+    return rm_abs32((aabb.max.x - aabb.min.x)) * rm_abs32((aabb.max.y - aabb.min.y));
 }
 
-f32 AreaQuad2D(quad2D quad){
-    mat2x2 output = { 0 };
+float rm_area_Quad2D(rm_quad2D quad){
+    rm_mat2f output = { 0 };
 
     output.elem[0] = quad.a.x - quad.c.x;
     output.elem[1] = quad.a.y - quad.c.y;
     output.elem[2] = quad.b.x - quad.d.x;
     output.elem[3] = quad.b.y - quad.d.y;
 
-    return Abs32(0.5f*DetMatrix2x2(output));
+    return rm_abs32(0.5f*rm_det_mat2f(output));
 }
 
-f32 PerimeterSphere2D(sphere2D sphere){
-    return Abs32(sphere.radius*2*MTHLIB_PI);
+float rm_perimeter_circle(rm_circle circle){
+    return rm_abs32(circle.radius*2*RMATH_PI);
 }
 
-f32 PerimeterAABB2D(AABB2D aabb){
-    return Abs32(2 * (aabb.max.x - aabb.min.x)) + Abs32(2 * (aabb.max.y - aabb.min.y));
+float rm_perimeter_AABB2D(rm_AABB2D aabb){
+    return rm_abs32(2 * (aabb.max.x - aabb.min.x)) + rm_abs32(2 * (aabb.max.y - aabb.min.y));
 }
 
-f32 PerimeterQuad2D(quad2D quad){
-    f32 d1 = DistanceBetweenPoints2D(quad.a, quad.b);
-    f32 d2 = DistanceBetweenPoints2D(quad.b, quad.c);
-    f32 d3 = DistanceBetweenPoints2D(quad.c, quad.d);
-    f32 d4 = DistanceBetweenPoints2D(quad.d, quad.a);
+float rm_perimeter_quad2D(rm_quad2D quad){
+    float d1 = rm_distance_points2D(quad.a, quad.b);
+    float d2 = rm_distance_points2D(quad.b, quad.c);
+    float d3 = rm_distance_points2D(quad.c, quad.d);
+    float d4 = rm_distance_points2D(quad.d, quad.a);
     return d1 + d2 + d3 + d4;
 }
 
-f32 PerimeterTriangle2D(triangle2D triangle){
-    f32 d1 = DistanceBetweenPoints2D(triangle.a, triangle.b);
-    f32 d2 = DistanceBetweenPoints2D(triangle.b, triangle.c);
-    f32 d3 = DistanceBetweenPoints2D(triangle.c, triangle.a);
+float rm_perimeter_triangle2D(rm_triangle2D triangle){
+    float d1 = rm_distance_points2D(triangle.a, triangle.b);
+    float d2 = rm_distance_points2D(triangle.b, triangle.c);
+    float d3 = rm_distance_points2D(triangle.c, triangle.a);
     return d1 + d2 + d3;
 }
 
-f32 AreaTriangle3D(triangle3D triangle){
-    v3 u = SubtractV3(triangle.b, triangle.a);
-    v3 v = SubtractV3(triangle.c, triangle.a);
-    v3 c = CrossV3(u, v);
-    f32 n = NormV3(c);
+float rm_area_triangle3D(rm_triangle3D triangle){
+    rm_v3f u = rm_sub_v3f(triangle.b, triangle.a);
+    rm_v3f v = rm_sub_v3f(triangle.c, triangle.a);
+    rm_v3f c = rm_cross_v3f(u, v);
+    float n = rm_mag_v3f(c);
     return 0.5f * n;
 }
 
-f32 AreaQuad3D(quad3D quad){
-    triangle3D t1 = (triangle3D){quad.a, quad.b, quad.c};
-    triangle3D t2 = (triangle3D){quad.a, quad.d, quad.c};
-    f32 areaTriangle1 = AreaTriangle3D(t1);
-    f32 areaTriangle2 = AreaTriangle3D(t2);
+float rm_area_quad3D(rm_quad3D quad){
+    rm_triangle3D t1 = (rm_triangle3D){quad.a, quad.b, quad.c};
+    rm_triangle3D t2 = (rm_triangle3D){quad.a, quad.d, quad.c};
+    float areaTriangle1 = rm_area_triangle3D(t1);
+    float areaTriangle2 = rm_area_triangle3D(t2);
     return areaTriangle1 + areaTriangle2;
 }
 
-f32 VolumeSphere3D(sphere3D sphere){
-    f32 r = sphere.radius;
-    return Abs32((4.0f/3.0f)*MTHLIB_PI*(r*r*r));
+float rm_volume_sphere(rm_sphere sphere){
+    float r = sphere.radius;
+    return rm_abs32((4.0f/3.0f)*RMATH_PI*(r*r*r));
 }
 
-f32 VolumeAABB3D(AABB3D aabb){
-    return Abs32((aabb.max.x - aabb.min.x)) * Abs32((aabb.max.y - aabb.min.y)) * Abs32((aabb.max.z - aabb.min.z));
+float rm_volume_AABB3D(rm_AABB3D aabb){
+    return rm_abs32((aabb.max.x - aabb.min.x)) * rm_abs32((aabb.max.y - aabb.min.y)) * rm_abs32((aabb.max.z - aabb.min.z));
 }
 
-f32 PerimeterTriangle3D(triangle3D triangle){
-    f32 d1 = DistanceBetweenPoints3D(triangle.a, triangle.b);
-    f32 d2 = DistanceBetweenPoints3D(triangle.b, triangle.c);
-    f32 d3 = DistanceBetweenPoints3D(triangle.c, triangle.a);
+float rm_perimeter_triangle3D(rm_triangle3D triangle){
+    float d1 = rm_distance_points3D(triangle.a, triangle.b);
+    float d2 = rm_distance_points3D(triangle.b, triangle.c);
+    float d3 = rm_distance_points3D(triangle.c, triangle.a);
     return d1 + d2 + d3;
 }
 
-f32 SurfaceAreaSphere3D(sphere3D sphere){
-    return 4.0f*MTHLIB_PI*sphere.radius*sphere.radius;
+float rm_surface_area_sphere(rm_sphere sphere){
+    return 4.0f*RMATH_PI*sphere.radius*sphere.radius;
 }
 
-f32 SurfaceAreaAABB3D(AABB3D aabb){
-    f32 xDelta = aabb.max.x - aabb.min.x;
-    f32 yDelta = aabb.max.y - aabb.min.y;
-    f32 zDelta = aabb.max.z - aabb.min.z;
+float rm_surface_area_AABB3D(rm_AABB3D aabb){
+    float xDelta = aabb.max.x - aabb.min.x;
+    float yDelta = aabb.max.y - aabb.min.y;
+    float zDelta = aabb.max.z - aabb.min.z;
     return 2.0f * (xDelta*yDelta + xDelta*zDelta + yDelta*zDelta);
 }
 
