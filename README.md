@@ -1,14 +1,12 @@
-# rmathlib.h
+# rmathlib
 
-This is a simple header-only math library for my projects.
+This is a simple math library for my projects.
 
 ## How to Use
 
-Since this is header-only, you'll only need to get the <code>rmathlib.h</code> file and add it to your project.
+Copy and paste the rmathlib.h and rmathlib.c files into your projects and include the header file in any source files needed.
 
-If you want to use the default implementations of the library, you should add the code <code>#define RMATHLIB_IMPLEMENTATION</code> before including the .h file. If you want to implement your own math functions but use the same interface, then you won't need to do that.
-
-See <code>main.c</code> for example of how to use the functions.
+Take a look in main.c to see how to use in a source file.
 
 ## Features
 

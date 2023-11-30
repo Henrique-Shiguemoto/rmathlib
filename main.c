@@ -1,4 +1,3 @@
-#define RMATHLIB_IMPLEMENTATION
 #include "rmathlib.h"
 
 #include <stdio.h>

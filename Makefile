@@ -1,6 +1,6 @@
 COMPILER=clang
 COMPILER_FLAGS=-Wall -Wextra -pedantic -g -std=c11
-SRC=main.c
+SRC=main.c rmathlib.c
 BIN=main.exe
 DEBUGGER=gdb
 
