@@ -2,12 +2,6 @@
 
 This is a simple math library for my projects.
 
-## How to Use
-
-Copy and paste the rmathlib.h and rmathlib.c files into your projects and include the header file in any source files needed.
-
-Take a look in main.c to see how to use in a source file.
-
 ## Features
 
 - 2D, 3D and 4D vector operations
@@ -16,3 +10,9 @@ Take a look in main.c to see how to use in a source file.
 - Random API
 - Computer Graphics operations
 - Planar Geometry operations
+
+## How to Use
+
+Copy and paste the rmathlib.h and rmathlib.c files into your projects and include the header file in any source files needed.
+
+Take a look in main.c to see how to use in a source file.
