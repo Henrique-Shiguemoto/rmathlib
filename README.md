@@ -16,6 +16,6 @@ This is a simple C/C++ math library for my projects. You can choose the correspo
 
 Copy and paste the <code>rmathlib.h</code> and <code>rmathlib.c</code> (or <code>rmathlib.cpp</code>) files into your projects and include the header file in any source files needed.
 
-Take a look in <code>main.c</code> (<code>main.cpp</code>) to see some examples of how to use the library in a source file.
+Take a look in <code>main.c</code> (or <code>main.cpp</code>) to see some examples of how to use the library in a source file.
 
 Running <code>make</code> and then <code>make run</code> will run the main.c executable. And <code>make cpp</code> then <code>make run</code> will run the main.cpp executable.
