@@ -160,24 +160,6 @@ typedef struct rm_sphere {
 #define RMATH_BIAS64 1023
 #define RMATH_TRUE 1
 #define RMATH_FALSE 0
-#define RMATH_INVALID_V2 (rm_v2f) {RMATH_NAN, RMATH_NAN}
-#define RMATH_INVALID_V3 (rm_v3f) {RMATH_NAN, RMATH_NAN, RMATH_NAN}
-#define RMATH_INVALID_V4 (rm_v4f) {RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN}
-#define RMATH_INVALID_2X2MATRIX (rm_mat2f) \
-                                {.elem = \
-                                {RMATH_NAN, RMATH_NAN, \
-                                 RMATH_NAN, RMATH_NAN}}
-#define RMATH_INVALID_3X3MATRIX (rm_mat3f) \
-                                {.elem = \
-                                {RMATH_NAN, RMATH_NAN, RMATH_NAN, \
-                                 RMATH_NAN, RMATH_NAN, RMATH_NAN, \
-                                 RMATH_NAN, RMATH_NAN, RMATH_NAN}}
-#define RMATH_INVALID_4X4MATRIX (rm_mat4f) \
-                                {.elem = \
-                                {RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN, \
-                                 RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN, \
-                                 RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN, \
-                                 RMATH_NAN, RMATH_NAN, RMATH_NAN, RMATH_NAN}}
 
 // Vector Operations
 

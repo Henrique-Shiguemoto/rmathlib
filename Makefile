@@ -1,16 +1,22 @@
-COMPILER=clang
-COMPILER_FLAGS=-Wall -Wextra -pedantic -g -std=c11
-SRC=main.c rmathlib.c
+COMPILER_C=clang
+COMPILER_FLAGS_C=-Wall -Wextra -pedantic -g -std=c11
+COMPILER_CPP=clang++
+COMPILER_FLAGS_CPP=-Wall -Wextra -pedantic -g -std=c++11
+SRC_C=main.c rmathlib.c
+SRC_CPP=main.cpp rmathlib.cpp
 BIN=main.exe
 DEBUGGER=gdb
 
 all:
-	$(COMPILER) $(COMPILER_FLAGS) $(SRC) -o $(BIN)
+	$(COMPILER_C) $(COMPILER_FLAGS_C) $(SRC_C) -o $(BIN)
 
-run: all
+cpp:
+	$(COMPILER_CPP) $(COMPILER_FLAGS_CPP) $(SRC_CPP) -o $(BIN)
+
+run: 
 	$(BIN)
 
-debug: all
+debug: 
 	$(DEBUGGER) $(BIN)
 
 clean:

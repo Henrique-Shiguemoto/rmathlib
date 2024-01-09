@@ -41,15 +41,15 @@ double rm_get_platform_time_for_rng(void){
 
 //V2 IMPLEMENTATIONS
 
-rm_v2f rm_add_v2f(rm_v2f u, rm_v2f v)       { return (rm_v2f){u.x + v.x, u.y + v.y}; }
-rm_v2f rm_sub_v2f(rm_v2f u, rm_v2f v)       { return (rm_v2f){u.x - v.x, u.y - v.y}; }
-rm_v2f rm_scale_v2f(rm_v2f u, float scalar) { return (rm_v2f){scalar*u.x, scalar*u.y}; }
+rm_v2f rm_add_v2f(rm_v2f u, rm_v2f v)       { return {u.x + v.x, u.y + v.y}; }
+rm_v2f rm_sub_v2f(rm_v2f u, rm_v2f v)       { return {u.x - v.x, u.y - v.y}; }
+rm_v2f rm_scale_v2f(rm_v2f u, float scalar) { return {scalar*u.x, scalar*u.y}; }
 float rm_dot_v2f(rm_v2f u, rm_v2f v)        { return (u.x * v.x) + (u.y * v.y); }
 float rm_mag_v2f(rm_v2f u)                  { return rm_sqrt64((u.x*u.x) + (u.y*u.y)); }
 rm_v2f rm_unit_v2f(rm_v2f u){ 
-    double mag = rm_mag_v2f(u);
-    if(mag == 0.0f) return (rm_v2f){0};
-    return (rm_v2f){ u.x / mag, u.y / mag};
+    float mag = rm_mag_v2f(u);
+    if(mag == 0.0f) return {0.0f, 0.0f};
+    return { u.x / mag, u.y / mag};
 }
 int rm_compare_v2f(rm_v2f u, rm_v2f v, float errorMargin){
     return rm_compare32(u.x, v.x, errorMargin) && 
@@ -58,36 +58,36 @@ int rm_compare_v2f(rm_v2f u, rm_v2f v, float errorMargin){
 
 //V3 IMPLEMENTATIONS
 
-rm_v3f rm_add_v3f(rm_v3f u, rm_v3f v)               { return (rm_v3f){u.x + v.x, u.y + v.y, u.z + v.z}; }
-rm_v3f rm_sub_v3f(rm_v3f u, rm_v3f v)               { return (rm_v3f){u.x - v.x, u.y - v.y, u.z - v.z}; }
-rm_v3f rm_scale_v3f(rm_v3f u, float scalar)         { return (rm_v3f){scalar*u.x, scalar*u.y, scalar*u.z}; }
+rm_v3f rm_add_v3f(rm_v3f u, rm_v3f v)               { return {u.x + v.x, u.y + v.y, u.z + v.z}; }
+rm_v3f rm_sub_v3f(rm_v3f u, rm_v3f v)               { return {u.x - v.x, u.y - v.y, u.z - v.z}; }
+rm_v3f rm_scale_v3f(rm_v3f u, float scalar)         { return {scalar*u.x, scalar*u.y, scalar*u.z}; }
 float rm_dot_v3f(rm_v3f u, rm_v3f v)                { return (u.x * v.x) + (u.y * v.y) + (u.z * v.z); }
-rm_v3f rm_cross_v3f(rm_v3f u, rm_v3f v)             { return (rm_v3f){ (u.y*v.z - u.z*v.y), -(u.x*v.z - u.z*v.x), (u.x*v.y - v.x*u.y)}; }
+rm_v3f rm_cross_v3f(rm_v3f u, rm_v3f v)             { return { (u.y*v.z - u.z*v.y), -(u.x*v.z - u.z*v.x), (u.x*v.y - v.x*u.y)}; }
 float rm_mag_v3f(rm_v3f u)                          { return rm_sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z)); }
 rm_v3f rm_unit_v3f(rm_v3f u) {
-    double mag = rm_mag_v3f(u);
-    if(mag == 0.0f) return (rm_v3f){0};
-    return (rm_v3f){ u.x / mag, u.y / mag, u.z / mag};
+    float mag = rm_mag_v3f(u);
+    if(mag == 0.0f) return {0.0f, 0.0f, 0.0f};
+    return { u.x / mag, u.y / mag, u.z / mag};
 }
 int rm_compare_v3f(rm_v3f u, rm_v3f v, float errorMargin) {
     return rm_compare32(u.x, v.x, errorMargin) && 
            rm_compare32(u.y, v.y, errorMargin) && 
            rm_compare32(u.z, v.z, errorMargin);
 }
-rm_v2f rm_convert_v3f_to_v2f(rm_v3f u)              { return (rm_v2f){ u.x, u.y }; }
+rm_v2f rm_convert_v3f_to_v2f(rm_v3f u)              { return { u.x, u.y }; }
 float rm_mixed_product_v3f(rm_v3f a, rm_v3f b, rm_v3f c) { return rm_dot_v3f(rm_cross_v3f(a, b), c); }
 
 //V4 IMPLEMENTATIONS
 
-rm_v4f rm_add_v4f(rm_v4f u, rm_v4f v)       { return (rm_v4f){u.x + v.x, u.y + v.y, u.z + v.z, u.w + v.w}; }
-rm_v4f rm_sub_v4f(rm_v4f u, rm_v4f v)       { return (rm_v4f){u.x - v.x, u.y - v.y, u.z - v.z, u.w - v.w}; }
-rm_v4f rm_scale_v4f(rm_v4f u, float scalar) { return (rm_v4f){scalar*u.x, scalar*u.y, scalar*u.z, scalar*u.w}; }
+rm_v4f rm_add_v4f(rm_v4f u, rm_v4f v)       { return {u.x + v.x, u.y + v.y, u.z + v.z, u.w + v.w}; }
+rm_v4f rm_sub_v4f(rm_v4f u, rm_v4f v)       { return {u.x - v.x, u.y - v.y, u.z - v.z, u.w - v.w}; }
+rm_v4f rm_scale_v4f(rm_v4f u, float scalar) { return {scalar*u.x, scalar*u.y, scalar*u.z, scalar*u.w}; }
 float rm_dot_v4f(rm_v4f u, rm_v4f v)        { return u.x*v.x + u.y*v.y + u.z*v.z + u.w*v.w; }
 float rm_mag_v4f(rm_v4f u)                  { return rm_sqrt64((u.x*u.x) + (u.y*u.y) + (u.z*u.z) + (u.w*u.w)); }
 rm_v4f rm_unit_v4f(rm_v4f u) {
-    double mag = rm_mag_v4f(u);
-    if(mag == 0) return (rm_v4f){0};
-    return (rm_v4f){u.x / mag, u.y / mag, u.z / mag, u.w / mag};
+    float mag = rm_mag_v4f(u);
+    if(mag == 0) return {0.0f, 0.0f, 0.0f, 0.0f};
+    return {u.x / mag, u.y / mag, u.z / mag, u.w / mag};
 }
 int rm_compare_v4f(rm_v4f u, rm_v4f v, float errorMargin) {
     return rm_compare32(u.x, v.x, errorMargin) && 
@@ -95,7 +95,7 @@ int rm_compare_v4f(rm_v4f u, rm_v4f v, float errorMargin) {
            rm_compare32(u.z, v.z, errorMargin) && 
            rm_compare32(u.w, v.w, errorMargin);
 }
-rm_v3f rm_convert_v4f_to_v3f(rm_v4f u) { return (rm_v3f){ u.x, u.y, u.z };}
+rm_v3f rm_convert_v4f_to_v3f(rm_v4f u) { return { u.x, u.y, u.z };}
 
 //2x2 MATRIX SUPPORT
 
@@ -145,7 +145,7 @@ rm_mat2f rm_transpose_mat2f(rm_mat2f m1){
 
 rm_mat2f rm_inverse_mat2f(rm_mat2f m1){
     double det = rm_det_mat2f(m1);
-    if(det == 0) return (rm_mat2f){0};
+    if(det == 0) return {{0.0f, 0.0f, 0.0f, 0.0f}};
 
     rm_mat2f adjugate = { 0 };
     adjugate.elem[0] = m1.elem[3];
@@ -157,7 +157,7 @@ rm_mat2f rm_inverse_mat2f(rm_mat2f m1){
 }
 
 rm_v2f rm_mult_mat2f_v2f(rm_mat2f m1, rm_v2f u){
-    return (rm_v2f){u.x * m1.elem[0] + u.y * m1.elem[2], 
+    return {u.x * m1.elem[0] + u.y * m1.elem[2], 
                     u.x * m1.elem[1] + u.y * m1.elem[3]};
 }
 
@@ -240,31 +240,31 @@ rm_mat3f rm_transpose_mat3f(rm_mat3f m1){
 
 rm_mat3f rm_inverse_mat3f(rm_mat3f m1){
     double det = rm_det_mat3f(m1);
-    if(det == 0) return (rm_mat3f){0};
+    if(det == 0) return {{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}};
 
     rm_mat3f t = rm_transpose_mat3f(m1);
 
-    double det00 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[4], t.elem[5], t.elem[7], t.elem[8]}});
-    double det01 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[3], t.elem[5], t.elem[6], t.elem[8]}});
-    double det02 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[3], t.elem[4], t.elem[6], t.elem[7]}});
-    double det10 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[1], t.elem[2], t.elem[7], t.elem[8]}});
-    double det11 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[0], t.elem[2], t.elem[6], t.elem[8]}});
-    double det12 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[0], t.elem[1], t.elem[6], t.elem[7]}});
-    double det20 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[1], t.elem[2], t.elem[4], t.elem[5]}});
-    double det21 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[0], t.elem[2], t.elem[3], t.elem[5]}});
-    double det22 = rm_det_mat2f((rm_mat2f){.elem = {t.elem[0], t.elem[1], t.elem[3], t.elem[4]}});
+    float det00 = rm_det_mat2f({{t.elem[4], t.elem[5], t.elem[7], t.elem[8]}});
+    float det01 = rm_det_mat2f({{t.elem[3], t.elem[5], t.elem[6], t.elem[8]}});
+    float det02 = rm_det_mat2f({{t.elem[3], t.elem[4], t.elem[6], t.elem[7]}});
+    float det10 = rm_det_mat2f({{t.elem[1], t.elem[2], t.elem[7], t.elem[8]}});
+    float det11 = rm_det_mat2f({{t.elem[0], t.elem[2], t.elem[6], t.elem[8]}});
+    float det12 = rm_det_mat2f({{t.elem[0], t.elem[1], t.elem[6], t.elem[7]}});
+    float det20 = rm_det_mat2f({{t.elem[1], t.elem[2], t.elem[4], t.elem[5]}});
+    float det21 = rm_det_mat2f({{t.elem[0], t.elem[2], t.elem[3], t.elem[5]}});
+    float det22 = rm_det_mat2f({{t.elem[0], t.elem[1], t.elem[3], t.elem[4]}});
 
-    rm_mat3f adjugate = {.elem = {det00, -det01,  det02, 
-                               -det10,  det11, -det12, 
-                                det20, -det21,  det22}};
+    rm_mat3f adjugate = {{det00, -det01,  det02, 
+                         -det10,  det11, -det12, 
+                          det20, -det21,  det22}};
 
     return rm_scale_mat3f(1/det, adjugate);
 }
 
 rm_v3f rm_mult_mat3f_v3f(rm_v3f u, rm_mat3f m1){
-    return (rm_v3f){u.x * m1.elem[0] + u.y * m1.elem[3] + u.z * m1.elem[6],
-                    u.x * m1.elem[1] + u.y * m1.elem[4] + u.z * m1.elem[7],
-                    u.x * m1.elem[2] + u.y * m1.elem[5] + u.z * m1.elem[8]};
+    return {u.x * m1.elem[0] + u.y * m1.elem[3] + u.z * m1.elem[6],
+            u.x * m1.elem[1] + u.y * m1.elem[4] + u.z * m1.elem[7],
+            u.x * m1.elem[2] + u.y * m1.elem[5] + u.z * m1.elem[8]};
 }
 
 rm_mat3f rm_identity_mat3f(void){
@@ -381,72 +381,72 @@ rm_mat4f rm_transpose_mat4f(rm_mat4f m1){
 
 rm_mat4f rm_inverse_mat4f(rm_mat4f m1){
     float det = rm_det_mat4f(m1);
-    if(det == 0) return (rm_mat4f){0};
+    if(det == 0) return {{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}};
 
     rm_mat4f t = rm_transpose_mat4f(m1);
 
-    float det00 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[5], t.elem[6], t.elem[7],
-                                               t.elem[9], t.elem[10], t.elem[11],
-                                               t.elem[13], t.elem[14], t.elem[15]}});
-    float det01 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[4], t.elem[6], t.elem[7],
-                                               t.elem[8], t.elem[10], t.elem[11],
-                                               t.elem[12], t.elem[14], t.elem[15]}});
-    float det02 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[4], t.elem[5], t.elem[7],
-                                               t.elem[8], t.elem[9], t.elem[11],
-                                               t.elem[12], t.elem[13], t.elem[15]}});
-    float det03 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[4], t.elem[5], t.elem[6],
-                                               t.elem[8], t.elem[9], t.elem[10],
-                                               t.elem[12], t.elem[13], t.elem[14]}});
-    float det10 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[1], t.elem[2], t.elem[3],
-                                               t.elem[9], t.elem[10], t.elem[11],
-                                               t.elem[13], t.elem[14], t.elem[15]}});
-    float det11 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[2], t.elem[3],
-                                               t.elem[8], t.elem[10], t.elem[11],
-                                               t.elem[12], t.elem[14], t.elem[15]}});
-    float det12 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[3],
-                                               t.elem[8], t.elem[9], t.elem[11],
-                                               t.elem[12], t.elem[13], t.elem[15]}});
-    float det13 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[2],
-                                               t.elem[8], t.elem[9], t.elem[10],
-                                               t.elem[12], t.elem[13], t.elem[14]}});
-    float det20 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[1], t.elem[2], t.elem[3],
-                                               t.elem[5], t.elem[6], t.elem[7],
-                                               t.elem[13], t.elem[14], t.elem[15]}});
-    float det21 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[2], t.elem[3],
-                                               t.elem[4], t.elem[6], t.elem[7],
-                                               t.elem[12], t.elem[14], t.elem[15]}});
-    float det22 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[3],
-                                               t.elem[4], t.elem[5], t.elem[7],
-                                               t.elem[12], t.elem[13], t.elem[15]}});
-    float det23 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[2],
-                                               t.elem[4], t.elem[5], t.elem[6],
-                                               t.elem[12], t.elem[13], t.elem[14]}});
-    float det30 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[1], t.elem[2], t.elem[3],
-                                               t.elem[5], t.elem[6], t.elem[7],
-                                               t.elem[9], t.elem[10], t.elem[11]}});
-    float det31 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[2], t.elem[3],
-                                               t.elem[4], t.elem[6], t.elem[7],
-                                               t.elem[8], t.elem[10], t.elem[11]}});
-    float det32 = -rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[3],
-                                               t.elem[4], t.elem[5], t.elem[7],
-                                               t.elem[8], t.elem[9], t.elem[11]}});
-    float det33 = rm_det_mat3f((rm_mat3f){.elem = {t.elem[0], t.elem[1], t.elem[2],
-                                               t.elem[4], t.elem[5], t.elem[6],
-                                               t.elem[8], t.elem[9], t.elem[10]}});
+    float det00 =  rm_det_mat3f({{t.elem[5], t.elem[6], t.elem[7],
+                                  t.elem[9], t.elem[10], t.elem[11],
+                                  t.elem[13], t.elem[14], t.elem[15]}});
+    float det01 = -rm_det_mat3f({{t.elem[4], t.elem[6], t.elem[7],
+                                  t.elem[8], t.elem[10], t.elem[11],
+                                  t.elem[12], t.elem[14], t.elem[15]}});
+    float det02 =  rm_det_mat3f({{t.elem[4], t.elem[5], t.elem[7],
+                                  t.elem[8], t.elem[9], t.elem[11],
+                                  t.elem[12], t.elem[13], t.elem[15]}});
+    float det03 = -rm_det_mat3f({{t.elem[4], t.elem[5], t.elem[6],
+                                  t.elem[8], t.elem[9], t.elem[10],
+                                  t.elem[12], t.elem[13], t.elem[14]}});
+    float det10 = -rm_det_mat3f({{t.elem[1], t.elem[2], t.elem[3],
+                                  t.elem[9], t.elem[10], t.elem[11],
+                                  t.elem[13], t.elem[14], t.elem[15]}});
+    float det11 =  rm_det_mat3f({{t.elem[0], t.elem[2], t.elem[3],
+                                  t.elem[8], t.elem[10], t.elem[11],
+                                  t.elem[12], t.elem[14], t.elem[15]}});
+    float det12 = -rm_det_mat3f({{t.elem[0], t.elem[1], t.elem[3],
+                                  t.elem[8], t.elem[9], t.elem[11],
+                                  t.elem[12], t.elem[13], t.elem[15]}});
+    float det13 =  rm_det_mat3f({{t.elem[0], t.elem[1], t.elem[2],
+                                  t.elem[8], t.elem[9], t.elem[10],
+                                  t.elem[12], t.elem[13], t.elem[14]}});
+    float det20 =  rm_det_mat3f({{t.elem[1], t.elem[2], t.elem[3],
+                                  t.elem[5], t.elem[6], t.elem[7],
+                                  t.elem[13], t.elem[14], t.elem[15]}});
+    float det21 = -rm_det_mat3f({{t.elem[0], t.elem[2], t.elem[3],
+                                  t.elem[4], t.elem[6], t.elem[7],
+                                  t.elem[12], t.elem[14], t.elem[15]}});
+    float det22 =  rm_det_mat3f({{t.elem[0], t.elem[1], t.elem[3],
+                                  t.elem[4], t.elem[5], t.elem[7],
+                                  t.elem[12], t.elem[13], t.elem[15]}});
+    float det23 = -rm_det_mat3f({{t.elem[0], t.elem[1], t.elem[2],
+                                  t.elem[4], t.elem[5], t.elem[6],
+                                  t.elem[12], t.elem[13], t.elem[14]}});
+    float det30 = -rm_det_mat3f({{t.elem[1], t.elem[2], t.elem[3],
+                                  t.elem[5], t.elem[6], t.elem[7],
+                                  t.elem[9], t.elem[10], t.elem[11]}});
+    float det31 =  rm_det_mat3f({{t.elem[0], t.elem[2], t.elem[3],
+                                  t.elem[4], t.elem[6], t.elem[7],
+                                  t.elem[8], t.elem[10], t.elem[11]}});
+    float det32 = -rm_det_mat3f({{t.elem[0], t.elem[1], t.elem[3],
+                                  t.elem[4], t.elem[5], t.elem[7],
+                                  t.elem[8], t.elem[9], t.elem[11]}});
+    float det33 =  rm_det_mat3f({{t.elem[0], t.elem[1], t.elem[2],
+                                  t.elem[4], t.elem[5], t.elem[6],
+                                  t.elem[8], t.elem[9], t.elem[10]}});
 
-    rm_mat4f adjugate = {.elem = { det00, det01, det02, det03, 
-                                 det10, det11, det12, det13,
-                                 det20, det21, det22, det23, 
-                                 det30, det31, det32, det33}};
+    rm_mat4f adjugate = {{det00, det01, det02, det03, 
+                          det10, det11, det12, det13,
+                          det20, det21, det22, det23, 
+                          det30, det31, det32, det33}};
     
     return rm_scale_mat4f(1/det, adjugate);
 }
 
 rm_v4f rm_mult_mat4f_v4f(rm_v4f u, rm_mat4f m1){
-    return (rm_v4f) { u.x * m1.elem[0] + u.y * m1.elem[4] + u.z * m1.elem[8] + u.w * m1.elem[12],
-                      u.x * m1.elem[1] + u.y * m1.elem[5] + u.z * m1.elem[9] + u.w * m1.elem[13],
-                      u.x * m1.elem[2] + u.y * m1.elem[6] + u.z * m1.elem[10] + u.w * m1.elem[14],
-                      u.x * m1.elem[3] + u.y * m1.elem[7] + u.z * m1.elem[11] + u.w * m1.elem[15]};
+    return { u.x * m1.elem[0] + u.y * m1.elem[4] + u.z * m1.elem[8]  + u.w * m1.elem[12],
+             u.x * m1.elem[1] + u.y * m1.elem[5] + u.z * m1.elem[9]  + u.w * m1.elem[13],
+             u.x * m1.elem[2] + u.y * m1.elem[6] + u.z * m1.elem[10] + u.w * m1.elem[14],
+             u.x * m1.elem[3] + u.y * m1.elem[7] + u.z * m1.elem[11] + u.w * m1.elem[15]};
 }
 
 rm_mat4f rm_identity_mat4f(void){
@@ -666,7 +666,7 @@ double rm_sqrt64(double x){
     if(x == 0.0f || x == 1.0f) return x;
     if(x < 0.0f) return RMATH_NAN;
 
-    _rm_union_double x_union = {.n = x};
+    _rm_union_double x_union = {x};
 
     return _rm_sqrt64(x_union);
 }
@@ -761,59 +761,59 @@ float rm_random_f(void){
 }
 
 rm_v2f rm_random_v2f(void){
-    return (rm_v2f){rm_random_sign() * rm_random_f(), 
-                    rm_random_sign() * rm_random_f()};
+    return {rm_random_sign() * rm_random_f(), 
+            rm_random_sign() * rm_random_f()};
 }
 
 rm_v3f rm_random_v3f(void){
-    return (rm_v3f){rm_random_sign() * rm_random_f(),
-                    rm_random_sign() * rm_random_f(),
-                    rm_random_sign() * rm_random_f()};
+    return {rm_random_sign() * rm_random_f(),
+            rm_random_sign() * rm_random_f(),
+            rm_random_sign() * rm_random_f()};
 }
 
 rm_v4f rm_random_v4f(void){
-    return (rm_v4f){rm_random_sign() * rm_random_f(),
-                    rm_random_sign() * rm_random_f(),
-                    rm_random_sign() * rm_random_f(),
-                    rm_random_sign() * rm_random_f()};
+    return {rm_random_sign() * rm_random_f(),
+            rm_random_sign() * rm_random_f(),
+            rm_random_sign() * rm_random_f(),
+            rm_random_sign() * rm_random_f()};
 }
 
 rm_mat2f rm_random_mat2f(void){
-    return (rm_mat2f){.elem = {rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f()}};
+    return {{rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f()}};
 }
 
 rm_mat3f rm_random_mat3f(void){
-    return (rm_mat3f){.elem = {rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f(),
-                             rm_random_sign() * rm_random_f()}};
+    return {{rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f()}};
 }
 
 rm_mat4f rm_random_mat4f(void){
-    return (rm_mat4f){.elem = {rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f(),
-                               rm_random_sign() * rm_random_f()}};
+    return {{rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f(),
+                     rm_random_sign() * rm_random_f()}};
 }
 
 //GRAPHICS IMPLEMENTATIONS
@@ -839,7 +839,7 @@ rm_mat3f rm_scaling_2D_set_origin(rm_v2f scale, rm_v2f origin){
 }
 
 rm_mat3f rm_scaling_2D(rm_v2f scale){
-    return rm_scaling_2D_set_origin(scale, (rm_v2f){ 0, 0 });
+    return rm_scaling_2D_set_origin(scale, { 0, 0 });
 }
 
 rm_mat3f rm_rotation_2D_around_point(float rad, rm_v2f pos){
@@ -859,7 +859,7 @@ rm_mat3f rm_rotation_2D_around_point(float rad, rm_v2f pos){
 }
 
 rm_mat3f rm_rotation_2D(float rad){
-    return rm_rotation_2D_around_point(rad, (rm_v2f){ 0, 0 });
+    return rm_rotation_2D_around_point(rad, { 0, 0 });
 }
 
 
@@ -1022,8 +1022,8 @@ float rm_distance_line_plane(rm_line3D line, rm_plane pl){
 }
 
 float rm_distance_planes(rm_plane pl1, rm_plane pl2){
-    rm_line3D normalLine1 = {.direction = pl1.normal, .point = {0}};
-    rm_line3D normalLine2 = {.direction = pl2.normal, .point = {0}};
+    rm_line3D normalLine1 = {pl1.normal, {0.0f, 0.0f, 0.0f}};
+    rm_line3D normalLine2 = {pl2.normal, {0.0f, 0.0f, 0.0f}};
     if(rm_parallel_lines3D(normalLine1, normalLine2) == RMATH_TRUE){
         return rm_distance_point_plane(pl1.point, pl2);
     }
@@ -1054,18 +1054,18 @@ int rm_parallel_lines2D(rm_line2D l1, rm_line2D l2){
 int rm_parallel_lines3D(rm_line3D l1, rm_line3D l2){
     //The arbitrary points don't matter, since we only need the direction vectors
     if(l1.direction.x == l2.direction.x){
-        rm_line2D aux1 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l1.direction.y, l1.direction.z}};
-        rm_line2D aux2 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l2.direction.y, l2.direction.z}};
+        rm_line2D aux1 = {{l1.direction.y, l1.direction.z}, {0.0f, 0.0f}};
+        rm_line2D aux2 = {{l2.direction.y, l2.direction.z}, {0.0f, 0.0f}};
         return rm_parallel_lines2D(aux1, aux2);
     }
     if(l1.direction.y == l2.direction.y){
-        rm_line2D aux1 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l1.direction.x, l1.direction.z}};
-        rm_line2D aux2 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l2.direction.x, l2.direction.z}};
+        rm_line2D aux1 = {{l1.direction.x, l1.direction.z}, {0.0f, 0.0f}};
+        rm_line2D aux2 = {{l2.direction.x, l2.direction.z}, {0.0f, 0.0f}};
         return rm_parallel_lines2D(aux1, aux2);
     }
     if(l1.direction.z == l2.direction.z){
-        rm_line2D aux1 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l1.direction.x, l1.direction.y}};
-        rm_line2D aux2 = {.point = (rm_point2D){0}, .direction = (rm_v2f){l2.direction.x, l2.direction.y}};
+        rm_line2D aux1 = {{l1.direction.x, l1.direction.y}, {0.0f, 0.0f}};
+        rm_line2D aux2 = {{l2.direction.x, l2.direction.y}, {0.0f, 0.0f}};
         return rm_parallel_lines2D(aux1, aux2);
     }
 
@@ -1202,8 +1202,8 @@ float rm_area_triangle3D(rm_triangle3D triangle){
 }
 
 float rm_area_quad3D(rm_quad3D quad){
-    rm_triangle3D t1 = (rm_triangle3D){quad.a, quad.b, quad.c};
-    rm_triangle3D t2 = (rm_triangle3D){quad.a, quad.d, quad.c};
+    rm_triangle3D t1 = {quad.a, quad.b, quad.c};
+    rm_triangle3D t2 = {quad.a, quad.d, quad.c};
     float areaTriangle1 = rm_area_triangle3D(t1);
     float areaTriangle2 = rm_area_triangle3D(t2);
     return areaTriangle1 + areaTriangle2;
